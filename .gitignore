@@ -1,0 +1,15 @@
+# Plan documents and agent notes (private)
+docs/
+CLAUDE.md
+
+# User projects and their assets (fonts, logos, images, video) never go public
+projects/
+assets/
+*.local.*
+
+# Build and tooling
+out/
+node_modules/
+__pycache__/
+.venv/
+.DS_Store

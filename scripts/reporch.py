@@ -10,6 +10,7 @@
   reporch.py ingest <project> FILE... [--names names.json]
   reporch.py profile <project> --fields a,b,c        (record which data fields the inputs contain)
   reporch.py possible <project>                      (analyses the data supports, and the gaps to ask about)
+  reporch.py calc <function> '<JSON arguments>'       (statistics, e.g. calc proportion '{"successes": 3, "n": 10}')
 """
 import argparse
 import json
@@ -17,7 +18,12 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from reporch_lib import catalogue, content, intake, project, theme  # noqa: E402
+from reporch_lib import catalogue, content, intake, project, stats, theme  # noqa: E402
+
+
+CALC = ["proportion", "mean_ci", "time_summary", "outliers", "sus", "nps", "top_box", "lostness", "efficiency",
+        "problem_discovery", "t_test", "anova", "chi_square", "fisher_exact", "two_proportions", "correlation",
+        "z_scores", "funnel", "retention", "stickiness", "customer_lifetime_value", "net_revenue_retention"]
 
 
 def main(argv=None):
@@ -34,6 +40,7 @@ def main(argv=None):
     p.add_argument("--names", help="JSON file mapping real names to participant ids")
     p = sub.add_parser("profile"); p.add_argument("project"); p.add_argument("--fields", required=True)
     p = sub.add_parser("possible"); p.add_argument("project")
+    p = sub.add_parser("calc"); p.add_argument("function", choices=CALC); p.add_argument("args")
     a = ap.parse_args(argv)
 
     if a.cmd == "init":
@@ -70,6 +77,11 @@ def main(argv=None):
     elif a.cmd == "possible":
         fields = project.load_state(a.project).get("dataFields", [])
         print(json.dumps(catalogue.summary(fields), ensure_ascii=False, indent=1))
+    elif a.cmd == "calc":
+        args = json.loads(a.args)
+        fn = getattr(stats, a.function)
+        result = fn(**args) if isinstance(args, dict) else fn(*args)
+        print(json.dumps(result, ensure_ascii=False, indent=1))
     elif a.cmd == "theme":
         sys.stdout.write(theme.css(a.primary))
     return 0

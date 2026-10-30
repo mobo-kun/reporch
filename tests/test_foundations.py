@@ -78,9 +78,11 @@ class ContentTest(unittest.TestCase):
         d = minimal_doc()
         d["analyses"][0]["chart"]["series"] = ["time"]
         d["analyses"][1]["table"]["rows"][0] = ["T1"]
+        d["analyses"][2]["chart"]["range"] = ["low", "high"]
         msgs = " ".join(p.message for p in content.errors(content.validate(d)))
         self.assertIn("column 'time' is not in the table", msgs)
         self.assertIn("1 cells for 2 columns", msgs)
+        self.assertIn("column 'low' is not in the table", msgs)
 
     def test_unknown_references(self):
         d = minimal_doc()

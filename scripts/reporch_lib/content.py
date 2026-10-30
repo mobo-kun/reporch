@@ -186,7 +186,7 @@ def _check_chart(chart, table, where, err):
     for k, row in enumerate(rows):
         if len(row) != len(cols):
             err(f"{where}.table.rows[{k}]", f"{len(row)} cells for {len(cols)} columns")
-    for key in (chart.get("x"), *chart.get("series", [])):
+    for key in (chart.get("x"), *chart.get("series", []), *chart.get("range", [])):
         if key is None:
             err(f"{where}.chart", "x and series name table columns")
         elif key not in cols:

@@ -1,0 +1,51 @@
+{
+  "schema": "reporch/state@1",
+  "slug": "basket-checkout",
+  "created": "2026-09-12T10:00:00+00:00",
+  "updated": "2026-09-12T10:00:00+00:00",
+  "phase": "qa",
+  "phasesDone": [
+    "collect",
+    "interview",
+    "analysis",
+    "outline",
+    "write",
+    "translate",
+    "build"
+  ],
+  "workflow": [
+    "collect",
+    "interview",
+    "analysis",
+    "outline",
+    "write",
+    "translate",
+    "build",
+    "qa",
+    "done"
+  ],
+  "languages": [
+    "en",
+    "fa"
+  ],
+  "brand": null,
+  "questionsAsked": 14,
+  "version": 0,
+  "dependencies": [],
+  "dataFields": [
+    "participants",
+    "task_success",
+    "success_level",
+    "assisted",
+    "task_time",
+    "post_task_rating",
+    "sus_items",
+    "issues",
+    "issue_severity",
+    "issue_participant",
+    "transcripts",
+    "segment",
+    "step_counts",
+    "variant_results"
+  ]
+}

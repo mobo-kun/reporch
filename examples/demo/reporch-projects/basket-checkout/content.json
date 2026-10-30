@@ -1,0 +1,1520 @@
+{
+ "schema": "reporch/content@1",
+ "meta": {
+  "title": {
+   "en": "Basket checkout usability test",
+   "fa": "تست کاربردپذیری پرداخت در Basket"
+  },
+  "eyebrow": {
+   "en": "Demo report · fictional data",
+   "fa": "گزارش نمونه · داده‌ی خیالی"
+  },
+  "headline": {
+   "en": "Most people could fill a basket. Few could use a discount code, and mobile users missed the Pay button.",
+   "fa": "بیشتر افراد سبد را پر کردند. کمتر کسی توانست کد تخفیف را اعمال کند و کاربران موبایل دکمه‌ی پرداخت را ندیدند."
+  },
+  "slug": "basket-checkout",
+  "authors": [
+   {
+    "name": {
+     "en": "Demo Designer",
+     "fa": "طراح نمونه"
+    },
+    "role": {
+     "en": "Product designer",
+     "fa": "طراح محصول"
+    }
+   }
+  ],
+  "methods": [
+   "usability-test",
+   "a-b-test",
+   "analytics"
+  ],
+  "studyGoal": "mixed",
+  "dates": {
+   "start": "2026-09-01",
+   "end": "2026-09-12"
+  },
+  "languages": [
+   "en",
+   "fa"
+  ],
+  "brand": {
+   "primary": "#754EC6",
+   "logo": null,
+   "font": null
+  }
+ },
+ "participants": [
+  {
+   "id": "P01",
+   "segment": "mobile"
+  },
+  {
+   "id": "P02",
+   "segment": "mobile"
+  },
+  {
+   "id": "P03",
+   "segment": "mobile"
+  },
+  {
+   "id": "P04",
+   "segment": "mobile"
+  },
+  {
+   "id": "P05",
+   "segment": "desktop"
+  },
+  {
+   "id": "P06",
+   "segment": "desktop"
+  },
+  {
+   "id": "P07",
+   "segment": "desktop"
+  },
+  {
+   "id": "P08",
+   "segment": "desktop"
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E1",
+   "source": "inputs/clean/session-notes.md",
+   "locator": {
+    "en": "issues list",
+    "fa": "فهرست مشکل‌ها"
+   }
+  },
+  {
+   "id": "E2",
+   "source": "inputs/clean/tasks.csv"
+  },
+  {
+   "id": "E3",
+   "source": "inputs/clean/sus.csv"
+  },
+  {
+   "id": "E4",
+   "source": "inputs/clean/analytics-funnel.csv",
+   "locator": {
+    "en": "30 days before the redesign",
+    "fa": "۳۰ روز پیش از طراحی دوباره"
+   }
+  },
+  {
+   "id": "E5",
+   "source": "inputs/clean/ab-test.csv",
+   "locator": {
+    "en": "14 days, 50/50 split",
+    "fa": "۱۴ روز، تقسیم ۵۰/۵۰"
+   }
+  },
+  {
+   "id": "E6",
+   "source": "inputs/clean/session-notes.md",
+   "locator": {
+    "en": "session 2, 14:05",
+    "fa": "جلسه‌ی ۲, ۱۴:۰۵"
+   },
+   "participant": "P02"
+  },
+  {
+   "id": "E7",
+   "source": "inputs/clean/session-notes.md",
+   "locator": {
+    "en": "session 7, 22:40",
+    "fa": "جلسه‌ی ۷, ۲۲:۴۰"
+   },
+   "participant": "P07"
+  },
+  {
+   "id": "E8",
+   "source": "inputs/clean/session-notes.md",
+   "locator": {
+    "en": "session 4, 09:12",
+    "fa": "جلسه‌ی ۴, ۰۹:۱۲"
+   },
+   "participant": "P04"
+  },
+  {
+   "id": "E9",
+   "source": "inputs/clean/session-notes.md",
+   "locator": {
+    "en": "session 5, 03:30",
+    "fa": "جلسه‌ی ۵, ۰۳:۳۰"
+   },
+   "participant": "P05"
+  }
+ ],
+ "analyses": [
+  {
+   "id": "AN1",
+   "catalogueId": "A1",
+   "title": {
+    "en": "Unaided task success",
+    "fa": "موفقیت بدون کمک در هر تسک"
+   },
+   "finding": {
+    "en": "Everyone found and added a product (8 of 8). Applying a discount code was the hardest task: 1 of 8 did it alone (12.5%, 95% CI 0.1–49.2%).",
+    "fa": "همه محصول را پیدا کردند و به سبد افزودند (۸ از ۸). اعمال کد تخفیف سخت‌ترین تسک بود: ۱ نفر از ۸ نفر بدون کمک انجامش دادند (۱۲٫۵٪، بازه‌ی اطمینان ۹۵٪: ۰٫۱ تا ۴۹٫۲٪)."
+   },
+   "table": {
+    "columns": [
+     "task",
+     "success",
+     "low",
+     "high",
+     "successes",
+     "n"
+    ],
+    "rows": [
+     [
+      "T1",
+      1.0,
+      0.6278,
+      1.0,
+      8,
+      8
+     ],
+     [
+      "T2",
+      0.625,
+      0.3038,
+      0.8651,
+      5,
+      8
+     ],
+     [
+      "T3",
+      0.125,
+      0.0011,
+      0.4922,
+      1,
+      8
+     ],
+     [
+      "T4",
+      0.625,
+      0.3038,
+      0.8651,
+      5,
+      8
+     ]
+    ],
+    "format": {
+     "success": "percent",
+     "low": "percent",
+     "high": "percent"
+    }
+   },
+   "chart": {
+    "kind": "rangeBar",
+    "x": "task",
+    "series": [
+     "success"
+    ],
+    "range": [
+     "low",
+     "high"
+    ]
+   },
+   "method": {
+    "en": "Adjusted Wald 95% CI",
+    "fa": "بازه‌ی اطمینان ۹۵٪ به روش Adjusted Wald"
+   },
+   "evidence": [
+    "E2"
+   ]
+  },
+  {
+   "id": "AN2",
+   "catalogueId": "A2",
+   "title": {
+    "en": "Levels of success",
+    "fa": "سطح موفقیت"
+   },
+   "finding": {
+    "en": "Help mattered most in the discount and delivery tasks: 2 people needed help in each, and 5 people could not apply the code at all.",
+    "fa": "کمک بیشتر از همه در تسک تخفیف و تحویل لازم شد: در هر کدام ۲ نفر به کمک نیاز داشتند و ۵ نفر اصلاً نتوانستند کد را اعمال کنند."
+   },
+   "table": {
+    "columns": [
+     "task",
+     "unaided",
+     "assisted",
+     "failed"
+    ],
+    "rows": [
+     [
+      "T1",
+      8,
+      0,
+      0
+     ],
+     [
+      "T2",
+      5,
+      2,
+      1
+     ],
+     [
+      "T3",
+      1,
+      2,
+      5
+     ],
+     [
+      "T4",
+      5,
+      1,
+      2
+     ]
+    ],
+    "labels": {
+     "unaided": {
+      "en": "unaided",
+      "fa": "بدون کمک"
+     },
+     "assisted": {
+      "en": "assisted",
+      "fa": "با کمک"
+     },
+     "failed": {
+      "en": "failed",
+      "fa": "ناموفق"
+     }
+    }
+   },
+   "chart": {
+    "kind": "stackedBar",
+    "x": "task",
+    "series": [
+     "unaided",
+     "assisted",
+     "failed"
+    ]
+   },
+   "evidence": [
+    "E2"
+   ]
+  },
+  {
+   "id": "AN3",
+   "catalogueId": "A3",
+   "title": {
+    "en": "Time on task",
+    "fa": "زمان انجام تسک"
+   },
+   "finding": {
+    "en": "The discount task took longest: a geometric mean of 129 seconds (95% CI 99–167 s), about four times the product task.",
+    "fa": "تسک تخفیف از همه طولانی‌تر بود: میانگین هندسی ۱۲۹ ثانیه (بازه‌ی اطمینان ۹۵٪: ۹۹ تا ۱۶۷ ثانیه)، حدود چهار برابر تسک محصول."
+   },
+   "table": {
+    "columns": [
+     "task",
+     "geometric mean (s)",
+     "low",
+     "high",
+     "median (s)"
+    ],
+    "rows": [
+     [
+      "T1",
+      37.4,
+      30.8,
+      45.3,
+      36.5
+     ],
+     [
+      "T2",
+      73.2,
+      57.7,
+      93.0,
+      67.0
+     ],
+     [
+      "T3",
+      128.7,
+      99.4,
+      166.7,
+      145.0
+     ],
+     [
+      "T4",
+      59.8,
+      44.7,
+      80.0,
+      51.0
+     ]
+    ]
+   },
+   "chart": {
+    "kind": "rangeBar",
+    "x": "task",
+    "series": [
+     "geometric mean (s)"
+    ],
+    "range": [
+     "low",
+     "high"
+    ]
+   },
+   "method": {
+    "en": "Geometric mean, CI on log times; all attempts",
+    "fa": "میانگین هندسی، بازه‌ی اطمینان روی لگاریتم زمان؛ همه‌ی تلاش‌ها"
+   },
+   "evidence": [
+    "E2"
+   ]
+  },
+  {
+   "id": "AN4",
+   "catalogueId": "A5",
+   "title": {
+    "en": "Ease per task (SEQ, 1–7)",
+    "fa": "سهولت هر تسک (SEQ، ۱ تا ۷)"
+   },
+   "finding": {
+    "en": "People rated the discount task hardest (2.8 of 7) and the product task easiest (6.3).",
+    "fa": "شرکت‌کننده‌ها تسک تخفیف را سخت‌ترین (۲٫۸ از ۷) و تسک محصول را آسان‌ترین (۶٫۳) دانستند."
+   },
+   "table": {
+    "columns": [
+     "task",
+     "SEQ mean",
+     "low",
+     "high"
+    ],
+    "rows": [
+     [
+      "T1",
+      6.25,
+      5.66,
+      6.84
+     ],
+     [
+      "T2",
+      4.88,
+      3.93,
+      5.82
+     ],
+     [
+      "T3",
+      2.75,
+      1.68,
+      3.82
+     ],
+     [
+      "T4",
+      4.88,
+      3.43,
+      6.32
+     ]
+    ]
+   },
+   "chart": {
+    "kind": "rangeBar",
+    "x": "task",
+    "series": [
+     "SEQ mean"
+    ],
+    "range": [
+     "low",
+     "high"
+    ]
+   },
+   "method": {
+    "en": "t-based 95% CI",
+    "fa": "بازه‌ی اطمینان ۹۵٪ بر پایه‌ی t"
+   },
+   "evidence": [
+    "E2"
+   ]
+  },
+  {
+   "id": "AN5",
+   "catalogueId": "B1",
+   "title": {
+    "en": "System Usability Scale",
+    "fa": "مقیاس کاربردپذیری سیستم (SUS)"
+   },
+   "values": {
+    "mean": 63.12,
+    "low": 46.12,
+    "high": 80.13,
+    "n": 8
+   },
+   "finding": {
+    "en": "The checkout scored 63.1 on SUS (95% CI 46–80), below the common average of 68. With 8 people the interval is wide.",
+    "fa": "امتیاز SUS فرایند پرداخت ۶۳٫۱ بود (بازه‌ی اطمینان ۹۵٪: ۴۶ تا ۸۰)، پایین‌تر از میانگین رایج ۶۸. با ۸ نفر این بازه پهن است."
+   },
+   "table": {
+    "columns": [
+     "participant",
+     "SUS"
+    ],
+    "rows": [
+     [
+      "P01",
+      75.0
+     ],
+     [
+      "P02",
+      65.0
+     ],
+     [
+      "P03",
+      57.5
+     ],
+     [
+      "P04",
+      37.5
+     ],
+     [
+      "P05",
+      97.5
+     ],
+     [
+      "P06",
+      50.0
+     ],
+     [
+      "P07",
+      42.5
+     ],
+     [
+      "P08",
+      80.0
+     ]
+    ]
+   },
+   "chart": {
+    "kind": "bar",
+    "x": "participant",
+    "series": [
+     "SUS"
+    ]
+   },
+   "method": {
+    "en": "Standard SUS scoring; t-based 95% CI; benchmark 68 (Sauro & Lewis)",
+    "fa": "امتیازدهی استاندارد SUS؛ بازه‌ی اطمینان ۹۵٪ بر پایه‌ی t؛ معیار ۶۸ (Sauro و Lewis)"
+   },
+   "evidence": [
+    "E3"
+   ]
+  },
+  {
+   "id": "AN6",
+   "catalogueId": "D2",
+   "values": {
+    "n": 8
+   },
+   "title": {
+    "en": "Issues by frequency and severity",
+    "fa": "مشکل‌ها بر اساس تکرار و شدت"
+   },
+   "finding": {
+    "en": "Two severe issues (4 of 4) explain most failures: the hidden discount field (6 of 8 people) and the Pay button below the fold (3 of 8).",
+    "fa": "دو مشکل شدید (۴ از ۴) بیشترِ شکست‌ها را توضیح می‌دهند: فیلد پنهانِ کد تخفیف (۶ نفر از ۸ نفر) و دکمه‌ی پرداختِ زیر لبه‌ی صفحه (۳ نفر از ۸ نفر)."
+   },
+   "table": {
+    "columns": [
+     "issue",
+     "participants",
+     "severity"
+    ],
+    "rows": [
+     [
+      "I1",
+      6,
+      4
+     ],
+     [
+      "I2",
+      3,
+      3
+     ],
+     [
+      "I3",
+      3,
+      4
+     ],
+     [
+      "I4",
+      2,
+      2
+     ],
+     [
+      "I5",
+      1,
+      1
+     ]
+    ]
+   },
+   "chart": {
+    "kind": "barHorizontal",
+    "x": "issue",
+    "series": [
+     "participants"
+    ]
+   },
+   "method": {
+    "en": "Severity rated by the designer (1 low – 4 critical)",
+    "fa": "شدت را طراح تعیین کرده است (۱ کم تا ۴ بحرانی)"
+   },
+   "evidence": [
+    "E1"
+   ]
+  },
+  {
+   "id": "AN7",
+   "catalogueId": "D1",
+   "values": {
+    "n": 8
+   },
+   "title": {
+    "en": "Themes",
+    "fa": "تم‌ها"
+   },
+   "finding": {
+    "en": "The most common theme was not finding where to enter the code (6 of 8). The most common positive theme was fast product search (5 of 8).",
+    "fa": "رایج‌ترین تم پیدا نکردن جای واردکردن کد بود (۶ نفر از ۸ نفر). رایج‌ترین تم مثبت سرعت جست‌وجوی محصول بود (۵ نفر از ۸ نفر)."
+   },
+   "table": {
+    "columns": [
+     "theme",
+     "participants"
+    ],
+    "rows": [
+     [
+      "Th1",
+      6
+     ],
+     [
+      "Th2",
+      5
+     ],
+     [
+      "Th3",
+      3
+     ],
+     [
+      "Th4",
+      3
+     ]
+    ]
+   },
+   "chart": {
+    "kind": "barHorizontal",
+    "x": "theme",
+    "series": [
+     "participants"
+    ]
+   },
+   "evidence": [
+    "E1",
+    "E6",
+    "E9"
+   ]
+  },
+  {
+   "id": "AN8",
+   "catalogueId": "A9",
+   "title": {
+    "en": "Success by device",
+    "fa": "موفقیت به تفکیک دستگاه"
+   },
+   "finding": {
+    "en": "Payment failed more on mobile, where the Pay button sat below the fold. With 4 people per device this is a direction, not a measured difference.",
+    "fa": "پرداخت در موبایل بیشتر شکست خورد، جایی که دکمه‌ی پرداخت زیر لبه‌ی صفحه بود. با ۴ نفر در هر دستگاه این فقط یک جهت است، نه تفاوتی اندازه‌گیری‌شده."
+   },
+   "table": {
+    "columns": [
+     "task",
+     "mobile",
+     "desktop"
+    ],
+    "rows": [
+     [
+      "T1",
+      1.0,
+      1.0
+     ],
+     [
+      "T2",
+      0.5,
+      0.75
+     ],
+     [
+      "T3",
+      0.0,
+      0.25
+     ],
+     [
+      "T4",
+      0.75,
+      0.5
+     ]
+    ],
+    "format": {
+     "mobile": "percent",
+     "desktop": "percent"
+    },
+    "labels": {
+     "mobile": {
+      "en": "mobile",
+      "fa": "موبایل"
+     },
+     "desktop": {
+      "en": "desktop",
+      "fa": "دسکتاپ"
+     }
+    }
+   },
+   "chart": {
+    "kind": "bar",
+    "x": "task",
+    "series": [
+     "mobile",
+     "desktop"
+    ]
+   },
+   "evidence": [
+    "E2"
+   ]
+  },
+  {
+   "id": "AN9",
+   "catalogueId": "E1",
+   "values": {
+    "days": 30
+   },
+   "title": {
+    "en": "Checkout funnel before the redesign",
+    "fa": "قیف پرداخت پیش از طراحی دوباره"
+   },
+   "finding": {
+    "en": "Over 30 days, 31.4% of people who opened the basket paid. The biggest drop was basket → delivery (35%).",
+    "fa": "در ۳۰ روز، ۳۱٫۴٪ از کسانی که سبد را باز کردند پرداخت کردند. بیشترین ریزش در گام سبد ← تحویل بود (۳۵٪)."
+   },
+   "table": {
+    "columns": [
+     "step",
+     "users",
+     "from top",
+     "drop"
+    ],
+    "rows": [
+     [
+      "Basket",
+      12400,
+      1.0,
+      0.0
+     ],
+     [
+      "Delivery",
+      8060,
+      0.65,
+      0.35
+     ],
+     [
+      "Payment",
+      5210,
+      0.4202,
+      0.3536
+     ],
+     [
+      "Paid",
+      3890,
+      0.3137,
+      0.2534
+     ]
+    ],
+    "format": {
+     "from top": "percent",
+     "drop": "percent"
+    }
+   },
+   "chart": {
+    "kind": "funnel",
+    "x": "step",
+    "series": [
+     "users"
+    ]
+   },
+   "evidence": [
+    "E4"
+   ]
+  },
+  {
+   "id": "AN10",
+   "catalogueId": "E5",
+   "values": {
+    "difference": 0.054,
+    "low": 0.0347,
+    "high": 0.0733,
+    "p": 0.0,
+    "pThreshold": 0.001,
+    "days": 14
+   },
+   "title": {
+    "en": "A/B test: old vs new checkout",
+    "fa": "تست A/B: پرداخت قدیم و جدید"
+   },
+   "finding": {
+    "en": "The new checkout converted 44.2% against 38.8% (difference 5.4 points, 95% CI 3.5–7.3; two-proportion z test, p < 0.001).",
+    "fa": "پرداخت جدید ۴۴٫۲٪ تبدیل داشت در برابر ۳۸٫۸٪ (تفاوت ۵٫۴ واحد درصد، بازه‌ی اطمینان ۹۵٪: ۳٫۵ تا ۷٫۳؛ آزمون z دو نسبت، p کمتر از ۰٫۰۰۱)."
+   },
+   "table": {
+    "columns": [
+     "variant",
+     "conversion",
+     "paid",
+     "visitors"
+    ],
+    "rows": [
+     [
+      "old",
+      0.388,
+      1940,
+      5000
+     ],
+     [
+      "new",
+      0.442,
+      2210,
+      5000
+     ]
+    ],
+    "format": {
+     "conversion": "percent"
+    }
+   },
+   "chart": {
+    "kind": "bar",
+    "x": "variant",
+    "series": [
+     "conversion"
+    ]
+   },
+   "method": {
+    "en": "Two-proportion z test; Agresti–Caffo 95% CI for the difference",
+    "fa": "آزمون z دو نسبت؛ بازه‌ی اطمینان ۹۵٪ Agresti–Caffo برای تفاوت"
+   },
+   "evidence": [
+    "E5"
+   ]
+  },
+  {
+   "id": "AN11",
+   "catalogueId": "G8",
+   "title": {
+    "en": "How many problems 8 people can find",
+    "fa": "۸ نفر چند درصد مشکل‌ها را پیدا می‌کنند"
+   },
+   "finding": {
+    "en": "Each issue was seen by 37.5% of people on average, so 8 people would find about 97.7% of issues this common. Small samples make this estimate optimistic.",
+    "fa": "هر مشکل به‌طور میانگین برای ۳۷٫۵٪ از افراد پیش آمد؛ پس ۸ نفر حدود ۹۷٫۷٪ از مشکل‌هایی با این میزان رواج را پیدا می‌کنند. نمونه‌ی کوچک این برآورد را خوش‌بینانه می‌کند."
+   },
+   "table": {
+    "columns": [
+     "users",
+     "share found"
+    ],
+    "rows": [
+     [
+      1,
+      0.375
+     ],
+     [
+      2,
+      0.6094
+     ],
+     [
+      3,
+      0.7559
+     ],
+     [
+      4,
+      0.8474
+     ],
+     [
+      5,
+      0.9046
+     ],
+     [
+      6,
+      0.9404
+     ],
+     [
+      7,
+      0.9627
+     ],
+     [
+      8,
+      0.9767
+     ],
+     [
+      9,
+      0.9854
+     ],
+     [
+      10,
+      0.9909
+     ],
+     [
+      11,
+      0.9943
+     ],
+     [
+      12,
+      0.9964
+     ]
+    ],
+    "format": {
+     "share found": "percent"
+    }
+   },
+   "chart": {
+    "kind": "line",
+    "x": "users",
+    "series": [
+     "share found"
+    ]
+   },
+   "evidence": [
+    "E1"
+   ]
+  },
+  {
+   "id": "AN12",
+   "catalogueId": "G1",
+   "values": {
+    "n": 8
+   },
+   "title": {
+    "en": "Participants",
+    "fa": "شرکت‌کننده‌ها"
+   },
+   "finding": {
+    "en": "8 people who order groceries online at least twice a month: 4 on mobile, 4 on desktop.",
+    "fa": "۸ نفر که دست‌کم ماهی دو بار خرید آنلاین مواد غذایی دارند: ۴ نفر با موبایل و ۴ نفر با دسکتاپ."
+   },
+   "table": {
+    "columns": [
+     "device",
+     "participants"
+    ],
+    "rows": [
+     [
+      "mobile",
+      4
+     ],
+     [
+      "desktop",
+      4
+     ]
+    ]
+   },
+   "chart": {
+    "kind": "doughnut",
+    "x": "device",
+    "series": [
+     "participants"
+    ]
+   },
+   "evidence": [
+    "E2"
+   ]
+  },
+  {
+   "id": "AN13",
+   "catalogueId": "G2",
+   "title": {
+    "en": "What 8 people can tell us",
+    "fa": "۸ نفر چه چیزی را می‌توانند نشان دهند"
+   },
+   "finding": {
+    "en": "With 8 people, a 50% success rate has a 95% interval of 21.5–78.5%. That is enough to find the main problems, not to measure small differences.",
+    "fa": "با ۸ نفر، نرخ موفقیت ۵۰٪ بازه‌ی اطمینان ۹۵٪ از ۲۱٫۵ تا ۷۸٫۵٪ دارد. این برای پیدا کردن مشکل‌های اصلی کافی است، نه برای اندازه‌گیری تفاوت‌های کوچک."
+   },
+   "table": {
+    "columns": [
+     "observed",
+     "low",
+     "high",
+     "n"
+    ],
+    "rows": [
+     [
+      0.5,
+      0.2152,
+      0.7848,
+      8
+     ]
+    ],
+    "format": {
+     "observed": "percent",
+     "low": "percent",
+     "high": "percent"
+    }
+   },
+   "evidence": [
+    "E2"
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "id": "summary",
+   "role": "summary",
+   "title": {
+    "en": "Summary",
+    "fa": "خلاصه"
+   },
+   "blocks": [
+    {
+     "type": "stats",
+     "items": [
+      {
+       "label": {
+        "en": "found and added a product alone",
+        "fa": "محصول را بدون کمک پیدا کردند"
+       },
+       "value": {
+        "en": "8 of 8",
+        "fa": "۸ از ۸"
+       },
+       "tone": "green"
+      },
+      {
+       "label": {
+        "en": "applied a discount code alone",
+        "fa": "کد تخفیف را بدون کمک اعمال کردند"
+       },
+       "value": {
+        "en": "1 of 8",
+        "fa": "۱ از ۸"
+       },
+       "tone": "red"
+      },
+      {
+       "label": {
+        "en": "SUS score",
+        "fa": "امتیاز SUS"
+       },
+       "value": {
+        "en": "63.1",
+        "fa": "۶۳٫۱"
+       },
+       "note": {
+        "en": "average is 68",
+        "fa": "میانگین رایج ۶۸ است"
+       },
+       "tone": "amber"
+      },
+      {
+       "label": {
+        "en": "conversion, new vs old",
+        "fa": "تبدیل، جدید در برابر قدیم"
+       },
+       "value": {
+        "en": "44.2% vs 38.8%",
+        "fa": "۴۴٫۲٪ در برابر ۳۸٫۸٪"
+       },
+       "tone": "green"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "items": [
+      {
+       "en": "The discount field was hidden: 6 of 8 people couldn't find it, and only 1 applied a code alone.",
+       "fa": "فیلد تخفیف پنهان بود: ۶ نفر از ۸ نفر پیدایش نکردند و فقط ۱ نفر بدون کمک کد را اعمال کرد."
+      },
+      {
+       "en": "On mobile the Pay button sat below the fold; 3 people missed it.",
+       "fa": "در موبایل دکمه‌ی پرداخت زیر لبه‌ی صفحه بود و ۳ نفر آن را ندیدند."
+      },
+      {
+       "en": "The redesign moved both into view. In an A/B test, conversion rose from 38.8% to 44.2%.",
+       "fa": "طراحی دوباره هر دو را در دید قرار داد. در تست A/B نرخ تبدیل از ۳۸٫۸٪ به ۴۴٫۲٪ رسید."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "context",
+   "role": "context",
+   "title": {
+    "en": "Context",
+    "fa": "زمینه"
+   },
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": {
+      "en": "Basket is a fictional grocery delivery app used here as a demo. Its checkout lost most people between the basket and payment. We wanted to know where and why.",
+      "fa": "Basket یک اپ خیالی تحویل مواد غذایی است که اینجا برای نمونه استفاده شده است. بیشتر کاربران بین سبد و پرداخت از فرایند خارج می‌شدند. می‌خواستیم بدانیم کجا و چرا."
+     }
+    }
+   ]
+  },
+  {
+   "id": "method",
+   "role": "method",
+   "title": {
+    "en": "Method",
+    "fa": "روش"
+   },
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": {
+      "en": "Moderated think-aloud test with 8 people (4 mobile, 4 desktop), four tasks each, followed by SEQ after each task and SUS at the end. We also read 30 days of funnel data and ran a 14-day A/B test of the redesign.",
+      "fa": "تست Think Aloud با حضور تسهیلگر و ۸ نفر (۴ موبایل، ۴ دسکتاپ)، هر نفر چهار تسک، با SEQ بعد از هر تسک و SUS در پایان. داده‌ی قیف ۳۰ روز را هم بررسی کردیم و طراحی جدید را ۱۴ روز با تست A/B سنجیدیم."
+     }
+    },
+    {
+     "type": "table",
+     "columns": [
+      "task",
+      "description"
+     ],
+     "rows": [
+      [
+       "T1",
+       {
+        "en": "Find a product and add it to the basket",
+        "fa": "پیدا کردن محصول و افزودن به سبد"
+       }
+      ],
+      [
+       "T2",
+       {
+        "en": "Choose a delivery slot",
+        "fa": "انتخاب زمان تحویل"
+       }
+      ],
+      [
+       "T3",
+       {
+        "en": "Apply a discount code",
+        "fa": "اعمال کد تخفیف"
+       }
+      ],
+      [
+       "T4",
+       {
+        "en": "Pay",
+        "fa": "پرداخت"
+       }
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "participants",
+   "role": "participants",
+   "title": {
+    "en": "Participants",
+    "fa": "شرکت‌کننده‌ها"
+   },
+   "blocks": [
+    {
+     "type": "analysis",
+     "analysis": "AN12"
+    }
+   ]
+  },
+  {
+   "id": "problem",
+   "role": "problem",
+   "title": {
+    "en": "Problem",
+    "fa": "مسئله"
+   },
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": {
+      "en": "Before the redesign, fewer than a third of people who opened the basket paid. In the test, two things stopped people: the discount field and the Pay button.",
+      "fa": "پیش از طراحی دوباره، کمتر از یک‌سوم کسانی که سبد را باز می‌کردند پرداخت می‌کردند. در تست، دو چیز مانع افراد شد: فیلد تخفیف و دکمه‌ی پرداخت."
+     },
+     "evidence": [
+      "E4"
+     ]
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN9"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN1"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN2"
+    },
+    {
+     "type": "quote",
+     "text": {
+      "en": "I know I have a code, but there's nowhere to put it.",
+      "fa": "می‌دانم کد دارم، ولی جایی برای واردکردنش نیست."
+     },
+     "participant": "P02",
+     "evidence": [
+      "E6"
+     ]
+    },
+    {
+     "type": "quote",
+     "text": {
+      "en": "So… where do I pay? Is it scrolling?",
+      "fa": "خب… کجا پرداخت کنم؟ باید اسکرول کنم؟"
+     },
+     "participant": "P07",
+     "evidence": [
+      "E7"
+     ]
+    },
+    {
+     "type": "quote",
+     "text": {
+      "en": "These grey times, are they full or can I pick them?",
+      "fa": "این ساعت‌های خاکستری پُرند یا می‌شود انتخابشان کرد؟"
+     },
+     "participant": "P04",
+     "evidence": [
+      "E8"
+     ]
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN6"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN7"
+    },
+    {
+     "type": "image",
+     "caption": {
+      "en": "The old checkout on mobile",
+      "fa": "پرداخت قدیمی در موبایل"
+     },
+     "placeholder": {
+      "kind": "screenshot",
+      "description": {
+       "en": "Mobile screenshot of the old checkout's payment step, scrolled to the top, showing that the Pay button is not visible and the discount field is collapsed under “More options”.",
+       "fa": "اسکرین‌شات موبایل از گام پرداختِ نسخه‌ی قدیم، در بالای صفحه، که نشان دهد دکمه‌ی پرداخت دیده نمی‌شود و فیلد تخفیف زیر «گزینه‌های بیشتر» بسته است."
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "solution",
+   "role": "solution",
+   "title": {
+    "en": "Solution",
+    "fa": "راه‌حل"
+   },
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": {
+      "en": "The redesign shows the discount field open by default, makes free delivery slots solid and selectable, and pins the Pay button to the bottom of the screen on mobile.",
+      "fa": "در طراحی جدید فیلد تخفیف به‌طور پیش‌فرض باز است، زمان‌های تحویلِ آزاد پررنگ و قابل‌انتخاب‌اند و دکمه‌ی پرداخت در موبایل به پایین صفحه چسبیده است."
+     }
+    },
+    {
+     "type": "flow",
+     "steps": [
+      {
+       "text": {
+        "en": "Basket",
+        "fa": "سبد"
+       },
+       "status": "ok"
+      },
+      {
+       "text": {
+        "en": "Delivery slot",
+        "fa": "زمان تحویل"
+       },
+       "status": "ok"
+      },
+      {
+       "text": {
+        "en": "Discount (open)",
+        "fa": "تخفیف (باز)"
+       },
+       "status": "ok"
+      },
+      {
+       "text": {
+        "en": "Pay (pinned)",
+        "fa": "پرداخت (ثابت)"
+       },
+       "status": "ok"
+      }
+     ]
+    },
+    {
+     "type": "image",
+     "caption": {
+      "en": "The new checkout on mobile",
+      "fa": "پرداخت جدید در موبایل"
+     },
+     "placeholder": {
+      "kind": "design",
+      "description": {
+       "en": "The redesigned payment step on mobile: discount field open, Pay button pinned to the bottom.",
+       "fa": "گام پرداختِ طراحی جدید در موبایل: فیلد تخفیف باز و دکمه‌ی پرداخت ثابت در پایین صفحه."
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "result",
+   "role": "result",
+   "title": {
+    "en": "Result",
+    "fa": "نتیجه"
+   },
+   "blocks": [
+    {
+     "type": "analysis",
+     "analysis": "AN10"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN3"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN4"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN5"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN8"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN11"
+    },
+    {
+     "type": "analysis",
+     "analysis": "AN13"
+    },
+    {
+     "type": "quote",
+     "text": {
+      "en": "Search is quick, I found the milk straight away.",
+      "fa": "جست‌وجو سریع است، شیر را همان اول پیدا کردم."
+     },
+     "participant": "P05",
+     "evidence": [
+      "E9"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "limitations",
+   "role": "limitations",
+   "title": {
+    "en": "Limitations",
+    "fa": "محدودیت‌ها"
+   },
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": {
+      "en": "Eight people are enough to find the main problems, not to compare devices precisely. The A/B test ran for 14 days only.",
+      "fa": "هشت نفر برای پیدا کردن مشکل‌های اصلی کافی‌اند، نه برای مقایسه‌ی دقیق دستگاه‌ها. تست A/B فقط ۱۴ روز اجرا شد."
+     }
+    },
+    {
+     "type": "callout",
+     "tone": "info",
+     "text": {
+      "en": "Everything in this report is fictional demo data.",
+      "fa": "همه‌ی داده‌های این گزارش خیالی و برای نمونه است."
+     }
+    }
+   ]
+  }
+ ],
+ "blog": {
+  "title": {
+   "en": "The discount code nobody could find",
+   "fa": "کد تخفیفی که کسی پیدایش نکرد"
+  },
+  "dek": {
+   "en": "How eight usability sessions and one A/B test fixed a checkout (a fictional demo).",
+   "fa": "چطور هشت جلسه‌ی تست کاربردپذیری و یک تست A/B فرایند پرداخت را درست کرد (نمونه‌ی خیالی)."
+  },
+  "sections": [
+   {
+    "id": "b1",
+    "blocks": [
+     {
+      "type": "paragraph",
+      "text": {
+       "en": "P02 had a discount code ready. She looked at the payment step for almost three minutes, then said:",
+       "fa": "P02 کد تخفیف را آماده داشت. نزدیک سه دقیقه به گام پرداخت نگاه کرد و بعد گفت:"
+      }
+     },
+     {
+      "type": "quote",
+      "text": {
+       "en": "I know I have a code, but there's nowhere to put it.",
+       "fa": "می‌دانم کد دارم، ولی جایی برای واردکردنش نیست."
+      },
+      "participant": "P02",
+      "evidence": [
+       "E6"
+      ]
+     },
+     {
+      "type": "paragraph",
+      "text": {
+       "en": "She wasn't alone. Six of our eight participants couldn't find where to enter a code.",
+       "fa": "او تنها نبود. شش نفر از هشت شرکت‌کننده‌ی ما جای واردکردن کد را پیدا نکردند."
+      },
+      "evidence": [
+       "E1"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b2",
+    "title": {
+     "en": "What we did",
+     "fa": "چه کردیم"
+    },
+    "blocks": [
+     {
+      "type": "paragraph",
+      "text": {
+       "en": "We asked eight people to buy groceries in Basket's checkout, on mobile and desktop, thinking aloud. Then we read a month of funnel data.",
+       "fa": "از هشت نفر خواستیم در فرایند پرداخت Basket، با موبایل و دسکتاپ، خرید کنند و فکرشان را بلند بگویند. بعد داده‌ی یک ماهِ قیف را خواندیم."
+      }
+     }
+    ]
+   },
+   {
+    "id": "b3",
+    "title": {
+     "en": "What we found",
+     "fa": "چه یافتیم"
+    },
+    "blocks": [
+     {
+      "type": "paragraph",
+      "text": {
+       "en": "Filling the basket was easy: all eight did it alone. Using a discount code was the hardest step: only one person managed it without help. On mobile, three people missed the Pay button because it sat below the fold.",
+       "fa": "پر کردن سبد آسان بود: هر هشت نفر بدون کمک انجامش دادند. استفاده از کد تخفیف سخت‌ترین گام بود: فقط یک نفر بدون کمک موفق شد. در موبایل سه نفر دکمه‌ی پرداخت را ندیدند، چون زیر لبه‌ی صفحه بود."
+      },
+      "evidence": [
+       "E2"
+      ]
+     },
+     {
+      "type": "analysis",
+      "analysis": "AN1"
+     }
+    ]
+   },
+   {
+    "id": "b4",
+    "title": {
+     "en": "What changed",
+     "fa": "چه تغییر کرد"
+    },
+    "blocks": [
+     {
+      "type": "paragraph",
+      "text": {
+       "en": "We opened the discount field by default and pinned the Pay button on mobile. In a 14-day A/B test, conversion rose from 38.8% to 44.2%.",
+       "fa": "فیلد تخفیف را به‌طور پیش‌فرض باز کردیم و دکمه‌ی پرداخت را در موبایل ثابت کردیم. در تست A/B چهارده‌روزه، نرخ تبدیل از ۳۸٫۸٪ به ۴۴٫۲٪ رسید."
+      },
+      "evidence": [
+       "E5"
+      ]
+     },
+     {
+      "type": "analysis",
+      "analysis": "AN10"
+     }
+    ]
+   },
+   {
+    "id": "b5",
+    "title": {
+     "en": "What's next",
+     "fa": "قدم بعدی"
+    },
+    "blocks": [
+     {
+      "type": "paragraph",
+      "text": {
+       "en": "Next we'll test the delivery slots, which three people thought were unavailable.",
+       "fa": "قدم بعدی تست زمان‌های تحویل است که سه نفر فکر می‌کردند در دسترس نیستند."
+      },
+      "evidence": [
+       "E1"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "glossary": [
+  {
+   "term": "SEQ",
+   "text": {
+    "en": "Single Ease Question: how easy a task was, 1–7.",
+    "fa": "Single Ease Question: سهولت یک تسک، از ۱ تا ۷."
+   }
+  },
+  {
+   "term": "SUS",
+   "text": {
+    "en": "System Usability Scale: ten questions, scored 0–100.",
+    "fa": "System Usability Scale: ده سؤال با امتیاز ۰ تا ۱۰۰."
+   }
+  },
+  {
+   "term": "CI",
+   "text": {
+    "en": "Confidence interval: the range the true value is likely in.",
+    "fa": "بازه‌ی اطمینان: محدوده‌ای که مقدار واقعی به احتمال زیاد در آن است."
+   }
+  }
+ ],
+ "openQuestions": [
+  {
+   "text": {
+    "en": "Do the delivery-slot changes reduce the basket → delivery drop?",
+    "fa": "آیا تغییرات زمان تحویل ریزش سبد ← تحویل را کم می‌کند؟"
+   }
+  }
+ ]
+}

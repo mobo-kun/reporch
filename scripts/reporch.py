@@ -11,6 +11,9 @@
   reporch.py profile <project> --fields a,b,c        (record which data fields the inputs contain)
   reporch.py possible <project>                      (analyses the data supports, and the gaps to ask about)
   reporch.py calc <function> '<JSON arguments>'       (statistics, e.g. calc proportion '{"successes": 3, "n": 10}')
+  reporch.py build <project> [--markdown] [--draft]  (HTML report and blog for each language)
+  reporch.py pdf <project>                           (PDF from the report HTML; needs Playwright)
+  reporch.py qa <project> [--no-layout]              (checks before delivery)
 """
 import argparse
 import json
@@ -18,7 +21,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from reporch_lib import catalogue, content, intake, project, stats, theme  # noqa: E402
+from reporch_lib import catalogue, content, intake, pdf, project, qa, render, stats, theme  # noqa: E402
 
 
 CALC = ["proportion", "mean_ci", "time_summary", "outliers", "sus", "nps", "top_box", "lostness", "efficiency",
@@ -41,6 +44,10 @@ def main(argv=None):
     p = sub.add_parser("profile"); p.add_argument("project"); p.add_argument("--fields", required=True)
     p = sub.add_parser("possible"); p.add_argument("project")
     p = sub.add_parser("calc"); p.add_argument("function", choices=CALC); p.add_argument("args")
+    p = sub.add_parser("build"); p.add_argument("project"); p.add_argument("--markdown", action="store_true")
+    p.add_argument("--draft", action="store_true", help="build even with draft-level problems (for previews)")
+    p = sub.add_parser("pdf"); p.add_argument("project")
+    p = sub.add_parser("qa"); p.add_argument("project"); p.add_argument("--no-layout", action="store_true")
     a = ap.parse_args(argv)
 
     if a.cmd == "init":
@@ -82,9 +89,41 @@ def main(argv=None):
         fn = getattr(stats, a.function)
         result = fn(**args) if isinstance(args, dict) else fn(*args)
         print(json.dumps(result, ensure_ascii=False, indent=1))
+    elif a.cmd == "build":
+        doc = _load(a.project)
+        errs = content.errors(content.validate(doc, "draft" if a.draft else "final"))
+        if errs:
+            for e in errs:
+                print(e, file=sys.stderr)
+            print(f"{len(errs)} error(s): fix them (or use --draft for a preview)", file=sys.stderr)
+            return 1
+        for path in render.build(doc, a.project, a.markdown):
+            print(path)
+    elif a.cmd == "pdf":
+        if not pdf.available():
+            print("Playwright is not installed. Ask the user, then run:\n  " + pdf.INSTALL, file=sys.stderr)
+            return 2
+        doc = _load(a.project)
+        for lang in doc["meta"]["languages"]:
+            src = os.path.join(a.project, "out", f"report.{lang}.html")
+            if not os.path.exists(src):
+                print(f"missing {src}: run build first", file=sys.stderr)
+                return 1
+            print(pdf.render(src, os.path.join(a.project, "out", f"report.{lang}.pdf")))
+    elif a.cmd == "qa":
+        rep = qa.run(a.project, layout=not a.no_layout)
+        for i in rep.items:
+            print(f"{i['level'].upper():8} {i['check']:12} {i['where']}: {i['message']}")
+        print(json.dumps(rep.summary()))
+        return 1 if rep.errors() else 0
     elif a.cmd == "theme":
         sys.stdout.write(theme.css(a.primary))
     return 0
+
+
+def _load(project_dir):
+    with open(os.path.join(project_dir, "content.json"), encoding="utf-8") as f:
+        return json.load(f)
 
 
 if __name__ == "__main__":

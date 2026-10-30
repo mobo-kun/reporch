@@ -36,7 +36,7 @@ BLOCK_TYPES = {
 }
 CALLOUT_TONES = {"info", "warn", "critical", "success"}
 CHART_KINDS = {"bar", "barHorizontal", "stackedBar", "line", "doughnut", "scatter", "funnel", "heatmap",
-               "radar", "box", "rangeBar", "sankey", "tree"}
+               "radar", "box", "rangeBar", "sankey"}
 PARTICIPANT_ID = re.compile(r"^P\d{2,}$")
 ANALYSES_MIN, ANALYSES_MAX = 10, 40
 
@@ -61,7 +61,7 @@ def _texts(obj, where):
     if isinstance(obj, dict):
         for k, v in obj.items():
             if k in ("text", "title", "caption", "label", "note", "name", "finding", "description", "value",
-                     "headline", "alt") and isinstance(v, dict):
+                     "headline", "alt", "dek") and isinstance(v, dict):
                 yield f"{where}.{k}", v
             elif isinstance(v, (dict, list)):
                 yield from _texts(v, f"{where}.{k}")
@@ -162,6 +162,18 @@ def validate(doc, stage="draft"):
         if r not in seen_roles:
             err("sections", f"missing required section {r!r}")
 
+    blog = doc.get("blog")
+    if not blog:
+        soft("blog", "the blog post is missing")
+    else:
+        if not blog.get("title"):
+            err("blog.title", "required")
+        for i, s in enumerate(blog.get("sections") or []):
+            for j, b in enumerate(s.get("blocks") or []):
+                _check_block(b, f"blog.sections[{i}].blocks[{j}]", pids, evidence, analyses, err)
+        if not blog.get("sections"):
+            soft("blog.sections", "the blog post has no sections")
+
     used = {b.get("analysis") for _, s in _walk_sections(top) for b in s.get("blocks") or []}
     for aid in analyses:
         if aid not in used:
@@ -186,7 +198,15 @@ def _check_chart(chart, table, where, err):
     for k, row in enumerate(rows):
         if len(row) != len(cols):
             err(f"{where}.table.rows[{k}]", f"{len(row)} cells for {len(cols)} columns")
-    for key in (chart.get("x"), *chart.get("series", []), *chart.get("range", [])):
+    needed = [chart.get("x"), *chart.get("series", []), *chart.get("range", []), *chart.get("box", [])]
+    needed += [chart[k] for k in ("y", "target") if k in chart]
+    if chart.get("kind") == "heatmap" and "y" not in chart:
+        err(f"{where}.chart.y", "a heatmap names its y column")
+    if chart.get("kind") == "sankey" and "target" not in chart:
+        err(f"{where}.chart.target", "a sankey names its target column")
+    if chart.get("kind") == "box" and len(chart.get("box", [])) != 5:
+        err(f"{where}.chart.box", "a box plot names five columns: min, q1, median, q3, max")
+    for key in needed:
         if key is None:
             err(f"{where}.chart", "x and series name table columns")
         elif key not in cols:

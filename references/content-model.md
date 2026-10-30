@@ -27,6 +27,7 @@ nothing is written into an output that isn't in `content.json`. Validate with
     "title": {"en": "…", "fa": "…"}, "finding": {"en": "…", "fa": "…"},
     "table": {"columns": ["task", "success"], "rows": [["T1", 0.6]]},
     "chart": {"kind": "bar", "x": "task", "series": ["success"]},
+    "values": {"n": 10, "low": 0.103, "high": 0.608},
     "evidence": ["E1"]
   }],
   "sections": [{
@@ -34,10 +35,15 @@ nothing is written into an output that isn't in `content.json`. Validate with
     "blocks": [{"type": "paragraph", "text": {"en": "…", "fa": "…"}, "evidence": ["E1"]}],
     "children": []
   }],
+  "blog": {"title": {"en": "…"}, "dek": {"en": "…"},
+           "sections": [{"id": "b1", "title": {"en": "…"}, "blocks": [ … same block types … ]}]},
   "glossary": [{"term": "SEQ", "text": {"en": "…", "fa": "…"}}],
   "openQuestions": [{"text": {"en": "…", "fa": "…"}}]
 }
 ```
+
+`values` holds the summary numbers a finding quotes that aren't table cells (means, interval ends, p,
+n, a difference). QA traces every number in a finding to the table or to `values`.
 
 ## Blocks
 
@@ -70,3 +76,4 @@ Any block may carry `evidence: ["E…"]`.
 - Every chart has its source table, and the chart's columns exist in it.
 - Top-level sections follow `references/outline.md`; summary, problem, solution and result are required.
 - 10–40 analyses (draft: warning; final: error), each placed in a section.
+- The blog post exists (final) and its blocks follow the same rules.

@@ -34,6 +34,8 @@ def minimal_doc(n_analyses=10):
             {"type": "image", "caption": T("Checkout"), "placeholder": {
                 "kind": "screenshot", "description": "Checkout page on mobile, step 2"}}]),
             sec("solution"), sec("result", [{"type": "analysis", "analysis": a["id"]} for a in analyses])],
+        "blog": {"title": T("What we learned"), "dek": T("A short story"), "sections": [
+            {"id": "b1", "title": T("The problem"), "blocks": [{"type": "paragraph", "text": T("Once"), "evidence": ["E1"]}]}]},
     }
 
 
@@ -99,6 +101,14 @@ class ContentTest(unittest.TestCase):
         d = minimal_doc()
         d["sections"][1]["blocks"][1]["placeholder"] = {"kind": "screenshot"}
         self.assertTrue(content.errors(content.validate(d)))
+
+    def test_blog_required_for_final_and_checked(self):
+        d = minimal_doc()
+        d.pop("blog")
+        self.assertTrue(any(p.where == "blog" for p in content.errors(content.validate(d, "final"))))
+        d = minimal_doc()
+        d["blog"]["sections"][0]["blocks"].append({"type": "quote", "text": T("x"), "participant": "P07", "evidence": ["E1"]})
+        self.assertTrue(any("P07" in p.message for p in content.errors(content.validate(d))))
 
     def test_unplaced_analysis_warns(self):
         d = minimal_doc()

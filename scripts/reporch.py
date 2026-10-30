@@ -7,6 +7,9 @@
   reporch.py validate <project> [--final]
   reporch.py snapshot <project>
   reporch.py theme [--primary #RRGGBB]
+  reporch.py ingest <project> FILE... [--names names.json]
+  reporch.py profile <project> --fields a,b,c        (record which data fields the inputs contain)
+  reporch.py possible <project>                      (analyses the data supports, and the gaps to ask about)
 """
 import argparse
 import json
@@ -14,7 +17,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from reporch_lib import content, project, theme  # noqa: E402
+from reporch_lib import catalogue, content, intake, project, theme  # noqa: E402
 
 
 def main(argv=None):
@@ -27,6 +30,10 @@ def main(argv=None):
     p = sub.add_parser("validate"); p.add_argument("project"); p.add_argument("--final", action="store_true")
     p = sub.add_parser("snapshot"); p.add_argument("project")
     p = sub.add_parser("theme"); p.add_argument("--primary")
+    p = sub.add_parser("ingest"); p.add_argument("project"); p.add_argument("files", nargs="+")
+    p.add_argument("--names", help="JSON file mapping real names to participant ids")
+    p = sub.add_parser("profile"); p.add_argument("project"); p.add_argument("--fields", required=True)
+    p = sub.add_parser("possible"); p.add_argument("project")
     a = ap.parse_args(argv)
 
     if a.cmd == "init":
@@ -46,6 +53,23 @@ def main(argv=None):
         return 1 if errs else 0
     elif a.cmd == "snapshot":
         print(f"v{project.snapshot(a.project)}")
+    elif a.cmd == "ingest":
+        names = json.load(open(a.names, encoding="utf-8")) if a.names else None
+        for r in intake.ingest(a.project, a.files, names):
+            print(json.dumps(r, ensure_ascii=False))
+    elif a.cmd == "profile":
+        fields = sorted({f.strip() for f in a.fields.split(",") if f.strip()})
+        bad = catalogue.unknown_fields(fields)
+        if bad:
+            print("unknown fields: " + ", ".join(bad) + " (see references/analyses.json)", file=sys.stderr)
+            return 1
+        state = project.load_state(a.project)
+        state["dataFields"] = fields
+        project.save_state(a.project, state)
+        print(f"{len(fields)} fields recorded")
+    elif a.cmd == "possible":
+        fields = project.load_state(a.project).get("dataFields", [])
+        print(json.dumps(catalogue.summary(fields), ensure_ascii=False, indent=1))
     elif a.cmd == "theme":
         sys.stdout.write(theme.css(a.primary))
     return 0

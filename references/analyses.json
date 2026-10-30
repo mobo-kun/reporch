@@ -1,0 +1,1687 @@
+{
+ "schema": "reporch/catalogue@1",
+ "always": [
+  "G1",
+  "G2"
+ ],
+ "fields": [
+  "accessibility_audit",
+  "acquisition_costs",
+  "action_counts",
+  "activity_by_date",
+  "assisted",
+  "attempts",
+  "attribute_ratings",
+  "awareness_items",
+  "behaviour_notes",
+  "billing_events",
+  "card_sort_closed",
+  "card_sort_open",
+  "channel_traffic",
+  "choice_question",
+  "cleaned_data",
+  "click_counts",
+  "coded_remarks",
+  "coded_sessions",
+  "competitor_features",
+  "competitor_metrics",
+  "competitor_notes",
+  "costs",
+  "daily_monthly_actives",
+  "demographics",
+  "device",
+  "diary_entries",
+  "effort_rating",
+  "element_comprehension",
+  "error_log",
+  "errors",
+  "evaluator_issues",
+  "events_per_user",
+  "expert_benchmark",
+  "eye_tracking",
+  "feature_usage_log",
+  "feature_use_per_user",
+  "feedback_tickets",
+  "findings",
+  "first_click",
+  "goals",
+  "guidance_events",
+  "heart_tags",
+  "incidents",
+  "intent_rating",
+  "issue_category",
+  "issue_iteration",
+  "issue_participant",
+  "issue_severity",
+  "issue_task",
+  "issue_time_lost",
+  "issues",
+  "iterations",
+  "key_action_events",
+  "likert_items",
+  "locale",
+  "metric_weights",
+  "metrics_list",
+  "multi_choice_question",
+  "multiple_designs",
+  "multiple_evaluators",
+  "nav_method",
+  "north_star",
+  "notes",
+  "nps_score",
+  "observations",
+  "onboarding_screens",
+  "onboarding_steps",
+  "open_text",
+  "optimal_actions",
+  "pages_visited",
+  "participants",
+  "paths",
+  "physiological",
+  "post_task_rating",
+  "pre_task_expectation",
+  "preference_choice",
+  "ranking_question",
+  "reaction_words",
+  "recall",
+  "recommendations_rated",
+  "referral_question",
+  "referrals",
+  "returning_performance",
+  "revenue",
+  "satisfaction_rating",
+  "segment",
+  "session_outcomes",
+  "signups",
+  "solutions",
+  "stage_counts",
+  "stage_notes",
+  "standard_scale_items",
+  "step_counts",
+  "steps_reached",
+  "success_level",
+  "survey_export",
+  "sus_items",
+  "targets",
+  "task_success",
+  "task_time",
+  "time_series",
+  "time_threshold",
+  "transcripts",
+  "two_categorical",
+  "two_periods",
+  "usage_threshold",
+  "usefulness_items",
+  "users_by_period",
+  "variant_results",
+  "wait_times"
+ ],
+ "analyses": [
+  {
+   "id": "A1",
+   "group": "Task performance",
+   "title": "Task success rate + CI; failure types (gave up / wrong / timed out)",
+   "needsText": "success yes/no per P per task (+ failure type)",
+   "output": "bar with CI",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "task_success"
+   ]
+  },
+  {
+   "id": "A2",
+   "group": "Task performance",
+   "title": "Levels of success (unaided, assisted, partial, failed); help use and help success",
+   "needsText": "success level per P per task",
+   "output": "100% stacked bar (never averaged)",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "success_level|assisted"
+   ]
+  },
+  {
+   "id": "A3",
+   "group": "Task performance",
+   "title": "Time on task (median, geometric mean, CI); expert subgroup; optional predicted-vs-measured",
+   "needsText": "time per P per task (+ success, expertise)",
+   "output": "bar / box",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "task_time"
+   ]
+  },
+  {
+   "id": "A4",
+   "group": "Task performance",
+   "title": "Errors: single-opportunity (% with error) and multi-opportunity (rate per opportunity); minor vs catastrophic; recovery time",
+   "needsText": "errors per P per task (+ opportunities, type, severity)",
+   "output": "table, bar",
+   "sources": [
+    "TA",
+    "N",
+    "ART"
+   ],
+   "needs": [
+    "errors"
+   ]
+  },
+  {
+   "id": "A5",
+   "group": "Task performance",
+   "title": "Ease per task (SEQ, ASQ) + session mean",
+   "needsText": "post-task rating",
+   "output": "bar with CI",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "post_task_rating"
+   ]
+  },
+  {
+   "id": "A6",
+   "group": "Task performance",
+   "title": "Path / first-click accuracy; % on the efficient path",
+   "needsText": "first click or path per P",
+   "output": "table, pie-tree",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "paths|first_click"
+   ]
+  },
+  {
+   "id": "A7",
+   "group": "Task performance",
+   "title": "Step drop-off (where people got stuck)",
+   "needsText": "step reached per P",
+   "output": "funnel with drop %",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "steps_reached"
+   ]
+  },
+  {
+   "id": "A8",
+   "group": "Task performance",
+   "title": "Directness / backtracking (tree tests and any hierarchy)",
+   "needsText": "path per P",
+   "output": "stacked bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "paths"
+   ]
+  },
+  {
+   "id": "A9",
+   "group": "Task performance",
+   "title": "Segment comparison of A1/A3 (device, experience, locale, accessibility group)",
+   "needsText": "A1/A3 + segment",
+   "output": "grouped bar",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "task_success|task_time",
+    "segment"
+   ]
+  },
+  {
+   "id": "A10",
+   "group": "Task performance",
+   "title": "Learnability over trials; time to criterion",
+   "needsText": "≥2 attempts per P",
+   "output": "line",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "attempts"
+   ]
+  },
+  {
+   "id": "A11",
+   "group": "Task performance",
+   "title": "Memorability (returning-user performance or recall score)",
+   "needsText": "performance after a break, or recall test",
+   "output": "bar",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "recall|returning_performance"
+   ]
+  },
+  {
+   "id": "A12",
+   "group": "Task performance",
+   "title": "Comprehension rate of icons/labels vs criterion",
+   "needsText": "right/wrong per element per P",
+   "output": "bar with criterion line",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "element_comprehension"
+   ]
+  },
+  {
+   "id": "A13",
+   "group": "Task performance",
+   "title": "Problem impact (people affected × time lost)",
+   "needsText": "issues with time lost per P",
+   "output": "ranked table",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "issues",
+    "issue_time_lost"
+   ]
+  },
+  {
+   "id": "A14",
+   "group": "Task performance",
+   "title": "Time-threshold attainment (% within the user's threshold)",
+   "needsText": "times + threshold from user",
+   "output": "bar with CI",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "task_time",
+    "time_threshold"
+   ]
+  },
+  {
+   "id": "A15",
+   "group": "Task performance",
+   "title": "Actions per task vs optimum; % at optimum",
+   "needsText": "clicks/steps per P + optimum",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "action_counts",
+    "optimal_actions"
+   ]
+  },
+  {
+   "id": "A16",
+   "group": "Task performance",
+   "title": "Lostness",
+   "needsText": "pages visited, unique, optimum per P per task",
+   "output": "bar with 0.4/0.5 bands",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "pages_visited",
+    "optimal_actions"
+   ]
+  },
+  {
+   "id": "A17",
+   "group": "Task performance",
+   "title": "Efficiency (success ÷ time), per task and per participant",
+   "needsText": "A1 + A3",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "task_success",
+    "task_time"
+   ]
+  },
+  {
+   "id": "A18",
+   "group": "Task performance",
+   "title": "Issues by task (by severity)",
+   "needsText": "issue list tagged with task",
+   "output": "stacked bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "issues",
+    "issue_task"
+   ]
+  },
+  {
+   "id": "A19",
+   "group": "Task performance",
+   "title": "Expectation vs experience quadrant",
+   "needsText": "pre-task expectation + post-task rating",
+   "output": "scatter, 4 quadrants",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "pre_task_expectation",
+    "post_task_rating"
+   ]
+  },
+  {
+   "id": "A20",
+   "group": "Task performance",
+   "title": "Comparison to expert performance",
+   "needsText": "expert time/steps per task",
+   "output": "bar ratio",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "task_time|action_counts",
+    "expert_benchmark"
+   ]
+  },
+  {
+   "id": "A21",
+   "group": "Task performance",
+   "title": "Navigation vs search share",
+   "needsText": "method per P per task",
+   "output": "stacked bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "nav_method"
+   ]
+  },
+  {
+   "id": "B1",
+   "group": "Questionnaires and scores",
+   "title": "SUS score, grade/percentile (with source), CI; stability note below ~12",
+   "needsText": "10 SUS items per P",
+   "output": "gauge, table",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "sus_items"
+   ]
+  },
+  {
+   "id": "B2",
+   "group": "Questionnaires and scores",
+   "title": "NPS with CI per component; \"not a usability measure\" note",
+   "needsText": "0–10 per P",
+   "output": "stacked bar",
+   "sources": [
+    "TA",
+    "ART"
+   ],
+   "needs": [
+    "nps_score"
+   ]
+  },
+  {
+   "id": "B3",
+   "group": "Questionnaires and scores",
+   "title": "Satisfaction / CSAT: distribution, CSAT = share of 4–5 answers (top-2) with CI, bottom-box, reference anchor; prefer ratings taken right after the action",
+   "needsText": "rating per P + scale",
+   "output": "bar",
+   "sources": [
+    "TA",
+    "N",
+    "ART"
+   ],
+   "needs": [
+    "satisfaction_rating"
+   ]
+  },
+  {
+   "id": "B4",
+   "group": "Questionnaires and scores",
+   "title": "Standard scales (UMUX-Lite, ASQ, PSSUQ/CSUQ, QUIS, USE) incl. subscales",
+   "needsText": "items per P",
+   "output": "bar / radar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "standard_scale_items"
+   ]
+  },
+  {
+   "id": "B5",
+   "group": "Questionnaires and scores",
+   "title": "Custom Likert items (distribution, mean ± CI, top-2 box; reversed items handled)",
+   "needsText": "Likert answers",
+   "output": "diverging bar",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "likert_items"
+   ]
+  },
+  {
+   "id": "B6",
+   "group": "Questionnaires and scores",
+   "title": "Attribute ratings (trust, appeal, credibility, confidence…)",
+   "needsText": "ratings per attribute",
+   "output": "bar / radar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "attribute_ratings"
+   ]
+  },
+  {
+   "id": "B7",
+   "group": "Questionnaires and scores",
+   "title": "Intent (return, recommend, buy)",
+   "needsText": "rating per P",
+   "output": "bar",
+   "sources": [],
+   "needs": [
+    "intent_rating"
+   ]
+  },
+  {
+   "id": "B8",
+   "group": "Questionnaires and scores",
+   "title": "Score by segment",
+   "needsText": "any B score + segment",
+   "output": "grouped bar",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "segment",
+    "sus_items|nps_score|satisfaction_rating|standard_scale_items|likert_items"
+   ]
+  },
+  {
+   "id": "B9",
+   "group": "Questionnaires and scores",
+   "title": "Preference between systems/designs (+ order caveat)",
+   "needsText": "choice per P",
+   "output": "bar with CI",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "preference_choice"
+   ]
+  },
+  {
+   "id": "B10",
+   "group": "Questionnaires and scores",
+   "title": "Reaction cards / chosen words (frequency, positive share)",
+   "needsText": "words per P",
+   "output": "word bars",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "reaction_words"
+   ]
+  },
+  {
+   "id": "B11",
+   "group": "Questionnaires and scores",
+   "title": "Customer Effort Score (mean rating; scale direction stated)",
+   "needsText": "effort rating per P",
+   "output": "bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "effort_rating"
+   ]
+  },
+  {
+   "id": "C1",
+   "group": "Surveys",
+   "title": "Response overview (n, completion, drop-off; self-selection note)",
+   "needsText": "export with blanks/timestamps",
+   "output": "table, funnel",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "survey_export"
+   ]
+  },
+  {
+   "id": "C2",
+   "group": "Surveys",
+   "title": "Single-choice distribution + CI",
+   "needsText": "one choice question",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "choice_question"
+   ]
+  },
+  {
+   "id": "C3",
+   "group": "Surveys",
+   "title": "Multi-choice frequency",
+   "needsText": "multi-choice",
+   "output": "bar",
+   "sources": [],
+   "needs": [
+    "multi_choice_question"
+   ]
+  },
+  {
+   "id": "C4",
+   "group": "Surveys",
+   "title": "Cross-tab + χ² / Fisher",
+   "needsText": "two categorical questions",
+   "output": "heatmap",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "two_categorical"
+   ]
+  },
+  {
+   "id": "C5",
+   "group": "Surveys",
+   "title": "Ranking (mean rank)",
+   "needsText": "ranking answers",
+   "output": "bar",
+   "sources": [],
+   "needs": [
+    "ranking_question"
+   ]
+  },
+  {
+   "id": "C6",
+   "group": "Surveys",
+   "title": "Open-text themes (coded), positive/negative ratio",
+   "needsText": "open answers",
+   "output": "theme table + quotes",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "open_text"
+   ]
+  },
+  {
+   "id": "C7",
+   "group": "Surveys",
+   "title": "Respondent profile",
+   "needsText": "demographic columns",
+   "output": "tiles",
+   "sources": [],
+   "needs": [
+    "demographics"
+   ]
+  },
+  {
+   "id": "C8",
+   "group": "Surveys",
+   "title": "Awareness / comprehension (corrected with distractor items)",
+   "needsText": "aware yes/no per item (+ distractors)",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "awareness_items"
+   ]
+  },
+  {
+   "id": "C9",
+   "group": "Surveys",
+   "title": "Awareness–usefulness gap",
+   "needsText": "awareness + usefulness per feature",
+   "output": "paired bars by gap",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "awareness_items",
+    "usefulness_items"
+   ]
+  },
+  {
+   "id": "D1",
+   "group": "Qualitative",
+   "title": "Themes with frequency (how many P)",
+   "needsText": "transcripts/notes per P",
+   "output": "theme table",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "transcripts|notes"
+   ]
+  },
+  {
+   "id": "D2",
+   "group": "Qualitative",
+   "title": "Pain points: frequency × severity (× persistence), % P per issue with CI",
+   "needsText": "issues per P + severity",
+   "output": "priority matrix",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "issues",
+    "issue_participant",
+    "issue_severity"
+   ]
+  },
+  {
+   "id": "D3",
+   "group": "Qualitative",
+   "title": "Severity ratings as the user rated them (0–4, 3-level, multi-factor); raters, mean, spread",
+   "needsText": "issue list + ratings",
+   "output": "table",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "issues",
+    "issue_severity"
+   ]
+  },
+  {
+   "id": "D4",
+   "group": "Qualitative",
+   "title": "Quotes per theme (illustration, not frequency)",
+   "needsText": "transcripts",
+   "output": "quote cards",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "transcripts"
+   ]
+  },
+  {
+   "id": "D5",
+   "group": "Qualitative",
+   "title": "Mental models: expectation vs reality (observed behaviour preferred)",
+   "needsText": "transcripts + observations",
+   "output": "two-column table",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "transcripts",
+    "observations"
+   ]
+  },
+  {
+   "id": "D6",
+   "group": "Qualitative",
+   "title": "Journey map",
+   "needsText": "stage notes",
+   "output": "journey chart",
+   "sources": [],
+   "needs": [
+    "stage_notes"
+   ]
+  },
+  {
+   "id": "D7",
+   "group": "Qualitative",
+   "title": "Personas / archetypes",
+   "needsText": "≥5 P with behaviour notes",
+   "output": "persona cards",
+   "sources": [],
+   "needs": [
+    "behaviour_notes"
+   ]
+  },
+  {
+   "id": "D8",
+   "group": "Qualitative",
+   "title": "Jobs to be done",
+   "needsText": "goals in transcripts",
+   "output": "JTBD table",
+   "sources": [],
+   "needs": [
+    "transcripts|notes",
+    "goals"
+   ]
+  },
+  {
+   "id": "D9",
+   "group": "Qualitative",
+   "title": "Diary: change over time",
+   "needsText": "dated entries per P",
+   "output": "timeline",
+   "sources": [],
+   "needs": [
+    "diary_entries"
+   ]
+  },
+  {
+   "id": "D10",
+   "group": "Qualitative",
+   "title": "Say vs do (incl. questionnaire claim vs observed use)",
+   "needsText": "statements + behaviour",
+   "output": "table",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "transcripts|survey_export",
+    "observations"
+   ]
+  },
+  {
+   "id": "D11",
+   "group": "Qualitative",
+   "title": "Tone of remarks (positive / critical / neutral) per task or screen; frustration moments",
+   "needsText": "coded remarks",
+   "output": "stacked bar",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "coded_remarks|transcripts"
+   ]
+  },
+  {
+   "id": "D12",
+   "group": "Qualitative",
+   "title": "Critical incidents (best and worst moments, with context)",
+   "needsText": "incident notes",
+   "output": "table",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "incidents"
+   ]
+  },
+  {
+   "id": "D13",
+   "group": "Qualitative",
+   "title": "Locale and translation issues",
+   "needsText": "issues tagged by locale",
+   "output": "table",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "issues",
+    "locale"
+   ]
+  },
+  {
+   "id": "D14",
+   "group": "Qualitative",
+   "title": "Unique issues by severity and iteration",
+   "needsText": "issue list (+ iteration)",
+   "output": "stacked bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "issues",
+    "issue_severity|issue_iteration"
+   ]
+  },
+  {
+   "id": "D15",
+   "group": "Qualitative",
+   "title": "Issues per participant",
+   "needsText": "issue × participant matrix",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "issues",
+    "issue_participant"
+   ]
+  },
+  {
+   "id": "D16",
+   "group": "Qualitative",
+   "title": "Issues by category",
+   "needsText": "issues with category",
+   "output": "stacked bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "issues",
+    "issue_category"
+   ]
+  },
+  {
+   "id": "E1",
+   "group": "Behaviour data",
+   "title": "Funnel conversion and drop-off per step (bounce/exit)",
+   "needsText": "step counts",
+   "output": "funnel",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "step_counts"
+   ]
+  },
+  {
+   "id": "E2",
+   "group": "Behaviour data",
+   "title": "Session outcome split",
+   "needsText": "sessions + outcome",
+   "output": "doughnut",
+   "sources": [],
+   "needs": [
+    "session_outcomes"
+   ]
+  },
+  {
+   "id": "E3",
+   "group": "Behaviour data",
+   "title": "Issue frequency across sessions",
+   "needsText": "coded sessions",
+   "output": "bar",
+   "sources": [],
+   "needs": [
+    "coded_sessions"
+   ]
+  },
+  {
+   "id": "E4",
+   "group": "Behaviour data",
+   "title": "Device / platform split",
+   "needsText": "device per session",
+   "output": "doughnut",
+   "sources": [],
+   "needs": [
+    "device"
+   ]
+  },
+  {
+   "id": "E5",
+   "group": "Behaviour data",
+   "title": "A/B difference + CI + test (between/within noted)",
+   "needsText": "conversions/means and n per variant",
+   "output": "bar with CI",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "variant_results"
+   ]
+  },
+  {
+   "id": "E6",
+   "group": "Behaviour data",
+   "title": "Before/after (paired t on matched days; any metric)",
+   "needsText": "same metric, two periods",
+   "output": "slope / bar",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "two_periods"
+   ]
+  },
+  {
+   "id": "E7",
+   "group": "Behaviour data",
+   "title": "Clicks / attention per element (χ² on counts; near-miss clicks; on screenshot)",
+   "needsText": "click counts",
+   "output": "bar / overlay",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "click_counts"
+   ]
+  },
+  {
+   "id": "E8",
+   "group": "Behaviour data",
+   "title": "Feature usage and never-used features (Pareto)",
+   "needsText": "usage log per feature",
+   "output": "Pareto",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "feature_usage_log"
+   ]
+  },
+  {
+   "id": "E9",
+   "group": "Behaviour data",
+   "title": "Error-message Pareto",
+   "needsText": "logged errors by type",
+   "output": "Pareto",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "error_log"
+   ]
+  },
+  {
+   "id": "E10",
+   "group": "Behaviour data",
+   "title": "Feedback / complaint classification and trend",
+   "needsText": "tickets/feedback",
+   "output": "stacked bar, line",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "feedback_tickets"
+   ]
+  },
+  {
+   "id": "E11",
+   "group": "Behaviour data",
+   "title": "Response-time bands (0.1 / 1 / 10 s)",
+   "needsText": "wait times per step",
+   "output": "stacked bar",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "wait_times"
+   ]
+  },
+  {
+   "id": "E12",
+   "group": "Behaviour data",
+   "title": "Eye-tracking per area (dwell, time to first fixation, hit ratio)",
+   "needsText": "AOI data",
+   "output": "table, heatmap",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "eye_tracking"
+   ]
+  },
+  {
+   "id": "E13",
+   "group": "Behaviour data",
+   "title": "Physiological measures (only if supplied)",
+   "needsText": "sensor data",
+   "output": "line",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "physiological"
+   ]
+  },
+  {
+   "id": "F1",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Card-sort similarity matrix",
+   "needsText": "card → group per P",
+   "output": "heatmap",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "card_sort_open"
+   ]
+  },
+  {
+   "id": "F2",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Clustering into categories + goodness of fit",
+   "needsText": "F1 data",
+   "output": "dendrogram",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "card_sort_open"
+   ]
+  },
+  {
+   "id": "F3",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Heuristic violations by heuristic and severity; found by k of n evaluators; positives",
+   "needsText": "evaluators' issue lists",
+   "output": "matrix",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "evaluator_issues"
+   ]
+  },
+  {
+   "id": "F4",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Competitor feature comparison",
+   "needsText": "features per competitor",
+   "output": "grid tiles",
+   "sources": [],
+   "needs": [
+    "competitor_features"
+   ]
+  },
+  {
+   "id": "F5",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Competitor strengths / weaknesses",
+   "needsText": "notes",
+   "output": "table",
+   "sources": [],
+   "needs": [
+    "competitor_notes"
+   ]
+  },
+  {
+   "id": "F6",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Evaluator overlap and aggregation curve",
+   "needsText": "≥2 evaluators' lists",
+   "output": "line",
+   "sources": [
+    "N",
+    "TA"
+   ],
+   "needs": [
+    "evaluator_issues",
+    "multiple_evaluators"
+   ]
+  },
+  {
+   "id": "F7",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Competitor benchmark (same tasks, same metrics)",
+   "needsText": "A/B metrics per product",
+   "output": "grouped bar",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "competitor_metrics"
+   ]
+  },
+  {
+   "id": "F8",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "MDS map of cards (with stress)",
+   "needsText": "F1 data",
+   "output": "scatter",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "card_sort_open"
+   ]
+  },
+  {
+   "id": "F9",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Closed card-sort agreement per card",
+   "needsText": "card → fixed category per P",
+   "output": "table",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "card_sort_closed"
+   ]
+  },
+  {
+   "id": "F10",
+   "group": "Card sorting, heuristics, competition, accessibility",
+   "title": "Accessibility compliance (violations per page, pass/fail)",
+   "needsText": "audit results",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "accessibility_audit"
+   ]
+  },
+  {
+   "id": "G1",
+   "group": "Across the study",
+   "title": "Participant overview",
+   "needsText": "participant table",
+   "output": "tiles",
+   "sources": [],
+   "needs": [
+    "participants"
+   ]
+  },
+  {
+   "id": "G2",
+   "group": "Across the study",
+   "title": "What the sample supports: CI widths, needed-n hint, method minimums",
+   "needsText": "n per measure",
+   "output": "callout",
+   "sources": [
+    "TA",
+    "N"
+   ],
+   "needs": [
+    "participants"
+   ]
+  },
+  {
+   "id": "G3",
+   "group": "Across the study",
+   "title": "Problem → solution → result map (design rationale)",
+   "needsText": "findings + solutions + results",
+   "output": "flow",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "findings",
+    "solutions"
+   ]
+  },
+  {
+   "id": "G4",
+   "group": "Across the study",
+   "title": "Finding confidence: sources, participants and methods behind each finding; each number paired with its explaining theme",
+   "needsText": "evidence index",
+   "output": "table",
+   "sources": [
+    "ART",
+    "N"
+   ],
+   "needs": [
+    "findings"
+   ]
+  },
+  {
+   "id": "G5",
+   "group": "Across the study",
+   "title": "Recommendation priority (impact × effort from the user)",
+   "needsText": "rated recommendations",
+   "output": "matrix",
+   "sources": [],
+   "needs": [
+    "recommendations_rated"
+   ]
+  },
+  {
+   "id": "G6",
+   "group": "Across the study",
+   "title": "Data-cleaning note (excluded records and why)",
+   "needsText": "any cleaned data",
+   "output": "callout",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "cleaned_data"
+   ]
+  },
+  {
+   "id": "G7",
+   "group": "Across the study",
+   "title": "Goal attainment / target scorecard (unacceptable–minimum–target–exceeds; % meeting all goals)",
+   "needsText": "targets set **before** the study",
+   "output": "bands, table",
+   "sources": [
+    "N",
+    "TA"
+   ],
+   "needs": [
+    "targets"
+   ]
+  },
+  {
+   "id": "G8",
+   "group": "Across the study",
+   "title": "Problem discovery curve, 1−(1−p)ⁿ",
+   "needsText": "issue × participant matrix",
+   "output": "line",
+   "sources": [
+    "N",
+    "TA"
+   ],
+   "needs": [
+    "issues",
+    "issue_participant"
+   ]
+  },
+  {
+   "id": "G9",
+   "group": "Across the study",
+   "title": "Change per version (regressions flagged)",
+   "needsText": "same metrics over iterations",
+   "output": "slope / table",
+   "sources": [
+    "N"
+   ],
+   "needs": [
+    "iterations"
+   ]
+  },
+  {
+   "id": "G10",
+   "group": "Across the study",
+   "title": "ROI / cost-benefit (inputs and assumptions shown)",
+   "needsText": "volumes and costs from user",
+   "output": "table",
+   "sources": [
+    "N",
+    "TA"
+   ],
+   "needs": [
+    "costs"
+   ]
+  },
+  {
+   "id": "G11",
+   "group": "Across the study",
+   "title": "Percentage-based combined score (user weights)",
+   "needsText": "≥2 metrics per P",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "metric_weights",
+    "task_success|task_time|satisfaction_rating"
+   ]
+  },
+  {
+   "id": "G12",
+   "group": "Across the study",
+   "title": "z-score comparison of designs (≥10 per condition)",
+   "needsText": "metrics per P per design",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "multiple_designs"
+   ]
+  },
+  {
+   "id": "G13",
+   "group": "Across the study",
+   "title": "Single Usability Metric (SUM)",
+   "needsText": "success, time (+spec), errors, satisfaction per task",
+   "output": "bar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "task_success",
+    "task_time",
+    "errors",
+    "satisfaction_rating|post_task_rating"
+   ]
+  },
+  {
+   "id": "G14",
+   "group": "Across the study",
+   "title": "Usability scorecard (task × metric; \"liked but failed\" flags)",
+   "needsText": "A and B data per task",
+   "output": "matrix, radar",
+   "sources": [
+    "TA"
+   ],
+   "needs": [
+    "task_success",
+    "post_task_rating|satisfaction_rating"
+   ]
+  },
+  {
+   "id": "G15",
+   "group": "Across the study",
+   "title": "Metric quality check (flags raw totals, vanity metrics)",
+   "needsText": "reported metrics",
+   "output": "callout",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "metrics_list"
+   ]
+  },
+  {
+   "id": "G16",
+   "group": "Across the study",
+   "title": "Leading vs lagging tags with time-lag evidence",
+   "needsText": "time series",
+   "output": "table",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "time_series"
+   ]
+  },
+  {
+   "id": "G17",
+   "group": "Across the study",
+   "title": "HEART result map (Happiness, Engagement, Adoption, Retention, Task success)",
+   "needsText": "findings tagged by HEART",
+   "output": "grid",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "findings",
+    "heart_tags"
+   ]
+  },
+  {
+   "id": "H1",
+   "group": "Product metrics and growth",
+   "title": "AARRR / RARRA stage funnel",
+   "needsText": "counts per stage",
+   "output": "funnel",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "stage_counts"
+   ]
+  },
+  {
+   "id": "H2",
+   "group": "Product metrics and growth",
+   "title": "North Star metric tree with inputs",
+   "needsText": "NSM + input metrics",
+   "output": "tree",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "north_star"
+   ]
+  },
+  {
+   "id": "H3",
+   "group": "Product metrics and growth",
+   "title": "Activation rate",
+   "needsText": "sign-ups + \"key action\" definition",
+   "output": "bar / line",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "signups",
+    "key_action_events"
+   ]
+  },
+  {
+   "id": "H4",
+   "group": "Product metrics and growth",
+   "title": "Time to value (median, users not yet there)",
+   "needsText": "sign-up and key-action times",
+   "output": "line / box",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "signups",
+    "key_action_events"
+   ]
+  },
+  {
+   "id": "H5",
+   "group": "Product metrics and growth",
+   "title": "Cohort retention (triangle, curves, day-N); acquisition cohorts and behavioural cohorts (did X vs did not)",
+   "needsText": "user activity by date",
+   "output": "heatmap, lines",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "activity_by_date"
+   ]
+  },
+  {
+   "id": "H6",
+   "group": "Product metrics and growth",
+   "title": "Churn and net adds",
+   "needsText": "users/customers by period",
+   "output": "line, bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "users_by_period"
+   ]
+  },
+  {
+   "id": "H7",
+   "group": "Product metrics and growth",
+   "title": "Stickiness (DAU/MAU)",
+   "needsText": "daily/monthly actives",
+   "output": "line",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "daily_monthly_actives"
+   ]
+  },
+  {
+   "id": "H8",
+   "group": "Product metrics and growth",
+   "title": "Feature adoption (breadth × frequency; first-time share; usage frequency by segment)",
+   "needsText": "feature use per user",
+   "output": "scatter",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "feature_use_per_user"
+   ]
+  },
+  {
+   "id": "H9",
+   "group": "Product metrics and growth",
+   "title": "Revenue and monetisation (MRR/ARR, ARPA, revenue per user, expansion, net revenue churn, NRR, ACV, gross margin)",
+   "needsText": "revenue data",
+   "output": "line",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "revenue"
+   ]
+  },
+  {
+   "id": "H10",
+   "group": "Product metrics and growth",
+   "title": "Unit economics (customer lifetime = 1 ÷ churn, CLV = lifetime × ARPA, CAC, CLV:CAC)",
+   "needsText": "revenue, costs, retention",
+   "output": "table",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "revenue",
+    "acquisition_costs",
+    "users_by_period"
+   ]
+  },
+  {
+   "id": "H11",
+   "group": "Product metrics and growth",
+   "title": "Acquisition by channel (acquisition rate, traffic sources, conversion, landing-page conversion, CTR, bounce, CPA/CPC/CPM)",
+   "needsText": "traffic by channel",
+   "output": "grouped bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "channel_traffic"
+   ]
+  },
+  {
+   "id": "H12",
+   "group": "Product metrics and growth",
+   "title": "Referral rate, referral conversion and viral coefficient",
+   "needsText": "invites and conversions",
+   "output": "bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "referrals"
+   ]
+  },
+  {
+   "id": "H13",
+   "group": "Product metrics and growth",
+   "title": "Engagement depth (actions per user, time between actions, session length and frequency)",
+   "needsText": "events per user with timestamps",
+   "output": "box / histogram",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "events_per_user"
+   ]
+  },
+  {
+   "id": "H14",
+   "group": "Product metrics and growth",
+   "title": "Subscription health (trial-to-paid, renewal, upgrade, retained time)",
+   "needsText": "plan and billing events per user",
+   "output": "bar / line",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "billing_events"
+   ]
+  },
+  {
+   "id": "H15",
+   "group": "Product metrics and growth",
+   "title": "Product-qualified leads / accounts (users or accounts crossing the user's usage threshold)",
+   "needsText": "usage per user/account + threshold",
+   "output": "bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "feature_use_per_user",
+    "usage_threshold"
+   ]
+  },
+  {
+   "id": "H16",
+   "group": "Product metrics and growth",
+   "title": "Behavioural referral (\"recommended in the past two weeks?\" yes/no, or tracked shares)",
+   "needsText": "survey item or share events",
+   "output": "bar with CI",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "referral_question|referrals"
+   ]
+  },
+  {
+   "id": "I1",
+   "group": "Onboarding",
+   "title": "Onboarding completion and step drop-off",
+   "needsText": "step reached per user",
+   "output": "funnel",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "onboarding_steps"
+   ]
+  },
+  {
+   "id": "I2",
+   "group": "Onboarding",
+   "title": "Time to first key action (onboarding view of H4)",
+   "needsText": "event times",
+   "output": "box",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "signups",
+    "key_action_events"
+   ]
+  },
+  {
+   "id": "I3",
+   "group": "Onboarding",
+   "title": "Completers vs non-completers: activation and retention",
+   "needsText": "completion + retention per user",
+   "output": "grouped bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "onboarding_steps",
+    "activity_by_date"
+   ]
+  },
+  {
+   "id": "I4",
+   "group": "Onboarding",
+   "title": "Onboarding pattern inventory",
+   "needsText": "screens/flows",
+   "output": "grid tiles",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "onboarding_screens"
+   ]
+  },
+  {
+   "id": "I5",
+   "group": "Onboarding",
+   "title": "Guidance engagement (tours, tooltips: seen, dismissed, completed)",
+   "needsText": "guidance events",
+   "output": "stacked bar",
+   "sources": [
+    "ART"
+   ],
+   "needs": [
+    "guidance_events"
+   ]
+  }
+ ]
+}

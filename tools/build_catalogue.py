@@ -68,7 +68,8 @@ def parse(md):
 
 
 def main():
-    src = open(os.path.join(HERE, "catalogue_source.md"), encoding="utf-8").read()
+    with open(os.path.join(HERE, "catalogue_source.md"), encoding="utf-8") as f:
+        src = f.read()
     rows = parse(src)
     missing = set(NEEDS) - {r["id"] for r in rows}
     assert not missing, f"NEEDS for unknown ids: {missing}"

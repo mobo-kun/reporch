@@ -1,0 +1,14 @@
+Reporch
+Copyright (c) 2026 Mobo · Behdad Morsalpoor (بهداد مرسل‌پور)
+Licensed under the MIT License (see LICENSE).
+
+This product bundles third-party files, each under its own licence:
+
+- Apache ECharts 6.1.0 (vendor/echarts/), Apache License 2.0. See vendor/echarts/LICENSE and
+  vendor/echarts/NOTICE. Copyright The Apache Software Foundation.
+- Vazirmatn 33.0.3 (vendor/vazirmatn/), SIL Open Font License 1.1. See vendor/vazirmatn/OFL.txt.
+  Copyright Saber Rastikerdar.
+
+The analyses catalogue paraphrases ideas from: Tullis, T. & Albert, B., Measuring the User Experience
+(2nd ed., 2013); Nielsen, J., Usability Engineering (1993); and product-metrics articles by Product
+Compass, UX Collective, Design With Value, Appcues and UX Design Institute. No text is copied.

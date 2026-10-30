@@ -86,6 +86,12 @@ class DemoRenderTest(unittest.TestCase):
         self.assertEqual(r.num("T1"), "T1")                                    # codes keep Latin digits
         self.assertEqual(render.Renderer(self.doc, "en", self.project).num(1.0, "percent"), "100%")
 
+    def test_overlay_hidden_outside_phones(self):
+        with open(os.path.join(ROOT, "templates", "report.css"), encoding="utf-8") as f:
+            css = f.read()
+        top_level = css.split("@media")[0]
+        self.assertIn(".scrim { display: none; }", top_level)                 # B-016
+
     def test_markdown(self):
         md = self.read("report.en.md")
         self.assertTrue(md.startswith("# Basket checkout usability test"))

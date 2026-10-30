@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 640" width="360" height="640" font-family="Vazirmatn, system-ui, sans-serif">
+  <title>Fictional mockup: old Basket checkout on mobile</title>
+  <rect width="360" height="640" fill="#F4F1FA"/>
+  <rect x="40" y="20" width="280" height="600" rx="34" fill="#1C1B22"/>
+  <rect x="52" y="32" width="256" height="576" rx="24" fill="#FFFFFF"/>
+  <rect x="140" y="40" width="80" height="8" rx="4" fill="#1C1B22"/>
+  <text x="72" y="84" font-size="17" font-weight="800" fill="#1C1B22">Checkout</text>
+  <text x="72" y="104" font-size="10" fill="#6B6B76">Basket · 4 items</text>
+  <g font-size="11" fill="#1C1B22">
+    <rect x="68" y="118" width="224" height="40" rx="8" fill="#F7F7F8"/><text x="80" y="142">Milk 1 L</text><text x="252" y="142">2.40</text>
+    <rect x="68" y="164" width="224" height="40" rx="8" fill="#F7F7F8"/><text x="80" y="188">Bread</text><text x="252" y="188">1.90</text>
+  </g>
+  <text x="72" y="232" font-size="12" font-weight="700" fill="#1C1B22">Delivery</text>
+  <g font-size="10" fill="#9C9CA5">
+    <rect x="68" y="242" width="68" height="30" rx="6" fill="#ECECEE"/><text x="80" y="261">10–12</text>
+    <rect x="146" y="242" width="68" height="30" rx="6" fill="#ECECEE"/><text x="158" y="261">12–14</text>
+    <rect x="224" y="242" width="68" height="30" rx="6" fill="#ECECEE"/><text x="236" y="261">14–16</text>
+  </g>
+  <text x="72" y="296" font-size="9" fill="#9C9CA5">All slots look disabled (they aren't)</text>
+  <rect x="68" y="312" width="224" height="34" rx="8" fill="#FFFFFF" stroke="#E2E2E6"/>
+  <text x="80" y="334" font-size="11" fill="#6B6B76">More options ▾</text>
+  <text x="72" y="366" font-size="9" fill="#C04043">Discount code is hidden in here</text>
+  <text x="72" y="398" font-size="12" font-weight="700" fill="#1C1B22">Payment</text>
+  <rect x="68" y="408" width="224" height="40" rx="8" fill="#F7F7F8"/><text x="80" y="432" font-size="11" fill="#1C1B22">Card •••• 4242</text>
+  <rect x="68" y="456" width="224" height="40" rx="8" fill="#F7F7F8"/><text x="80" y="480" font-size="11" fill="#1C1B22">Total 12.80</text>
+  <line x1="52" y1="560" x2="308" y2="560" stroke="#E54C50" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="72" y="578" font-size="9" fill="#C04043">screen ends here: Pay button is below</text>
+  <rect x="68" y="590" width="224" height="40" rx="10" fill="#754EC6" opacity=".35"/>
+  <text x="180" y="615" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" opacity=".7">Pay</text>
+  <text x="180" y="636" font-size="9" fill="#6B6B76" text-anchor="middle">Fictional demo mockup</text>
+</svg>

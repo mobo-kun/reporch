@@ -142,12 +142,18 @@ class ProjectTest(unittest.TestCase):
         self.assertEqual(project.snapshot(self.path), 0)          # nothing to keep yet
         with open(os.path.join(self.path, "content.json"), "w") as f:
             json.dump(minimal_doc(), f)
-        open(os.path.join(self.path, "out", "report.en.html"), "w").write("v1")
+        self._write(os.path.join(self.path, "out", "report.en.html"), "v1")
         self.assertEqual(project.snapshot(self.path), 1)
-        open(os.path.join(self.path, "out", "report.en.html"), "w").write("v2")
+        self._write(os.path.join(self.path, "out", "report.en.html"), "v2")
         self.assertEqual(project.snapshot(self.path), 2)
-        v1 = open(os.path.join(self.path, "versions", "v1", "out", "report.en.html")).read()
+        with open(os.path.join(self.path, "versions", "v1", "out", "report.en.html")) as f:
+            v1 = f.read()
         self.assertEqual(v1, "v1")
+
+    @staticmethod
+    def _write(path, text):
+        with open(path, "w") as f:
+            f.write(text)
 
     def test_dependencies_are_recorded(self):
         project.add_dependency(self.path, "Which SUS benchmark?", "68")

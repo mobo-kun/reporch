@@ -1435,15 +1435,27 @@
     },
     {
      "type": "image",
+     "src": "assets/images/checkout-old.svg",
      "caption": {
-      "en": "The old checkout on mobile",
-      "fa": "پرداخت قدیمی در موبایل"
+      "en": "The old checkout on mobile (fictional mockup): the discount field is hidden and the Pay button is below the fold",
+      "fa": "پرداخت قدیمی در موبایل (طرح خیالی): فیلد تخفیف پنهان است و دکمه‌ی پرداخت زیر لبه‌ی صفحه"
+     },
+     "alt": {
+      "en": "Mockup of the old mobile checkout",
+      "fa": "طرح پرداخت قدیمی در موبایل"
+     }
+    },
+    {
+     "type": "image",
+     "caption": {
+      "en": "Where people left the funnel",
+      "fa": "جایی که افراد از قیف خارج شدند"
      },
      "placeholder": {
-      "kind": "screenshot",
+      "kind": "analytics",
       "description": {
-       "en": "Mobile screenshot of the old checkout's payment step, scrolled to the top, showing that the Pay button is not visible and the discount field is collapsed under “More options”.",
-       "fa": "اسکرین‌شات موبایل از گام پرداختِ نسخه‌ی قدیم، در بالای صفحه، که نشان دهد دکمه‌ی پرداخت دیده نمی‌شود و فیلد تخفیف زیر «گزینه‌های بیشتر» بسته است."
+       "en": "Screenshot of the analytics funnel for the 30 days before the redesign (Basket → Delivery → Payment → Paid), with the drop percentages visible.",
+       "fa": "اسکرین‌شات قیف ابزار تحلیل برای ۳۰ روزِ پیش از طراحی دوباره (سبد ← تحویل ← پرداخت ← پرداخت‌شده) با درصدهای ریزش."
       }
      }
     }
@@ -1499,16 +1511,14 @@
     },
     {
      "type": "image",
+     "src": "assets/images/checkout-new.svg",
      "caption": {
-      "en": "The new checkout on mobile",
-      "fa": "پرداخت جدید در موبایل"
+      "en": "The new checkout on mobile (fictional mockup): discount field open, Pay button pinned",
+      "fa": "پرداخت جدید در موبایل (طرح خیالی): فیلد تخفیف باز و دکمه‌ی پرداخت ثابت"
      },
-     "placeholder": {
-      "kind": "design",
-      "description": {
-       "en": "The redesigned payment step on mobile: discount field open, Pay button pinned to the bottom.",
-       "fa": "گام پرداختِ طراحی جدید در موبایل: فیلد تخفیف باز و دکمه‌ی پرداخت ثابت در پایین صفحه."
-      }
+     "alt": {
+      "en": "Mockup of the redesigned mobile checkout",
+      "fa": "طرح پرداخت جدید در موبایل"
      }
     }
    ]

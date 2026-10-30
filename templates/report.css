@@ -26,6 +26,7 @@ section.sec { padding: 28px 0 12px; scroll-margin-top: 16px; max-width: var(--me
 section.sec > section.sec { padding-top: 12px; }
 section.sec.wide { max-width: none; }
 .print-toc { display: none; }
+.scrim { display: none; }
 
 /* Phones: the TOC becomes a drawer. */
 @media (max-width: 960px) {

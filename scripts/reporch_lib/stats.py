@@ -299,8 +299,12 @@ def two_proportions(s1, n1, s2, n2):
 
 
 def correlation(x, y):
-    n = len(x)
-    r = statistics.correlation([float(v) for v in x], [float(v) for v in y])
+    xs, ys = [float(v) for v in x], [float(v) for v in y]
+    n = len(xs)
+    mx, my = statistics.fmean(xs), statistics.fmean(ys)
+    sxy = sum((a - mx) * (b - my) for a, b in zip(xs, ys))
+    sxx, syy = sum((a - mx) ** 2 for a in xs), sum((b - my) ** 2 for b in ys)
+    r = sxy / math.sqrt(sxx * syy)          # statistics.correlation needs Python 3.10
     t = r * math.sqrt((n - 2) / (1 - r * r)) if abs(r) < 1 else float("inf")
     return {"test": "Pearson", "r": r, "n": n, "p": t_sf2(t, n - 2) if math.isfinite(t) else 0.0,
             "note": "Correlation does not show cause."}

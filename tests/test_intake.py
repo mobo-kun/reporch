@@ -5,6 +5,11 @@ import tempfile
 import unittest
 import zipfile
 
+
+def write(path, text):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(text)
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 from reporch_lib import anonymise, catalogue, inputs, intake, project  # noqa: E402
@@ -57,14 +62,14 @@ class InputsTest(unittest.TestCase):
         self.assertEqual(r["tables"][0]["rows"], [["email", "score"], ["a@b.co", "", "9"]])
 
     def test_csv_semicolons_and_vtt(self):
-        p = os.path.join(self.d, "f.csv"); open(p, "w").write("q1;q2\nyes;3\n")
+        p = os.path.join(self.d, "f.csv"); write(p, "q1;q2\nyes;3\n")
         self.assertEqual(inputs.read(p)["tables"][0]["rows"], [["q1", "q2"], ["yes", "3"]])
         p = os.path.join(self.d, "t.vtt")
-        open(p, "w").write("WEBVTT\n\n00:00.000 --> 00:02.000\n<v P01>Hello there\n\n2\n00:02.000 --> 00:03.000\nHello there\n")
+        write(p, "WEBVTT\n\n00:00.000 --> 00:02.000\n<v P01>Hello there\n\n2\n00:02.000 --> 00:03.000\nHello there\n")
         self.assertEqual(inputs.read(p)["text"], "P01: Hello there\nHello there")
 
     def test_unsupported_types_explain_why(self):
-        p = os.path.join(self.d, "rec.mp4"); open(p, "w").write("x")
+        p = os.path.join(self.d, "rec.mp4"); write(p, "x")
         with self.assertRaisesRegex(ValueError, "v2"):
             inputs.read(p)
 
@@ -117,7 +122,7 @@ class IntakeTest(unittest.TestCase):
         root = tempfile.mkdtemp()
         path = project.init(root, "s")
         src = os.path.join(root, "notes.docx"); make_docx(src)
-        bad = os.path.join(root, "clip.mov"); open(bad, "w").write("x")
+        bad = os.path.join(root, "clip.mov"); write(bad, "x")
         res = intake.ingest(path, [src, bad], {"Sara Ahmadi": "P01"})
         self.assertEqual([r["status"] for r in res], ["ok", "skipped"])
         with open(os.path.join(path, "inputs", "clean", "notes.txt"), encoding="utf-8") as f:

@@ -342,20 +342,24 @@ def content(an, sus):
                 para("Before the redesign, fewer than a third of people who opened the basket paid. In the test, two things stopped people: the discount field and the Pay button.",
                      "پیش از طراحی دوباره، کمتر از یک‌سوم کسانی که سبد را باز می‌کردند پرداخت می‌کردند. در تست، دو چیز مانع افراد شد: فیلد تخفیف و دکمه‌ی پرداخت.", ["E4"]),
                 *place("AN9", "AN1", "AN2"), quote("E6"), quote("E7"), quote("E8"), *place("AN6", "AN7"),
-                {"type": "image", "caption": T("The old checkout on mobile", "پرداخت قدیمی در موبایل"),
-                 "placeholder": {"kind": "screenshot", "description": T(
-                     "Mobile screenshot of the old checkout's payment step, scrolled to the top, showing that the Pay button is not visible and the discount field is collapsed under “More options”.",
-                     "اسکرین‌شات موبایل از گام پرداختِ نسخه‌ی قدیم، در بالای صفحه، که نشان دهد دکمه‌ی پرداخت دیده نمی‌شود و فیلد تخفیف زیر «گزینه‌های بیشتر» بسته است.")}},
+                {"type": "image", "src": "assets/images/checkout-old.svg",
+                 "caption": T("The old checkout on mobile (fictional mockup): the discount field is hidden and the Pay button is below the fold",
+                              "پرداخت قدیمی در موبایل (طرح خیالی): فیلد تخفیف پنهان است و دکمه‌ی پرداخت زیر لبه‌ی صفحه"),
+                 "alt": T("Mockup of the old mobile checkout", "طرح پرداخت قدیمی در موبایل")},
+                {"type": "image", "caption": T("Where people left the funnel", "جایی که افراد از قیف خارج شدند"),
+                 "placeholder": {"kind": "analytics", "description": T(
+                     "Screenshot of the analytics funnel for the 30 days before the redesign (Basket → Delivery → Payment → Paid), with the drop percentages visible.",
+                     "اسکرین‌شات قیف ابزار تحلیل برای ۳۰ روزِ پیش از طراحی دوباره (سبد ← تحویل ← پرداخت ← پرداخت‌شده) با درصدهای ریزش.")}},
             ]},
             {"id": "solution", "role": "solution", "title": T("Solution", "راه‌حل"), "blocks": [
                 para("The redesign shows the discount field open by default, makes free delivery slots solid and selectable, and pins the Pay button to the bottom of the screen on mobile.",
                      "در طراحی جدید فیلد تخفیف به‌طور پیش‌فرض باز است، زمان‌های تحویلِ آزاد پررنگ و قابل‌انتخاب‌اند و دکمه‌ی پرداخت در موبایل به پایین صفحه چسبیده است."),
                 {"type": "flow", "steps": [{"text": T("Basket", "سبد"), "status": "ok"}, {"text": T("Delivery slot", "زمان تحویل"), "status": "ok"},
                                            {"text": T("Discount (open)", "تخفیف (باز)"), "status": "ok"}, {"text": T("Pay (pinned)", "پرداخت (ثابت)"), "status": "ok"}]},
-                {"type": "image", "caption": T("The new checkout on mobile", "پرداخت جدید در موبایل"),
-                 "placeholder": {"kind": "design", "description": T(
-                     "The redesigned payment step on mobile: discount field open, Pay button pinned to the bottom.",
-                     "گام پرداختِ طراحی جدید در موبایل: فیلد تخفیف باز و دکمه‌ی پرداخت ثابت در پایین صفحه.")}},
+                {"type": "image", "src": "assets/images/checkout-new.svg",
+                 "caption": T("The new checkout on mobile (fictional mockup): discount field open, Pay button pinned",
+                              "پرداخت جدید در موبایل (طرح خیالی): فیلد تخفیف باز و دکمه‌ی پرداخت ثابت"),
+                 "alt": T("Mockup of the redesigned mobile checkout", "طرح پرداخت جدید در موبایل")},
             ]},
             {"id": "result", "role": "result", "title": T("Result", "نتیجه"), "blocks": [
                 *place("AN10", "AN3", "AN4", "AN5", "AN8", "AN11", "AN13"), quote("E9"),
@@ -406,6 +410,10 @@ def main():
     for d in ("inputs/clean", "assets", "out", "versions"):
         os.makedirs(os.path.join(PROJECT, d), exist_ok=True)
     write_inputs()
+    images = os.path.join(PROJECT, "assets", "images")
+    os.makedirs(images, exist_ok=True)
+    for name in ("checkout-old.svg", "checkout-new.svg"):
+        shutil.copy2(os.path.join(ROOT, "tools", "demo-assets", name), images)
     an, sus = analyses()
     doc = content(an, sus)
     with open(os.path.join(PROJECT, "content.json"), "w", encoding="utf-8") as f:

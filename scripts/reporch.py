@@ -16,6 +16,9 @@
   reporch.py qa <project> [--no-layout]              (checks before delivery)
   reporch.py migrate <project> <report.html|.pdf> --lang fa   (existing report → draft content.json)
   reporch.py lossless <project>                      (is every part of the original in content.json?)
+  reporch.py settings update-check on|off            (only after the user agrees)
+  reporch.py update-check                            (newer version on GitHub? at most once a day)
+  reporch.py version
 """
 import argparse
 import json
@@ -23,7 +26,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from reporch_lib import catalogue, content, intake, migrate, pdf, project, qa, render, stats, theme  # noqa: E402
+from reporch_lib import catalogue, content, intake, migrate, pdf, project, qa, render, stats, theme, update  # noqa: E402
 
 
 CALC = ["proportion", "mean_ci", "time_summary", "outliers", "sus", "nps", "top_box", "lostness", "efficiency",
@@ -52,6 +55,9 @@ def main(argv=None):
     p = sub.add_parser("qa"); p.add_argument("project"); p.add_argument("--no-layout", action="store_true")
     p = sub.add_parser("migrate"); p.add_argument("project"); p.add_argument("file"); p.add_argument("--lang", required=True)
     p = sub.add_parser("lossless"); p.add_argument("project")
+    p = sub.add_parser("settings"); p.add_argument("key", choices=["update-check"]); p.add_argument("value", choices=["on", "off"])
+    sub.add_parser("update-check")
+    sub.add_parser("version")
     a = ap.parse_args(argv)
 
     if a.cmd == "init":
@@ -156,6 +162,13 @@ def main(argv=None):
         for m in res["missing"][:50]:
             print(f"MISSING  {m['where']}: {m['text']}")
         return 0 if res["complete"] else 1
+    elif a.cmd == "settings":
+        print(json.dumps(update.save_settings({"updateCheck": a.value == "on"})))
+    elif a.cmd == "update-check":
+        r = update.check()
+        print(r.get("message") or json.dumps(r))
+    elif a.cmd == "version":
+        print(update.current())
     elif a.cmd == "theme":
         sys.stdout.write(theme.css(a.primary))
     return 0

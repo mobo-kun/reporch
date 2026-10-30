@@ -18,6 +18,11 @@ When the user starts Reporch for the first time in a conversation, greet them in
 
 Then show `HOW-TO-USE.md` (or `HOW-TO-USE.fa.md` for Persian speakers) and propose the workflow below.
 
+**Updates.** The first time, ask once whether Reporch may check GitHub for a newer version (one request
+to api.github.com, nothing about them or their work is sent). Save the answer with
+`reporch.py settings update-check on|off`. When it's on, run `reporch.py update-check` at the start of a
+session and pass on its message if there is one.
+
 ## Non-negotiable rules
 
 1. **Never change the user's content without asking.** Any cut, merge, reorder or rewording of a claim,

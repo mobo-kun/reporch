@@ -41,7 +41,8 @@ def read(path):
 
 
 def _read_text(path):
-    raw = open(path, "rb").read()
+    with open(path, "rb") as f:
+        raw = f.read()
     for enc in ("utf-8-sig", "utf-16", "cp1256", "latin-1"):
         try:
             return raw.decode(enc)

@@ -56,16 +56,19 @@
       o.tooltip.trigger = "axis";
       o.series = series.map(function (s) {
         return { name: name(s), type: k === "line" ? "line" : "bar", data: col(s), stack: k === "stackedBar" ? "all" : undefined,
-          barMaxWidth: 36, label: series.length === 1 || k === "stackedBar" ? Object.assign({}, label, { position: k === "stackedBar" ? "inside" : (horiz ? (rtl ? "left" : "right") : "top") }) : undefined,
+          barMaxWidth: 36, label: k !== "rangeBar" && (series.length === 1 || k === "stackedBar") ? Object.assign({}, label, { position: k === "stackedBar" ? "inside" : (horiz ? (rtl ? "left" : "right") : "top") }) : undefined,
           itemStyle: { borderRadius: k === "stackedBar" ? 0 : 4 } };
       });
       if (k === "rangeBar" && c.range) {
-        var lo = col(c.range[0]), hi = col(c.range[1]);
+        var lo = col(c.range[0]), hi = col(c.range[1]), vals0 = col(series[0]);
         o.series.push({ name: c.range.map(name).join("–"), type: "custom", z: 5,
           renderItem: function (params, api) {
             var y = api.value(0), a = api.coord([api.value(1), y]), b = api.coord([api.value(2), y]);
             var h = 10, st = { stroke: ink, lineWidth: 1.5 };
+            var val = vals0[params.dataIndex], end = rtl ? Math.min(a[0], b[0]) - 6 : Math.max(a[0], b[0]) + 6;
             return { type: "group", children: [
+              { type: "text", x: end, y: a[1], style: { text: fmt(val, valueFmt), fill: ink, font: "12px " + font,
+                align: rtl ? "right" : "left", verticalAlign: "middle" } },
               { type: "line", shape: { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }, style: st },
               { type: "line", shape: { x1: a[0], y1: a[1] - h / 2, x2: a[0], y2: a[1] + h / 2 }, style: st },
               { type: "line", shape: { x1: b[0], y1: b[1] - h / 2, x2: b[0], y2: b[1] + h / 2 }, style: st }] };

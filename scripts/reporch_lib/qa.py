@@ -186,6 +186,15 @@ def check_layout(project_dir, doc, rep, width=360):
                     for e in errors:
                         rep.add("error", "script", path, e)
                     page.close()
+                    if kind == "report":                      # desktop: content column beside the TOC (B-016)
+                        page = browser.new_page(viewport={"width": 1280, "height": 800})
+                        page.goto(pathlib.Path(os.path.abspath(path)).as_uri() + "?print")
+                        d = page.evaluate("""() => { const m = document.querySelector('main').getBoundingClientRect(),
+                            t = document.querySelector('.toc').getBoundingClientRect();
+                            return {main: m.width, top: m.top, tocTop: t.top}; }""")
+                        if d["main"] < 600 or d["top"] > d["tocTop"] + 200:
+                            rep.add("error", "layout", path, f"desktop layout broken (content column {d['main']:.0f} px)")
+                        page.close()
         finally:
             browser.close()
 

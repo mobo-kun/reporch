@@ -40,7 +40,7 @@ Suggest this path at the start. The user may change it (`reporch.py advance <pro
 | 2. interview | Ask about gaps in batches (5–40 questions); choose languages and brand | `modules/interview.md`, `modules/brand.md`, `modules/languages.md` |
 | 3. analysis | Choose and run 10–40 analyses the data supports | `modules/analysis.md` |
 | 4. outline | Propose the outline and get it approved | `references/outline.md` |
-| 5. write | Write the report and the blog post from the user's content | `modules/write.md` |
+| 5. write | Write the report and the blog post from the user's content; image placeholders | `modules/write.md`, `modules/images.md` |
 | 6. translate | Second language, with the glossary | `modules/languages.md` |
 | 7. build | HTML report, blog, PDF (and Markdown on request) | `modules/build.md` |
 | 8. qa | Check everything before delivery | `modules/qa.md` |
@@ -60,7 +60,12 @@ All commands run with `python3 <skill>/scripts/reporch.py …`, where `<skill>` 
 | `ingest <project> FILE… --names names.json` | Copy, read and anonymise inputs |
 | `profile <project> --fields a,b,c` | Record which data the inputs contain (field keys in `references/analyses.json`) |
 | `possible <project>` | Analyses the data supports, and the gaps worth asking about |
+| `calc <function> '<json>'` | Statistics for the analyses (adjusted Wald, t, SUS, NPS, tests…) |
 | `validate <project> [--final]` | Check `content.json` |
+| `build <project> [--markdown] [--draft]` | HTML report and blog for each language (`--draft`: preview only) |
+| `pdf <project>` | PDF from the report (needs Playwright; ask before installing) |
+| `qa <project>` | Every check before delivery |
+| `migrate <project> <report> --lang <code>` / `lossless <project>` | Bring in an existing report; prove nothing was lost |
 | `snapshot <project>` | Keep the current outputs as a version before rebuilding |
 | `status <project>` / `advance <project> [--to PHASE]` | Resume and move through the workflow |
 

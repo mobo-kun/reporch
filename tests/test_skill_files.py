@@ -22,9 +22,12 @@ class SkillFilesTest(unittest.TestCase):
         text = read("SKILL.md")
         missing = [p for p in re.findall(r"`((?:modules|references)/[\w./-]+\.(?:md|json))`", text)
                    if not os.path.exists(os.path.join(ROOT, p))]
-        pending = {"modules/analysis.md", "modules/write.md", "modules/build.md", "modules/qa.md",
-                   "modules/migrate.md"}
-        self.assertEqual(sorted(set(missing) - pending), [])
+        self.assertEqual(missing, [])
+
+    def test_every_module_is_reachable(self):
+        text = read("SKILL.md") + "".join(read(os.path.join("modules", m)) for m in os.listdir(os.path.join(ROOT, "modules")))
+        for m in os.listdir(os.path.join(ROOT, "modules")):
+            self.assertIn(f"modules/{m}", text, m)
 
     def test_generated_catalogue_is_current(self):
         src = read("tools/catalogue_source.md")

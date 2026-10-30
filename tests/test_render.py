@@ -63,9 +63,13 @@ class DemoRenderTest(unittest.TestCase):
         self.assertEqual(page.count('data-chart="chart-'), n)
         specs = re.findall(r'<script type="application/json" id="chart-\d+-data">(.*?)</script>', page)
         self.assertEqual(len(specs), n)
-        tables = [a["table"] for a in self.doc["analyses"] if a.get("chart")]
+        loc = lambda v: v["en"] if isinstance(v, dict) else v
+        tables = [[[loc(v) for v in r] for r in a["table"]["rows"]] for a in self.doc["analyses"] if a.get("chart")]
         for spec in specs:                                                     # each chart is drawn from its own table
-            self.assertIn(json.loads(spec)["table"], tables)
+            self.assertIn(json.loads(spec)["table"]["rows"], tables)
+        fa = self.read("report.fa.html")
+        self.assertIn('"سبد"', fa)                                            # chart categories are localized
+        self.assertIn('"بدون کمک"', fa)                                       # and so are series names
         self.assertIn("echarts", page)
 
     def test_credit_placeholders_and_evidence(self):

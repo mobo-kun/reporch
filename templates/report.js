@@ -28,6 +28,7 @@
 
   function build(spec) {
     var c = spec.chart, t = spec.table, cols = t.columns, rows = t.rows, f = t.format || {};
+    var name = function (col) { return (t.labels && t.labels[col]) || col; };
     var col = function (name) { var i = cols.indexOf(name); return rows.map(function (r) { return r[i]; }); };
     var cats = col(c.x).map(digits);
     var series = c.series || [];
@@ -54,13 +55,13 @@
         : { xAxis: catAxis, yAxis: Object.assign({}, valueAxis, { position: rtl ? "right" : "left" }) });
       o.tooltip.trigger = "axis";
       o.series = series.map(function (s) {
-        return { name: s, type: k === "line" ? "line" : "bar", data: col(s), stack: k === "stackedBar" ? "all" : undefined,
+        return { name: name(s), type: k === "line" ? "line" : "bar", data: col(s), stack: k === "stackedBar" ? "all" : undefined,
           barMaxWidth: 36, label: series.length === 1 || k === "stackedBar" ? Object.assign({}, label, { position: k === "stackedBar" ? "inside" : (horiz ? (rtl ? "left" : "right") : "top") }) : undefined,
           itemStyle: { borderRadius: k === "stackedBar" ? 0 : 4 } };
       });
       if (k === "rangeBar" && c.range) {
         var lo = col(c.range[0]), hi = col(c.range[1]);
-        o.series.push({ name: c.range.join("–"), type: "custom", z: 5,
+        o.series.push({ name: c.range.map(name).join("–"), type: "custom", z: 5,
           renderItem: function (params, api) {
             var y = api.value(0), a = api.coord([api.value(1), y]), b = api.coord([api.value(2), y]);
             var h = 10, st = { stroke: ink, lineWidth: 1.5 };
@@ -84,8 +85,8 @@
       return base;
     }
     if (k === "scatter") {
-      base.xAxis = Object.assign({}, valueAxis, { name: digits(c.x), inverse: rtl });
-      base.yAxis = Object.assign({}, valueAxis, { name: series[0], position: rtl ? "right" : "left" });
+      base.xAxis = Object.assign({}, valueAxis, { name: name(c.x), inverse: rtl });
+      base.yAxis = Object.assign({}, valueAxis, { name: name(series[0]), position: rtl ? "right" : "left" });
       var xs = col(c.x), ys = col(series[0]);
       base.series = [{ type: "scatter", symbolSize: 12, data: xs.map(function (x, i) { return [x, ys[i]]; }) }];
       return base;
@@ -107,7 +108,7 @@
       var maxv = c.max || Math.max.apply(null, [].concat.apply([], series.map(col)));
       base.radar = { indicator: cats.map(function (n) { return { name: n, max: maxv }; }), axisName: { color: soft } };
       base.legend = { bottom: 0 };
-      base.series = [{ type: "radar", data: series.map(function (s) { return { name: s, value: col(s) }; }) }];
+      base.series = [{ type: "radar", data: series.map(function (s) { return { name: name(s), value: col(s) }; }) }];
       return base;
     }
     if (k === "box") {

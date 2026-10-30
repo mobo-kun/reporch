@@ -64,6 +64,19 @@ FUNNEL = [("Basket", "سبد", 12400), ("Delivery", "تحویل", 8060), ("Payme
 AB = {"old": (1940, 5000), "new": (2210, 5000)}
 
 
+COLS = {  # column headers in both languages
+    "task": ("task", "تسک"), "success": ("success", "موفقیت"), "low": ("low", "کران پایین"), "high": ("high", "کران بالا"),
+    "successes": ("successes", "موفق"), "n": ("n", "n"), "unaided": ("unaided", "بدون کمک"), "assisted": ("assisted", "با کمک"),
+    "failed": ("failed", "ناموفق"), "geometric mean (s)": ("geometric mean (s)", "میانگین هندسی (ثانیه)"),
+    "median (s)": ("median (s)", "میانه (ثانیه)"), "SEQ mean": ("SEQ mean", "میانگین SEQ"), "participant": ("participant", "شرکت‌کننده"),
+    "SUS": ("SUS", "SUS"), "issue": ("issue", "مشکل"), "participants": ("participants", "شرکت‌کننده‌ها"), "severity": ("severity", "شدت"),
+    "theme": ("theme", "تم"), "step": ("step", "گام"), "users": ("users", "کاربران"), "from top": ("from top", "از ابتدا"),
+    "drop": ("drop", "ریزش"), "variant": ("variant", "نسخه"), "conversion": ("conversion", "تبدیل"), "paid": ("paid", "پرداخت‌شده"),
+    "visitors": ("visitors", "بازدیدکننده"), "share found": ("share found", "سهم یافته‌شده"), "device": ("device", "دستگاه"),
+    "observed": ("observed", "مشاهده‌شده"), "mobile": ("mobile", "موبایل"), "desktop": ("desktop", "دسکتاپ"),
+}
+
+
 def r1(x):
     """One decimal, rounding half up (6.25 -> 6.3), as QA does."""
     return f"{round(x + 1e-9, 1):.1f}"
@@ -198,7 +211,7 @@ def analyses():
                 "method": T("Severity rated by the designer (1 low – 4 critical)", "شدت را طراح تعیین کرده است (۱ کم تا ۴ بحرانی)"),
                 "evidence": ["E1"]})
     # AN7 themes
-    rows = [[en if False else f"Th{k + 1}", len(ps)] for k, (en, fa, ps) in enumerate(THEMES)]
+    rows = [[T(en, fa), len(ps)] for en, fa, ps in THEMES]
     out.append({"id": "AN7", "catalogueId": "D1", "values": {"n": len(P)}, "title": T("Themes", "تم‌ها"),
                 "finding": T("The most common theme was not finding where to enter the code (6 of 8). The most common positive theme was fast product search (5 of 8).",
                              "رایج‌ترین تم پیدا نکردن جای واردکردن کد بود (۶ نفر از ۸ نفر). رایج‌ترین تم مثبت سرعت جست‌وجوی محصول بود (۵ نفر از ۸ نفر)."),
@@ -219,7 +232,7 @@ def analyses():
                 "chart": {"kind": "bar", "x": "task", "series": ["mobile", "desktop"]}, "evidence": ["E2"]})
     # AN9 funnel
     f = stats.funnel([(n, c) for n, _, c in FUNNEL])
-    rows = [[x["step"], x["count"], round(x["fromTop"], 4), round(x["dropFromPrevious"], 4)] for x in f]
+    rows = [[T(en, fa), x["count"], round(x["fromTop"], 4), round(x["dropFromPrevious"], 4)] for (en, fa, _), x in zip(FUNNEL, f)]
     out.append({"id": "AN9", "catalogueId": "E1", "values": {"days": 30}, "title": T("Checkout funnel before the redesign", "قیف پرداخت پیش از طراحی دوباره"),
                 "finding": T(f"Over 30 days, {pct(f[-1]['fromTop'])}% of people who opened the basket paid. The biggest drop was basket → delivery ({pct(f[1]['dropFromPrevious'])}%).",
                              f"در ۳۰ روز، {fa_num(pct(f[-1]['fromTop']))}٪ از کسانی که سبد را باز کردند پرداخت کردند. بیشترین ریزش در گام سبد ← تحویل بود ({fa_num(pct(f[1]['dropFromPrevious']))}٪)."),
@@ -228,7 +241,7 @@ def analyses():
     # AN10 A/B test
     (s1, n1), (s2, n2) = AB["new"], AB["old"]
     ab = stats.two_proportions(s1, n1, s2, n2)
-    rows = [["old", s2 / n2, s2, n2], ["new", s1 / n1, s1, n1]]
+    rows = [[T("old", "قدیم"), s2 / n2, s2, n2], [T("new", "جدید"), s1 / n1, s1, n1]]
     out.append({"id": "AN10", "catalogueId": "E5",
                 "values": {"difference": round(ab["difference"], 4), "low": round(ab["low"], 4), "high": round(ab["high"], 4),
                            "p": round(ab["p"], 6), "pThreshold": 0.001, "days": 14}, "title": T("A/B test: old vs new checkout", "تست A/B: پرداخت قدیم و جدید"),
@@ -253,7 +266,7 @@ def analyses():
     out.append({"id": "AN12", "catalogueId": "G1", "values": {"n": len(P)}, "title": T("Participants", "شرکت‌کننده‌ها"),
                 "finding": T("8 people who order groceries online at least twice a month: 4 on mobile, 4 on desktop.",
                              "۸ نفر که دست‌کم ماهی دو بار خرید آنلاین مواد غذایی دارند: ۴ نفر با موبایل و ۴ نفر با دسکتاپ."),
-                "table": {"columns": ["device", "participants"], "rows": [["mobile", 4], ["desktop", 4]]},
+                "table": {"columns": ["device", "participants"], "rows": [[T("mobile", "موبایل"), 4], [T("desktop", "دسکتاپ"), 4]]},
                 "chart": {"kind": "doughnut", "x": "device", "series": ["participants"]}, "evidence": ["E2"]})
     # AN13 precision
     w = stats.proportion(4, 8)
@@ -267,6 +280,12 @@ def analyses():
                 "evidence": ["E2"]})
     for a in out:
         a.pop("_p", None)
+        t = a.get("table")
+        if t:
+            t.setdefault("labels", {})
+            for c in t["columns"]:
+                if c in COLS and c not in t["labels"]:
+                    t["labels"][c] = T(*COLS[c])
     return out, s
 
 
@@ -315,6 +334,7 @@ def content(an, sus):
                      "تست Think Aloud با حضور تسهیلگر و ۸ نفر (۴ موبایل، ۴ دسکتاپ)، هر نفر چهار تسک، با SEQ بعد از هر تسک و SUS در پایان. "
                      "داده‌ی قیف ۳۰ روز را هم بررسی کردیم و طراحی جدید را ۱۴ روز با تست A/B سنجیدیم."),
                 {"type": "table", "columns": ["task", "description"],
+                 "labels": {"task": T("task", "تسک"), "description": T("description", "شرح")},
                  "rows": [[t, T(*TASK_NAMES[t])] for t in TASKS]},
             ]},
             {"id": "participants", "role": "participants", "title": T("Participants", "شرکت‌کننده‌ها"), "blocks": place("AN12")},

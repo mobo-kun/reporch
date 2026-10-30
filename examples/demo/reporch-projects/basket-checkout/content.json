@@ -209,6 +209,32 @@
      "success": "percent",
      "low": "percent",
      "high": "percent"
+    },
+    "labels": {
+     "task": {
+      "en": "task",
+      "fa": "تسک"
+     },
+     "success": {
+      "en": "success",
+      "fa": "موفقیت"
+     },
+     "low": {
+      "en": "low",
+      "fa": "کران پایین"
+     },
+     "high": {
+      "en": "high",
+      "fa": "کران بالا"
+     },
+     "successes": {
+      "en": "successes",
+      "fa": "موفق"
+     },
+     "n": {
+      "en": "n",
+      "fa": "n"
+     }
     }
    },
    "chart": {
@@ -286,6 +312,10 @@
      "failed": {
       "en": "failed",
       "fa": "ناموفق"
+     },
+     "task": {
+      "en": "task",
+      "fa": "تسک"
      }
     }
    },
@@ -350,7 +380,29 @@
       80.0,
       51.0
      ]
-    ]
+    ],
+    "labels": {
+     "task": {
+      "en": "task",
+      "fa": "تسک"
+     },
+     "geometric mean (s)": {
+      "en": "geometric mean (s)",
+      "fa": "میانگین هندسی (ثانیه)"
+     },
+     "low": {
+      "en": "low",
+      "fa": "کران پایین"
+     },
+     "high": {
+      "en": "high",
+      "fa": "کران بالا"
+     },
+     "median (s)": {
+      "en": "median (s)",
+      "fa": "میانه (ثانیه)"
+     }
+    }
    },
    "chart": {
     "kind": "rangeBar",
@@ -414,7 +466,25 @@
       3.43,
       6.32
      ]
-    ]
+    ],
+    "labels": {
+     "task": {
+      "en": "task",
+      "fa": "تسک"
+     },
+     "SEQ mean": {
+      "en": "SEQ mean",
+      "fa": "میانگین SEQ"
+     },
+     "low": {
+      "en": "low",
+      "fa": "کران پایین"
+     },
+     "high": {
+      "en": "high",
+      "fa": "کران بالا"
+     }
+    }
    },
    "chart": {
     "kind": "rangeBar",
@@ -490,7 +560,17 @@
       "P08",
       80.0
      ]
-    ]
+    ],
+    "labels": {
+     "participant": {
+      "en": "participant",
+      "fa": "شرکت‌کننده"
+     },
+     "SUS": {
+      "en": "SUS",
+      "fa": "SUS"
+     }
+    }
    },
    "chart": {
     "kind": "bar",
@@ -553,7 +633,21 @@
       1,
       1
      ]
-    ]
+    ],
+    "labels": {
+     "issue": {
+      "en": "issue",
+      "fa": "مشکل"
+     },
+     "participants": {
+      "en": "participants",
+      "fa": "شرکت‌کننده‌ها"
+     },
+     "severity": {
+      "en": "severity",
+      "fa": "شدت"
+     }
+    }
    },
    "chart": {
     "kind": "barHorizontal",
@@ -591,22 +685,44 @@
     ],
     "rows": [
      [
-      "Th1",
+      {
+       "en": "Couldn't find where to enter the code",
+       "fa": "جای واردکردن کد را پیدا نکردند"
+      },
       6
      ],
      [
-      "Th2",
+      {
+       "en": "Liked how fast product search was",
+       "fa": "سرعت جست‌وجوی محصول را دوست داشتند"
+      },
       5
      ],
      [
-      "Th3",
+      {
+       "en": "Unsure whether a slot was available",
+       "fa": "مطمئن نبودند زمان تحویل آزاد است"
+      },
       3
      ],
      [
-      "Th4",
+      {
+       "en": "Didn't see the Pay button",
+       "fa": "دکمه‌ی پرداخت را ندیدند"
+      },
       3
      ]
-    ]
+    ],
+    "labels": {
+     "theme": {
+      "en": "theme",
+      "fa": "تم"
+     },
+     "participants": {
+      "en": "participants",
+      "fa": "شرکت‌کننده‌ها"
+     }
+    }
    },
    "chart": {
     "kind": "barHorizontal",
@@ -672,6 +788,10 @@
      "desktop": {
       "en": "desktop",
       "fa": "دسکتاپ"
+     },
+     "task": {
+      "en": "task",
+      "fa": "تسک"
      }
     }
    },
@@ -710,25 +830,37 @@
     ],
     "rows": [
      [
-      "Basket",
+      {
+       "en": "Basket",
+       "fa": "سبد"
+      },
       12400,
       1.0,
       0.0
      ],
      [
-      "Delivery",
+      {
+       "en": "Delivery",
+       "fa": "تحویل"
+      },
       8060,
       0.65,
       0.35
      ],
      [
-      "Payment",
+      {
+       "en": "Payment",
+       "fa": "پرداخت"
+      },
       5210,
       0.4202,
       0.3536
      ],
      [
-      "Paid",
+      {
+       "en": "Paid",
+       "fa": "پرداخت‌شده"
+      },
       3890,
       0.3137,
       0.2534
@@ -737,6 +869,24 @@
     "format": {
      "from top": "percent",
      "drop": "percent"
+    },
+    "labels": {
+     "step": {
+      "en": "step",
+      "fa": "گام"
+     },
+     "users": {
+      "en": "users",
+      "fa": "کاربران"
+     },
+     "from top": {
+      "en": "from top",
+      "fa": "از ابتدا"
+     },
+     "drop": {
+      "en": "drop",
+      "fa": "ریزش"
+     }
     }
    },
    "chart": {
@@ -778,13 +928,19 @@
     ],
     "rows": [
      [
-      "old",
+      {
+       "en": "old",
+       "fa": "قدیم"
+      },
       0.388,
       1940,
       5000
      ],
      [
-      "new",
+      {
+       "en": "new",
+       "fa": "جدید"
+      },
       0.442,
       2210,
       5000
@@ -792,6 +948,24 @@
     ],
     "format": {
      "conversion": "percent"
+    },
+    "labels": {
+     "variant": {
+      "en": "variant",
+      "fa": "نسخه"
+     },
+     "conversion": {
+      "en": "conversion",
+      "fa": "تبدیل"
+     },
+     "paid": {
+      "en": "paid",
+      "fa": "پرداخت‌شده"
+     },
+     "visitors": {
+      "en": "visitors",
+      "fa": "بازدیدکننده"
+     }
     }
    },
    "chart": {
@@ -877,6 +1051,16 @@
     ],
     "format": {
      "share found": "percent"
+    },
+    "labels": {
+     "users": {
+      "en": "users",
+      "fa": "کاربران"
+     },
+     "share found": {
+      "en": "share found",
+      "fa": "سهم یافته‌شده"
+     }
     }
    },
    "chart": {
@@ -911,14 +1095,30 @@
     ],
     "rows": [
      [
-      "mobile",
+      {
+       "en": "mobile",
+       "fa": "موبایل"
+      },
       4
      ],
      [
-      "desktop",
+      {
+       "en": "desktop",
+       "fa": "دسکتاپ"
+      },
       4
      ]
-    ]
+    ],
+    "labels": {
+     "device": {
+      "en": "device",
+      "fa": "دستگاه"
+     },
+     "participants": {
+      "en": "participants",
+      "fa": "شرکت‌کننده‌ها"
+     }
+    }
    },
    "chart": {
     "kind": "doughnut",
@@ -961,6 +1161,24 @@
      "observed": "percent",
      "low": "percent",
      "high": "percent"
+    },
+    "labels": {
+     "observed": {
+      "en": "observed",
+      "fa": "مشاهده‌شده"
+     },
+     "low": {
+      "en": "low",
+      "fa": "کران پایین"
+     },
+     "high": {
+      "en": "high",
+      "fa": "کران بالا"
+     },
+     "n": {
+      "en": "n",
+      "fa": "n"
+     }
     }
    },
    "evidence": [
@@ -1087,6 +1305,16 @@
       "task",
       "description"
      ],
+     "labels": {
+      "task": {
+       "en": "task",
+       "fa": "تسک"
+      },
+      "description": {
+       "en": "description",
+       "fa": "شرح"
+      }
+     },
      "rows": [
       [
        "T1",

@@ -14,6 +14,8 @@
   reporch.py build <project> [--markdown] [--draft]  (HTML report and blog for each language)
   reporch.py pdf <project>                           (PDF from the report HTML; needs Playwright)
   reporch.py qa <project> [--no-layout]              (checks before delivery)
+  reporch.py migrate <project> <report.html|.pdf> --lang fa   (existing report → draft content.json)
+  reporch.py lossless <project>                      (is every part of the original in content.json?)
 """
 import argparse
 import json
@@ -21,7 +23,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from reporch_lib import catalogue, content, intake, pdf, project, qa, render, stats, theme  # noqa: E402
+from reporch_lib import catalogue, content, intake, migrate, pdf, project, qa, render, stats, theme  # noqa: E402
 
 
 CALC = ["proportion", "mean_ci", "time_summary", "outliers", "sus", "nps", "top_box", "lostness", "efficiency",
@@ -45,9 +47,11 @@ def main(argv=None):
     p = sub.add_parser("possible"); p.add_argument("project")
     p = sub.add_parser("calc"); p.add_argument("function", choices=CALC); p.add_argument("args")
     p = sub.add_parser("build"); p.add_argument("project"); p.add_argument("--markdown", action="store_true")
-    p.add_argument("--draft", action="store_true", help="build even with draft-level problems (for previews)")
+    p.add_argument("--draft", action="store_true", help="build a preview even with open problems (never for delivery)")
     p = sub.add_parser("pdf"); p.add_argument("project")
     p = sub.add_parser("qa"); p.add_argument("project"); p.add_argument("--no-layout", action="store_true")
+    p = sub.add_parser("migrate"); p.add_argument("project"); p.add_argument("file"); p.add_argument("--lang", required=True)
+    p = sub.add_parser("lossless"); p.add_argument("project")
     a = ap.parse_args(argv)
 
     if a.cmd == "init":
@@ -92,11 +96,13 @@ def main(argv=None):
     elif a.cmd == "build":
         doc = _load(a.project)
         errs = content.errors(content.validate(doc, "draft" if a.draft else "final"))
-        if errs:
+        if errs and not a.draft:
             for e in errs:
                 print(e, file=sys.stderr)
             print(f"{len(errs)} error(s): fix them (or use --draft for a preview)", file=sys.stderr)
             return 1
+        if errs:
+            print(f"preview only: {len(errs)} error(s) still open", file=sys.stderr)
         for path in render.build(doc, a.project, a.markdown):
             print(path)
     elif a.cmd == "pdf":
@@ -116,6 +122,40 @@ def main(argv=None):
             print(f"{i['level'].upper():8} {i['check']:12} {i['where']}: {i['message']}")
         print(json.dumps(rep.summary()))
         return 1 if rep.errors() else 0
+    elif a.cmd == "migrate":
+        import shutil
+        try:
+            inv = migrate.inventory(a.file)
+        except (RuntimeError, ValueError) as e:
+            print(e, file=sys.stderr)
+            return 2
+        mdir = os.path.join(a.project, "migration")
+        os.makedirs(os.path.join(a.project, "inputs", "original"), exist_ok=True)
+        os.makedirs(mdir, exist_ok=True)
+        shutil.copy2(a.file, os.path.join(a.project, "inputs", "original"))
+        with open(os.path.join(mdir, "inventory.json"), "w", encoding="utf-8") as f:
+            json.dump(inv, f, ensure_ascii=False, indent=1)
+        slug = project.load_state(a.project)["slug"]
+        doc, questions = migrate.draft(inv, a.lang, slug, a.project)
+        target = os.path.join(a.project, "content.json")
+        if os.path.exists(target):
+            target = os.path.join(mdir, "content.migrated.json")
+        with open(target, "w", encoding="utf-8") as f:
+            json.dump(doc, f, ensure_ascii=False, indent=1)
+        res = migrate.lossless(inv, doc)
+        print(f"{target}\nsections {len(inv['sections'])}, charts {len(inv['charts'])}, "
+              f"units kept {res['kept']}/{res['units']}")
+        for q in questions:
+            print("QUESTION: " + q)
+        return 0 if res["complete"] else 1
+    elif a.cmd == "lossless":
+        with open(os.path.join(a.project, "migration", "inventory.json"), encoding="utf-8") as f:
+            inv = json.load(f)
+        res = migrate.lossless(inv, _load(a.project))
+        print(json.dumps({k: v for k, v in res.items() if k != "missing"}))
+        for m in res["missing"][:50]:
+            print(f"MISSING  {m['where']}: {m['text']}")
+        return 0 if res["complete"] else 1
     elif a.cmd == "theme":
         sys.stdout.write(theme.css(a.primary))
     return 0

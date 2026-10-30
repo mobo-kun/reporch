@@ -24,7 +24,9 @@ def render(html_path, pdf_path, timeout_ms=60000):
     with sync_playwright() as p:
         browser = p.chromium.launch()
         try:
-            page = browser.new_page(viewport={"width": 1100, "height": 1400})
+            # Lay out at the printable width: A4 (210 mm) minus the 2 × 14 mm @page margins = 182 mm ≈ 688 px.
+            # Any wider and right-to-left pages shift off the paper (B-013).
+            page = browser.new_page(viewport={"width": 688, "height": 1000})
             page.emulate_media(media="print")
             page.goto(url, wait_until="load", timeout=timeout_ms)
             page.wait_for_function("window.__REPORCH_CHARTS_READY__ === true", timeout=timeout_ms)

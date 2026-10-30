@@ -213,6 +213,14 @@ def run(project_dir, layout=True):
     rep = Report()
     for p in content.validate(doc, "final"):
         rep.add(p.level, "content", p.where, p.message)
+    inv_path = os.path.join(project_dir, "migration", "inventory.json")
+    if os.path.exists(inv_path):
+        from . import migrate
+        with open(inv_path, encoding="utf-8") as f:
+            res = migrate.lossless(json.load(f), doc)
+        if not res["complete"]:
+            rep.add("error", "migration", "content.json", f"{len(res['missing'])} piece(s) of the original report are missing "
+                    "(run reporch.py lossless)")
     check_numbers(doc, rep)
     check_quotes(doc, project_dir, rep)
     check_theme(doc, rep)

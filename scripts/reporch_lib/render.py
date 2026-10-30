@@ -102,7 +102,10 @@ class Renderer:
 
     def chart(self, chart, table, title=None):
         cid = f"chart-{len(self.charts) + 1}"
-        self.charts.append((cid, {"chart": chart, "table": table}))
+        local = {"columns": table["columns"], "format": table.get("format") or {},
+                 "rows": [[self.t(v) if isinstance(v, dict) else v for v in r] for r in table["rows"]],
+                 "labels": {c: self.t(table.get("labels", {}).get(c, c)) for c in table["columns"]}}
+        self.charts.append((cid, {"chart": chart, "table": local}))
         aria = html.escape(self.t(title) or self.L["data"])
         return (f'<div class="chart-box"><div class="chart" data-chart="{cid}-data" role="img" aria-label="{aria}"></div></div>'
                 f'<details class="data"><summary>{self.L["data"]}</summary>{self.table(table)}</details>')

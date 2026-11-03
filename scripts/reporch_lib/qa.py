@@ -178,11 +178,25 @@ def check_layout(project_dir, doc, rep, width=360):
                     page.goto(pathlib.Path(os.path.abspath(path)).as_uri() + "?print")
                     page.wait_for_function("window.__REPORCH_CHARTS_READY__ === true", timeout=30000)
                     m = page.evaluate("""() => ({sw: document.documentElement.scrollWidth, w: innerWidth,
-                        charts: document.querySelectorAll('.chart').length, drawn: document.querySelectorAll('.chart svg').length})""")
+                        charts: document.querySelectorAll('main .chart').length, drawn: document.querySelectorAll('main .chart svg').length})""")
                     if m["sw"] > m["w"] + 1:
                         rep.add("error", "layout", path, f"scrolls sideways at {width} px ({m['sw']} px wide)")
                     if m["drawn"] < m["charts"]:
                         rep.add("error", "charts", path, f"{m['charts'] - m['drawn']} chart(s) not drawn")
+                    if "report." in os.path.basename(path):
+                        page.set_viewport_size({"width": 1280, "height": 772})
+                        bad = page.evaluate("""() => { document.querySelector('[data-slides]').click(); var out = [];
+                            var next = document.querySelector('.deck [data-next]');
+                            document.querySelectorAll('.slide').forEach(function (s, i) {
+                              var b = s.querySelector('.s-body') || s, t = s.querySelector('.s-title, h1');
+                              var lh = t ? parseFloat(getComputedStyle(t).lineHeight) : 0;
+                              if (s.scrollHeight > s.clientHeight + 1 || b.scrollHeight > b.clientHeight + 1) out.push((i + 1) + ': overflows');
+                              else if (t && lh && t.offsetHeight > lh * 2.2) out.push((i + 1) + ': title over two lines');
+                              if (s.querySelector('[data-deck-chart]') && !s.querySelector('[data-deck-chart] svg')) out.push((i + 1) + ': chart not drawn');
+                              next.click(); });
+                            return out; }""")
+                        for b in bad:
+                            rep.add("error", "slides", path, f"slide {b}")
                     for e in errors:
                         rep.add("error", "script", path, e)
                     page.close()

@@ -6,10 +6,13 @@ What's next for Reporch. Dates are targets, not promises. Ideas and votes are we
 ```
 2026 Q4  ●  1.0  Raw material → HTML report, blog post and PDF · 118 analyses · QA · lossless migration
          │
-2027 Q1  ○  1.1  More inputs: screenshots, audio and video (transcribed locally), FigJam and Miro exports
+2026 Q4  ●  1.1  Study plan (TODO.md) · careful reading ledger · project memory · 16:9 slide deck ·
+         │       display-only brand font · Persian writing check
+         │
+2027 Q1  ○  1.2  More inputs: screenshots, audio and video (transcribed locally), FigJam and Miro exports
          │       Better PDF migration: tables and charts read from PDFs
          │
-2027 Q2  ○  1.2  Export: CMS import files, Notion and Confluence pages
+2027 Q2  ○  1.3  Export: CMS import files, Notion and Confluence pages
          │       Shareable report links (opt-in)
          │
 2027 Q3  ○  2.0  Plan research before it runs: research plans, interview guides, screeners,
@@ -19,11 +22,11 @@ What's next for Reporch. Dates are targets, not promises. Ideas and votes are we
 later    ○       Dark theme for reading · more chart types · team review flow
 ```
 
-## Now (1.0)
+## Now (1.1)
 
 - Everything in the [changelog](CHANGELOG.md).
 
-## Next (1.1)
+## Next (1.2)
 
 - Screenshots and images as inputs, with automatic face and personal-data blurring prompts.
 - Audio and video: local transcription, timestamps as evidence.
@@ -31,5 +34,5 @@ later    ○       Dark theme for reading · more chart types · team review flo
 
 ## Planned
 
-- **1.2:** export targets (CMS, Notion, Confluence).
+- **1.3:** export targets (CMS, Notion, Confluence).
 - **2.0:** research planning, metric definitions, marketplace plugins.

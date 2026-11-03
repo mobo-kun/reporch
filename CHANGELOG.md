@@ -3,6 +3,15 @@
 All notable changes to Reporch. The format follows [Keep a Changelog](https://keepachangelog.com) and
 versions follow [semantic versioning](https://semver.org).
 
+## [1.1.1] - 2026-11-03
+
+### Changed
+- New README in English and Persian: clearer layout, badges, quick start, the project folder at a glance.
+- NOTICE credits the bundled taste-skill and persian-writing; the roadmap moves inputs to 1.2 and exports to 1.3.
+
+### Security
+- `.gitignore` also blocks `.env` files, keys, raw research folders and original inputs in projects.
+
 ## [1.1.0] - 2026-11-03
 
 From the first real test with a designer.

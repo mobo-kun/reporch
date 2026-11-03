@@ -14,3 +14,13 @@ __pycache__/
 .venv/
 .DS_Store
 .claude/
+
+# Never commit secrets or private research material
+.env
+.env.*
+*.pem
+*.key
+sources/
+reference-skills/
+reporch-projects/
+**/inputs/original/

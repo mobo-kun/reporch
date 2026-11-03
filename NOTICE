@@ -8,6 +8,10 @@ This product bundles third-party files, each under its own licence:
   vendor/echarts/NOTICE. Copyright The Apache Software Foundation.
 - Vazirmatn 33.0.3 (vendor/vazirmatn/), SIL Open Font License 1.1. See vendor/vazirmatn/OFL.txt.
   Copyright Saber Rastikerdar.
+- persian-writing, commit 75fcdf3 (vendor/persian-writing/), MIT. See vendor/persian-writing/LICENSE.
+  Copyright persian-writing contributors.
+- taste-skill, commit 12af471 (vendor/taste-skill/), MIT. See vendor/taste-skill/LICENSE.
+  Copyright Leonxlnx.
 
 The analyses catalogue paraphrases ideas from: Tullis, T. & Albert, B., Measuring the User Experience
 (2nd ed., 2013); Nielsen, J., Usability Engineering (1993); and product-metrics articles by Product

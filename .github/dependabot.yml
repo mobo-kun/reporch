@@ -1,0 +1,7 @@
+# Keeps the CI actions up to date. Reporch itself has no package dependencies (standard library only).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

@@ -42,7 +42,7 @@ Answer what you can; "I don't know" is a fine answer.
 
 ## 5. Get the outputs
 
-In `reporch-projects/<your study>/out/`:
+In `out/` inside your study folder:
 
 - `report.<lang>.html`: works offline, with a table of contents, slides and charts
 - `blog.<lang>.html`: the same findings as an article (Markdown on request)

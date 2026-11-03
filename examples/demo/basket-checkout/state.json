@@ -7,6 +7,7 @@
   "phasesDone": [
     "collect",
     "interview",
+    "plan",
     "analysis",
     "outline",
     "write",
@@ -16,6 +17,7 @@
   "workflow": [
     "collect",
     "interview",
+    "plan",
     "analysis",
     "outline",
     "write",

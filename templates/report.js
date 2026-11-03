@@ -133,15 +133,15 @@
   }
 
   var charts = [];
-  document.querySelectorAll("[data-chart]").forEach(function (el) {
-    if (!window.echarts) return;
-    var spec = JSON.parse(document.getElementById(el.getAttribute("data-chart")).textContent);
-    var opt = build(spec);
-    if (!opt) return;
+  function draw(el, attr) {
+    if (!window.echarts) return null;
+    var opt = build(JSON.parse(document.getElementById(el.getAttribute(attr)).textContent));
+    if (!opt) return null;
     var ch = echarts.init(el, null, { renderer: "svg" });
     ch.setOption(opt);
-    charts.push(ch);
-  });
+    return ch;
+  }
+  document.querySelectorAll("[data-chart]").forEach(function (el) { var ch = draw(el, "data-chart"); if (ch) charts.push(ch); });
   window.__REPORCH_CHARTS_READY__ = true;
   var resize = function () { charts.forEach(function (c) { c.resize(); }); };
   window.addEventListener("resize", resize);
@@ -173,31 +173,64 @@
   if (scrim) scrim.addEventListener("click", function () { drawer(false); });
   links.forEach(function (a) { a.addEventListener("click", function () { drawer(false); }); });
 
-  // Slides: the cover plus one slide per top-level section
-  var slides = Array.prototype.slice.call(document.querySelectorAll("main > .cover, main > section.sec"));
-  var cur = 0, count = document.querySelector(".slide-nav .count");
+  // Slides: a 16:9 deck scaled to the window; deck charts are drawn when their slide is first shown
+  var deck = document.querySelector(".deck");
+  var slides = deck ? Array.prototype.slice.call(deck.querySelectorAll(".slide")) : [];
+  var cur = 0, count = deck && deck.querySelector(".count"), prog = deck && deck.querySelector(".deck-progress span");
+  function scale() { if (deck) deck.style.setProperty("--deck-scale", Math.min(innerWidth / 1280, (innerHeight - 52) / 720)); }
+  function fit(s) {                       // shrink text until the slide fits its frame (never scroll)
+    var f = 1; s.style.setProperty("--fit", 1);
+    var body = s.querySelector(".s-body") || s;
+    while (f > 0.6 && (s.scrollHeight > s.clientHeight + 1 || body.scrollHeight > body.clientHeight + 1)) {
+      f -= 0.05; s.style.setProperty("--fit", f.toFixed(2));
+    }
+  }
   function show(i) {
     cur = Math.max(0, Math.min(slides.length - 1, i));
     slides.forEach(function (s, j) { s.classList.toggle("current", j === cur); });
+    var s = slides[cur];
+    s.querySelectorAll("[data-deck-chart]").forEach(function (el) {
+      if (!el.__chart) el.__chart = draw(el, "data-deck-chart"); else el.__chart.resize();
+    });
+    fit(s);
     if (count) count.textContent = digits(cur + 1) + " / " + digits(slides.length);
-    resize();
+    if (prog) prog.style.width = ((cur + 1) / slides.length * 100) + "%";
+    if (history.replaceState) history.replaceState(null, "", "#slide-" + (cur + 1));
   }
-  function slideMode(on) { document.body.classList.toggle("slides", on); if (on) show(0); else resize(); }
-  document.querySelectorAll("[data-slides]").forEach(function (b) { b.addEventListener("click", function () { slideMode(true); }); });
+  function slideMode(on) {
+    document.body.classList.toggle("slides", on);
+    if (deck) deck.setAttribute("aria-hidden", on ? "false" : "true");
+    if (on) { scale(); show(cur); } else { if (history.replaceState) history.replaceState(null, "", location.pathname + location.search); resize(); }
+  }
+  window.addEventListener("resize", function () { if (document.body.classList.contains("slides")) { scale(); show(cur); } });
+  document.querySelectorAll("[data-slides]").forEach(function (b) { b.addEventListener("click", function () { cur = 0; slideMode(true); }); });
   document.querySelectorAll("[data-exit-slides]").forEach(function (b) { b.addEventListener("click", function () { slideMode(false); }); });
   document.querySelectorAll("[data-next]").forEach(function (b) { b.addEventListener("click", function () { show(cur + 1); }); });
   document.querySelectorAll("[data-prev]").forEach(function (b) { b.addEventListener("click", function () { show(cur - 1); }); });
+  if (deck) deck.querySelector(".stage").addEventListener("click", function (e) {
+    if (e.target.closest("a, button, img, details")) return;
+    var forward = rtl ? e.clientX < innerWidth / 2 : e.clientX > innerWidth / 2;
+    show(cur + (forward ? 1 : -1));
+  });
   document.addEventListener("keydown", function (e) {
     if (!document.body.classList.contains("slides")) return;
     var fwd = rtl ? "ArrowLeft" : "ArrowRight", back = rtl ? "ArrowRight" : "ArrowLeft";
     if (e.key === fwd || e.key === "PageDown" || e.key === " ") { e.preventDefault(); show(cur + 1); }
     if (e.key === back || e.key === "PageUp") { e.preventDefault(); show(cur - 1); }
+    if (e.key === "Home") show(0);
+    if (e.key === "End") show(slides.length - 1);
     if (e.key === "Escape") slideMode(false);
+  });
+  var m = /^#slide-(\d+)$/.exec(location.hash) || (/[?&]slides\b/.test(location.search) ? [0, "1"] : null);
+  if (m && slides.length) { cur = +m[1] - 1; slideMode(true); }
+  window.addEventListener("hashchange", function () {
+    var h = /^#slide-(\d+)$/.exec(location.hash);
+    if (h && slides.length && +h[1] - 1 !== cur) { cur = +h[1] - 1; slideMode(true); }
   });
 
   // Image zoom
   var lb = document.querySelector(".lightbox");
-  document.querySelectorAll("figure img").forEach(function (img) {
+  document.querySelectorAll("main figure img").forEach(function (img) {
     img.addEventListener("click", function () { lb.querySelector("img").src = img.src; lb.querySelector("img").alt = img.alt; lb.classList.add("open"); });
   });
   if (lb) lb.addEventListener("click", function () { lb.classList.remove("open"); });

@@ -77,7 +77,7 @@ The full guide is in [HOW-TO-USE.md](HOW-TO-USE.md) ([فارسی](HOW-TO-USE.fa.
 participants and numbers) with its inputs and `content.json`. Build it yourself:
 
 ```bash
-python3 scripts/reporch.py build examples/demo/reporch-projects/basket-checkout --markdown
+python3 scripts/reporch.py build examples/demo/basket-checkout --markdown
 ```
 
 <p align="center"><img src="media/chart-en.png" alt="An analysis with its chart" width="60%"> <img src="media/phone-fa.png" alt="The Persian report on a phone" width="22%"></p>

@@ -5,7 +5,7 @@ follow it exactly, including the first-run greeting, the non-negotiable rules an
 
 - Install for Codex: clone into `~/.agents/skills/reporch` (or run `install.sh`).
 - Tools: `python3 scripts/reporch.py --help` (Python 3.9+, standard library only).
-- Never write user projects inside this folder; they go to `<user folder>/reporch-projects/<slug>/`.
+- Never write user projects inside this folder; the project is the folder the designer opened for the study (see SKILL.md, "Project folder").
 
 ## Working on Reporch itself
 

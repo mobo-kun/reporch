@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Reporch command line. Python 3.9+, standard library only.
 
-  reporch.py init <slug> [--root DIR] [--languages fa,en]
+  reporch.py init [--dir DIR] [--slug NAME] [--languages fa,en]   (DIR: the designer's folder; default: here)
   reporch.py status <project>
+  reporch.py ledger <project>                        (add new inputs to READING.md)
+  reporch.py plan <project> [--force]                (write TODO.md, the study plan)
+  reporch.py remember <project> "text" [--kind decision|fact|preference|question]
+  reporch.py log <project> "text" [--who designer|agent]
+  reporch.py falint <project>                        (Persian writing check, quotes skipped)
   reporch.py advance <project> [--to PHASE]
   reporch.py validate <project> [--final]
   reporch.py snapshot <project>
@@ -26,7 +31,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from reporch_lib import catalogue, content, intake, migrate, pdf, project, qa, render, stats, theme, update  # noqa: E402
+from reporch_lib import catalogue, content, falint, intake, migrate, pdf, project, qa, render, stats, theme, update  # noqa: E402
 
 
 CALC = ["proportion", "mean_ci", "time_summary", "outliers", "sus", "nps", "top_box", "lostness", "efficiency",
@@ -37,9 +42,15 @@ CALC = ["proportion", "mean_ci", "time_summary", "outliers", "sus", "nps", "top_
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="reporch")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    p = sub.add_parser("init"); p.add_argument("slug"); p.add_argument("--root", default=os.getcwd())
+    p = sub.add_parser("init"); p.add_argument("--dir", default=os.getcwd()); p.add_argument("--slug")
     p.add_argument("--languages", default="fa,en")
     p = sub.add_parser("status"); p.add_argument("project")
+    p = sub.add_parser("ledger"); p.add_argument("project")
+    p = sub.add_parser("plan"); p.add_argument("project"); p.add_argument("--force", action="store_true")
+    p = sub.add_parser("remember"); p.add_argument("project"); p.add_argument("text")
+    p.add_argument("--kind", default="decision", choices=sorted(project.MEMORY_KINDS))
+    p = sub.add_parser("log"); p.add_argument("project"); p.add_argument("text"); p.add_argument("--who", default="agent")
+    p = sub.add_parser("falint"); p.add_argument("project")
     p = sub.add_parser("advance"); p.add_argument("project"); p.add_argument("--to")
     p = sub.add_parser("validate"); p.add_argument("project"); p.add_argument("--final", action="store_true")
     p = sub.add_parser("snapshot"); p.add_argument("project")
@@ -62,9 +73,34 @@ def main(argv=None):
 
     if a.cmd == "init":
         langs = [l.strip() for l in a.languages.split(",") if l.strip()]
-        print(project.init(a.root, a.slug, langs))
+        try:
+            print(project.init(a.dir, a.slug, langs))
+        except (ValueError, FileExistsError) as e:
+            print(e, file=sys.stderr)
+            return 1
     elif a.cmd == "status":
         print(json.dumps(project.load_state(a.project), ensure_ascii=False, indent=2))
+        tasks, gaps = project.open_tasks(a.project), project.reading_gaps(a.project)
+        print("TODO.md: " + ("not written yet (reporch.py plan)" if tasks is None else f"{len(tasks)} open task(s)"
+                              + (f"; next: {tasks[0][1]}" if tasks else "")))
+        print("READING.md: " + (f"not fully read: {', '.join(gaps)}" if gaps else "every input read twice"))
+    elif a.cmd == "ledger":
+        added = project.ledger(a.project)
+        print(f"{len(added)} input(s) added to READING.md" + (": " + ", ".join(added) if added else ""))
+    elif a.cmd == "plan":
+        try:
+            print(project.plan(a.project, a.force))
+        except FileExistsError as e:
+            print(e, file=sys.stderr)
+            return 1
+    elif a.cmd == "remember":
+        project.remember(a.project, a.text, a.kind)
+    elif a.cmd == "log":
+        project.log(a.project, a.text, a.who)
+    elif a.cmd == "falint":
+        n, report = falint.run(_load(a.project))
+        print(report or "no Persian text")
+        return 1 if n else 0
     elif a.cmd == "advance":
         print(project.advance(a.project, a.to)["phase"])
     elif a.cmd == "validate":
@@ -81,6 +117,9 @@ def main(argv=None):
         names = json.load(open(a.names, encoding="utf-8")) if a.names else None
         for r in intake.ingest(a.project, a.files, names):
             print(json.dumps(r, ensure_ascii=False))
+        added = project.ledger(a.project)
+        if added:
+            print(f"READING.md: read {', '.join(added)} to the end, then again critically (modules/reading.md)")
     elif a.cmd == "profile":
         fields = sorted({f.strip() for f in a.fields.split(",") if f.strip()})
         bad = catalogue.unknown_fields(fields)

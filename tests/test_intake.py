@@ -120,7 +120,7 @@ class CatalogueTest(unittest.TestCase):
 class IntakeTest(unittest.TestCase):
     def test_ingest_copies_cleans_and_indexes(self):
         root = tempfile.mkdtemp()
-        path = project.init(root, "s")
+        path = project.init(os.path.join(root, "s"))
         src = os.path.join(root, "notes.docx"); make_docx(src)
         bad = os.path.join(root, "clip.mov"); write(bad, "x")
         res = intake.ingest(path, [src, bad], {"Sara Ahmadi": "P01"})

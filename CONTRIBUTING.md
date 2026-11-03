@@ -20,7 +20,7 @@ python3 -m unittest discover -s tests
 ```
 
 ```bash
-python3 tools/make_demo.py && python3 scripts/reporch.py build examples/demo/reporch-projects/basket-checkout
+python3 tools/make_demo.py && python3 scripts/reporch.py build examples/demo/basket-checkout
 ```
 
 ## Pull requests

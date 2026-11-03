@@ -17,7 +17,7 @@ class QaTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         subprocess.run([sys.executable, os.path.join(ROOT, "tools", "make_demo.py")], check=True, capture_output=True)
-        cls.src = os.path.join(ROOT, "examples", "demo", "reporch-projects", "basket-checkout")
+        cls.src = os.path.join(ROOT, "examples", "demo", "basket-checkout")
 
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
@@ -45,6 +45,30 @@ class QaTest(unittest.TestCase):
         rep = qa.run(self.project, layout=False)
         self.assertEqual(rep.errors(), [])
         self.assertEqual(self.checks(rep, "warning"), {"images"})          # demo placeholders only
+
+    def test_open_plan_and_unread_inputs_are_errors(self):
+        self.save_and_build(self.doc)
+        todo = os.path.join(self.project, "TODO.md")
+        with open(todo, encoding="utf-8") as f:
+            text = f.read()
+        with open(todo, "w", encoding="utf-8") as f:
+            f.write(text.replace("- [x] 5.1", "- [ ] 5.1"))
+        with open(os.path.join(self.project, "inputs", "index.json"), "w") as f:
+            json.dump([{"file": "notes.md", "status": "ok", "kind": "text", "chars": 3}], f)
+        errs = self.checks(qa.run(self.project, layout=False))
+        self.assertIn("plan", errs)
+        self.assertIn("reading", errs)
+        os.remove(todo)
+        self.assertIn("plan", self.checks(qa.run(self.project, layout=False)))
+
+    def test_persian_writing_issues_are_warnings_and_quotes_are_skipped(self):
+        from reporch_lib import falint
+        sec = self.doc["sections"][0]
+        sec["blocks"].insert(0, {"type": "paragraph", "text": {"en": "x", "fa": "این يك متن است که میشود."}, "evidence": ["E1"]})
+        n, report = falint.run(self.doc)
+        self.assertGreater(n, 0)
+        self.assertIn("sections[0].blocks[0].text", report)
+        self.assertFalse(any(w.startswith("sections[4].blocks[4]") for w, _ in falint.texts(self.doc)))  # a quote
 
     def test_invented_quote_is_an_error(self):
         q = self.doc["sections"][4]["blocks"][4]

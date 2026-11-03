@@ -216,6 +216,24 @@ def check_pdfs(project_dir, doc, rep):
             rep.add("info", "pdf", path, f"{pages} pages")
 
 
+def check_workflow(doc, project_dir, rep):
+    """The study plan is done, every input was read twice, and the Persian text passes the linter."""
+    from . import falint, project
+    if os.path.exists(os.path.join(project_dir, "state.json")):
+        tasks = project.open_tasks(project_dir)
+        if tasks is None:
+            rep.add("error", "plan", "TODO.md", "no study plan: run reporch.py plan and work through it")
+        for n, text in tasks or []:
+            rep.add("error", "plan", f"TODO.md:{n}", f"open task: {text}")
+        for f in project.reading_gaps(project_dir):
+            rep.add("error", "reading", "READING.md", f"{f} is not marked as read to the end and checked critically")
+    if "fa" in (doc.get("meta") or {}).get("languages", []):
+        n, _ = falint.run(doc)
+        if n:
+            rep.add("warning", "persian", "content.json", f"{n} Persian writing issue(s): run reporch.py falint and ask "
+                    "the designer before changing their wording")
+
+
 def run(project_dir, layout=True):
     with open(os.path.join(project_dir, "content.json"), encoding="utf-8") as f:
         doc = json.load(f)
@@ -230,6 +248,7 @@ def run(project_dir, layout=True):
         if not res["complete"]:
             rep.add("error", "migration", "content.json", f"{len(res['missing'])} piece(s) of the original report are missing "
                     "(run reporch.py lossless)")
+    check_workflow(doc, project_dir, rep)
     check_numbers(doc, rep)
     check_quotes(doc, project_dir, rep)
     check_theme(doc, rep)

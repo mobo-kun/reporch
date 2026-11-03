@@ -3,6 +3,35 @@
 All notable changes to Reporch. The format follows [Keep a Changelog](https://keepachangelog.com) and
 versions follow [semantic versioning](https://semver.org).
 
+## [1.1.0] - 2026-11-03
+
+From the first real test with a designer.
+
+### Added
+- **Study plan:** `reporch.py plan` writes `TODO.md` after the interview (phases, sub-tasks, acceptance
+  criteria); the agent builds from it task by task, and `qa` fails while tasks are open (`modules/plan.md`).
+- **Careful reading:** every input gets an entry in `READING.md` with its size and row counts; the agent
+  reads each file to the end and again critically, and `qa` fails until both passes are ticked
+  (`modules/reading.md`).
+- **Project memory:** `MEMORY.md` and `HISTORY.md` in every project, with `remember` and `log` commands,
+  read at the start of every session.
+- **Slides:** a real 16:9 deck built from the content (one analysis per slide with its chart, quotes,
+  tables, action plan), scaled to the screen, never scrolling; open with the Slides button or `?slides`.
+- **Design rules** from taste-skill and **Persian writing** rules and linter from persian-writing, both MIT,
+  bundled offline and pinned (`vendor/README.md`); `reporch.py falint` and a `qa` warning for Persian text.
+
+### Changed
+- `init` makes the designer's own folder the project (`--dir`, default: the current folder) instead of
+  creating `reporch-projects/<slug>/`; it refuses the skill folder. The demo moved to
+  `examples/demo/basket-checkout/`.
+- A brand font (e.g. Lahzeh) now sets only titles, subtitles and big numbers; body text stays Vazirmatn.
+- Lighter background dots (about 1.1:1 contrast).
+
+### Fixed
+- One evidence line after a run of blocks with the same evidence, instead of one per paragraph.
+- Analysis headings sit one level below their section.
+- The evidence index names the file the designer gave, not Reporch's working copy.
+
 ## [1.0.0] - 2026-10-30
 
 First release.

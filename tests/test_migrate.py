@@ -48,7 +48,7 @@ class MigrateTest(unittest.TestCase):
         self.src = os.path.join(self.tmp, "old.html")
         with open(self.src, "w", encoding="utf-8") as f:
             f.write(HTML)
-        self.project = project.init(self.tmp, "old-checkout", ["en"])
+        self.project = project.init(os.path.join(self.tmp, "old-checkout"), None, ["en"])
         self.inv = migrate.inventory(self.src)
         self.doc, self.questions = migrate.draft(self.inv, "en", "old-checkout", self.project)
 

@@ -3,7 +3,7 @@
 Goal: every file the user gives is in the project, readable, anonymised, and described as data fields.
 
 1. **Project.** Ask where their research folder is (default: the current folder). Run
-   `reporch.py init <slug> --root <folder> --languages <codes>` (languages are confirmed in the
+   `reporch.py init --languages <codes>` in the designer's own study folder (`modules/plan.md`) (languages are confirmed in the
    interview; start with the default two). The slug is short, lowercase, hyphenated.
 2. **Take the material.** Accept anything they paste or speak (voice transcripts are welcome: save them
    as `.md` in a temporary place, then ingest) and files: `.txt`, `.md`, `.vtt`, `.srt`, `.docx`

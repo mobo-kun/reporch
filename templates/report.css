@@ -20,7 +20,7 @@
 main { padding: 40px 0 0; min-width: 0; }
 .cover { padding: 48px 0 32px; }
 .cover .eyebrow { color: var(--primary-text); font-weight: 700; font-size: 14px; margin-bottom: 10px; }
-.cover .headline { font-size: 21px; color: var(--ink-soft); max-width: 46ch; }
+.cover .headline { font-family: var(--font-display); font-size: 21px; color: var(--ink-soft); max-width: 46ch; }
 .cover .meta { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--ink-soft); margin-top: 18px; }
 section.sec { padding: 28px 0 12px; scroll-margin-top: 16px; max-width: var(--measure); }
 section.sec > section.sec { padding-top: 12px; }
@@ -47,22 +47,53 @@ section.sec.wide { max-width: none; }
   .glow { width: 420px; height: 420px; inset-inline-end: -180px; }
 }
 
-/* Slide mode: one slide per top-level section. */
+/* Slides: a 16:9 deck (1280 × 720) scaled to the screen. Rules from vendor/taste-skill: flat surfaces,
+   two or three type sizes far apart, one accent, titles of two lines or fewer, nothing scrolls. */
+.deck { display: none; }
 body.slides { overflow: hidden; }
-body.slides .layout { display: block; max-width: none; padding: 0; }
-body.slides .toc, body.slides .topbar, body.slides .credit, body.slides .progress { display: none; }
-body.slides main { padding: 0; }
-body.slides .cover, body.slides main > section.sec { display: none; max-width: none; height: 100vh; overflow-y: auto;
-  padding: 6vh max(6vw, 24px); }
-body.slides .cover.current, body.slides main > section.sec.current { display: block; }
-.slide-nav { display: none; }
-body.slides .slide-nav { display: flex; position: fixed; inset-block-end: 16px; inset-inline-end: 16px; gap: 8px; z-index: 80; align-items: center; }
-body.slides .slide-nav .count { font-size: 13px; color: var(--ink-soft); padding: 0 6px; }
+body.slides .layout, body.slides .credit, body.slides .progress, body.slides .topbar, body.slides .glow-wrap { display: none; }
+body.slides .deck { display: block; position: fixed; inset: 0; z-index: 90; background: var(--neutral-50); }
+.deck .stage { position: absolute; top: 50%; left: 50%; width: 1280px; height: 720px; transform-origin: center;
+  transform: translate(-50%, -50%) scale(var(--deck-scale, 1)); }
+.slide { position: absolute; inset: 0; display: none; flex-direction: column; padding: 64px 80px 72px; overflow: hidden;
+  background-color: var(--bg); background-image: radial-gradient(var(--dot) .9px, transparent 1.1px); background-size: 14px 14px;
+  font-size: calc(24px * var(--fit, 1)); line-height: 1.55; }
+.slide.current { display: flex; }
+.slide .s-title { font-size: calc(40px * var(--fit, 1)); line-height: 1.2; margin: 0 0 28px; max-width: 26ch; }
+.slide .s-body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+.slide p, .slide li { margin: 0 0 .6em; }
+.slide .evidence { display: none; }
+.slide .callout { font-size: .9em; }
+.slide.s-cover, .slide.s-end { justify-content: center; }
+.slide.s-cover h1, .slide.s-end h1 { font-size: calc(68px * var(--fit, 1)); line-height: 1.1; max-width: 18ch; margin: 0 0 24px; }
+.slide .s-lead { font-family: var(--font-display); font-size: calc(30px * var(--fit, 1)); color: var(--ink-soft); max-width: 34ch; }
+.slide .s-meta { font-size: 18px; color: var(--ink-soft); margin-top: 24px; }
+.slide .s-logo img { max-height: 44px; width: auto; margin-bottom: 40px; }
+.slide.s-analysis .s-body { flex-direction: row; align-items: center; gap: 48px; }
+.slide.s-analysis .s-finding { flex: 0 0 38%; font-size: calc(26px * var(--fit, 1)); }
+.slide.s-analysis .s-visual { flex: 1; min-width: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+.slide.s-analysis.s-solo .s-finding { flex: 1; font-size: calc(32px * var(--fit, 1)); }
+.slide .chart { height: 100%; min-height: 360px; }
+.slide .stats { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+.slide .stat { background: none; box-shadow: none; padding: 0; }
+.slide .stat .value { font-size: calc(60px * var(--fit, 1)); line-height: 1.05; }
+.slide .stat .label { font-size: 20px; } .slide .stat .note { font-size: 16px; }
+.slide blockquote.quote { box-shadow: none; background: var(--primary-50); border-radius: 0; margin-bottom: 20px; }
+.slide blockquote.quote p { font-family: var(--font-display); font-size: calc(26px * var(--fit, 1)); }
+.slide .table-wrap { box-shadow: none; overflow: hidden; }
+.slide table { font-size: calc(19px * var(--fit, 1)); }
+.slide figure { margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.slide figure img { max-height: 500px; width: auto; max-width: 100%; margin: 0 auto; box-shadow: none; }
+.deck-bar { position: fixed; inset-inline: 0; inset-block-end: 0; display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; padding: 10px 16px; z-index: 95; }
+.deck-bar .count { font-size: 13px; color: var(--ink-soft); padding: 0 6px; font-variant-numeric: tabular-nums; }
+.deck-progress { position: fixed; inset-block-start: 0; inset-inline: 0; height: 3px; }
+.deck-progress span { display: block; height: 100%; width: 0; background: var(--primary-500); }
 
 @media print {
   @page { size: A4; margin: 16mm 14mm; }
   body { background: #fff; font-size: 11pt; }
-  .glow-wrap, .progress, .topbar, .toc, .scrim, .slide-nav, .btn, details.data summary { display: none !important; }
+  .glow-wrap, .progress, .topbar, .toc, .scrim, .deck, .btn, details.data summary { display: none !important; }
   .layout { display: block; padding: 0; max-width: none; }
   main { padding: 0; }
   .print-toc { display: block; break-after: page; }

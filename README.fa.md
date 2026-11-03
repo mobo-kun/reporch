@@ -86,7 +86,7 @@ Reporch خودش را معرفی می‌کند، این مسیر را پیشنه
 </div>
 
 ```bash
-python3 scripts/reporch.py build examples/demo/reporch-projects/basket-checkout --markdown
+python3 scripts/reporch.py build examples/demo/basket-checkout --markdown
 ```
 
 <div dir="rtl">

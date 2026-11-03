@@ -3,7 +3,7 @@
 Goal: the designer's old report (HTML or PDF) in Reporch's template, with **nothing lost and nothing
 changed** without their OK. Then the usual outputs: HTML report, blog post, PDF.
 
-1. **Project.** `reporch.py init <slug> --root <their folder> --languages <the report's language>`.
+1. **Project.** `reporch.py init --languages <the report's language>`, run in the folder the designer made for it.
 2. **Migrate.** `reporch.py migrate <project> <report.html|.pdf> --lang <code>`. It copies the original to
    `inputs/original/`, writes `migration/inventory.json` (every section, heading, paragraph, list item,
    table, chart and image in the original order) and a draft `content.json`, and prints how many content

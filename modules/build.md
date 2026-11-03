@@ -5,7 +5,7 @@
 2. `reporch.py snapshot <project>` keeps the previous outputs as a version.
 3. `reporch.py build <project>` writes, for each language in `meta.languages`:
    - `out/report.<lang>.html`: one offline file (fonts, charts and images inlined), table of contents
-     (sticky on desktop, drawer on phones), reading progress bar, slide mode (one slide per section),
+     (sticky on desktop, drawer on phones), reading progress bar, a 16:9 slide deck built from the content (`modules/design.md`),
      zoomable images, footer credit.
    - `out/blog.<lang>.html`: the blog post as one offline article page.
    - with `--markdown`: `out/report.<lang>.md` and `out/blog.<lang>.md`.

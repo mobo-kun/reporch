@@ -9,6 +9,7 @@
 :root {
   color-scheme: light;
   --font: {{FONT_STACK}};
+  --font-display: {{DISPLAY_STACK}};   /* brand font: titles, subtitles and big numbers only */
   --radius: 14px;
   --radius-sm: 8px;
   --shadow: 0 1px 2px rgba(28, 27, 34, .06), 0 8px 24px rgba(28, 27, 34, .06);
@@ -23,8 +24,8 @@ body {
   line-height: 1.75;
   color: var(--ink);
   background-color: var(--bg);
-  background-image: radial-gradient(var(--dot) 1px, transparent 1.2px);
-  background-size: 12px 12px;
+  background-image: radial-gradient(var(--dot) .9px, transparent 1.1px);
+  background-size: 14px 14px;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
   position: relative;
@@ -36,7 +37,7 @@ body {
   width: 760px; height: 760px; border-radius: 50%;
   background: var(--glow); filter: blur(120px); pointer-events: none; z-index: 0;
 }
-h1, h2, h3, h4 { line-height: 1.3; margin: 0 0 .5em; font-weight: 800; letter-spacing: 0; }
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.3; margin: 0 0 .5em; font-weight: 800; letter-spacing: 0; }
 h1 { font-size: clamp(30px, 5vw, 46px); }
 h2 { font-size: clamp(24px, 3.4vw, 32px); }
 h3 { font-size: 21px; }
@@ -65,7 +66,7 @@ blockquote.quote footer { font-size: 14px; color: var(--ink-soft); }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 0 0 1.4em; }
 .stat { background: #fff; border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
 .stat .label { font-size: 14px; color: var(--ink-soft); }
-.stat .value { font-size: 30px; font-weight: 800; line-height: 1.2; margin: 4px 0; color: var(--primary-text); }
+.stat .value { font-family: var(--font-display); font-size: 30px; font-weight: 800; line-height: 1.2; margin: 4px 0; color: var(--primary-text); }
 .stat.green .value { color: var(--green-text); } .stat.red .value { color: var(--red-text); }
 .stat.amber .value { color: var(--amber-text); } .stat.blue .value { color: var(--blue-text); }
 .stat .note { font-size: 13px; color: var(--ink-soft); }

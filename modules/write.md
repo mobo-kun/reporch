@@ -20,7 +20,12 @@ where, which images are needed. Show it as a short list. Write nothing else unti
 - **Quotes** exactly as said, with participant id and evidence. Don't translate a quote in the first
   language; in the second language add a faithful translation and keep the original in `note`.
 - **Plain language.** Short sentences, concrete verbs, numbers with their n and interval. No hype, no
-  "significant" without a test. Persian: formal-but-human register (است, not می‌باشد).
+  "significant" without a test.
+- **Persian text** follows the bundled **persian-writing** skill: read `vendor/persian-writing/GUIDE.md`,
+  `references/writing-style.md` and `references/orthography.md` before writing Persian. Formal-but-human
+  register (است, not می‌باشد), نیم‌فاصله, Persian ی and ک, «گیومه», no translated-English sentence shapes.
+  Run `reporch.py falint <project>` after writing and fix what it finds in your own text; for the
+  designer's own sentences show the change and ask first. Quotes are never "corrected".
 - **Action plan** only if the user wants one: suggest it once after the result section.
 - **Limitations:** sample, method, what the results don't cover.
 

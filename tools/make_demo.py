@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 from reporch_lib import stats  # noqa: E402
 
-PROJECT = os.path.join(ROOT, "examples", "demo", "reporch-projects", "basket-checkout")
+PROJECT = os.path.join(ROOT, "examples", "demo", "basket-checkout")
 P = [f"P{i:02d}" for i in range(1, 9)]
 DEVICE = dict(zip(P, ["mobile"] * 4 + ["desktop"] * 4))
 TASKS = ["T1", "T2", "T3", "T4"]
@@ -419,14 +419,28 @@ def main():
     with open(os.path.join(PROJECT, "content.json"), "w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, indent=1)
     state = {"schema": "reporch/state@1", "slug": "basket-checkout", "created": "2026-09-12T10:00:00+00:00",
-             "updated": "2026-09-12T10:00:00+00:00", "phase": "qa", "phasesDone": ["collect", "interview", "analysis",
-             "outline", "write", "translate", "build"], "workflow": ["collect", "interview", "analysis", "outline", "write",
+             "updated": "2026-09-12T10:00:00+00:00", "phase": "qa", "phasesDone": ["collect", "interview", "plan", "analysis",
+             "outline", "write", "translate", "build"], "workflow": ["collect", "interview", "plan", "analysis", "outline", "write",
              "translate", "build", "qa", "done"], "languages": ["en", "fa"], "brand": None, "questionsAsked": 14,
              "version": 0, "dependencies": [], "dataFields": ["participants", "task_success", "success_level", "assisted",
              "task_time", "post_task_rating", "sus_items", "issues", "issue_severity", "issue_participant", "transcripts",
              "segment", "step_counts", "variant_results"]}
     with open(os.path.join(PROJECT, "state.json"), "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    from reporch_lib import project
+    todo = project.plan(PROJECT, force=True)          # the demo's plan, worked through up to delivery
+    with open(todo, encoding="utf-8") as f:
+        plan = f.read()
+    head, tail = plan.split(project.DELIVER, 1)
+    with open(todo, "w", encoding="utf-8") as f:
+        f.write(head.replace("- [ ]", "- [x]") + project.DELIVER + tail)
+    for name, text in (("MEMORY.md", "# Memory: basket-checkout\n\n## Decisions\n\n- 2026-09-12: Languages en and fa; "
+                        "default theme (fictional study).\n"),
+                       ("HISTORY.md", "# History: basket-checkout\n\n- 2026-09-12 10:00 · reporch: Fictional demo generated "
+                        "by tools/make_demo.py.\n")):
+        with open(os.path.join(PROJECT, name), "w", encoding="utf-8") as f:
+            f.write(text)
     print(PROJECT)
 
 

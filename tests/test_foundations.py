@@ -119,16 +119,67 @@ class ContentTest(unittest.TestCase):
 class ProjectTest(unittest.TestCase):
     def setUp(self):
         self.root = tempfile.mkdtemp()
-        self.path = project.init(self.root, "demo-study")
+        self.path = project.init(os.path.join(self.root, "My Study"), "demo-study")
 
     def test_init_creates_folders_and_state(self):
         for d in project.SUBDIRS:
             self.assertTrue(os.path.isdir(os.path.join(self.path, d)))
         s = project.load_state(self.path)
         self.assertEqual((s["phase"], s["languages"], s["version"]), ("collect", ["fa", "en"], 0))
-        self.assertIn(os.path.join("reporch-projects", "demo-study"), self.path)
+        self.assertEqual(self.path, os.path.join(self.root, "My Study"))     # the designer's folder, nothing nested
+        self.assertEqual(os.listdir(self.root), ["My Study"])
+        for f in ("MEMORY.md", "HISTORY.md", "answers.md"):
+            self.assertTrue(os.path.isfile(os.path.join(self.path, f)), f)
         with self.assertRaises(FileExistsError):
-            project.init(self.root, "demo-study")
+            project.init(self.path)
+
+    def test_init_refuses_the_skill_folder(self):
+        with self.assertRaises(ValueError):
+            project.init(os.path.join(project.SKILL, "tmp-study"))
+        self.assertEqual(project.slugify("KYC Test 2"), "kyc-test-2")
+
+    def test_memory_and_history(self):
+        project.remember(self.path, "Lahzeh only for titles", "decision")
+        project.remember(self.path, "10 participants", "fact")
+        project.remember(self.path, "Second decision", "decision")
+        mem = open(os.path.join(self.path, "MEMORY.md"), encoding="utf-8").read()
+        self.assertLess(mem.index("Lahzeh"), mem.index("Second decision"))
+        self.assertLess(mem.index("Second decision"), mem.index("## Confirmed facts"))
+        self.assertLess(mem.index("## Confirmed facts"), mem.index("10 participants"))
+        project.log(self.path, "Designer approved the outline", "designer")
+        self.assertIn("designer: Designer approved the outline", open(os.path.join(self.path, "HISTORY.md"), encoding="utf-8").read())
+
+    def test_plan_and_open_tasks(self):
+        self.assertIsNone(project.open_tasks(self.path))
+        todo = project.plan(self.path)
+        n = len(project.open_tasks(self.path))
+        self.assertGreater(n, 10)
+        with self.assertRaises(FileExistsError):
+            project.plan(self.path)
+        text = open(todo, encoding="utf-8").read()
+        head, tail = text.split(project.DELIVER, 1)
+        with open(todo, "w", encoding="utf-8") as f:
+            f.write(head.replace("- [ ]", "- [x]") + project.DELIVER + tail)
+        self.assertEqual(project.open_tasks(self.path), [])           # delivery items don't block qa
+
+    def test_reading_ledger(self):
+        os.makedirs(os.path.join(self.path, "inputs", "clean"))
+        with open(os.path.join(self.path, "inputs", "clean", "notes.txt"), "w") as f:
+            f.write("a\nb\nc\n")
+        with open(os.path.join(self.path, "inputs", "index.json"), "w") as f:
+            json.dump([{"file": "notes.md", "status": "ok", "kind": "text", "chars": 6}], f)
+        self.assertEqual(project.ledger(self.path), ["notes.md"])
+        self.assertEqual(project.ledger(self.path), [])                # kept, not duplicated
+        self.assertEqual(project.reading_gaps(self.path), ["notes.md"])
+        led = os.path.join(self.path, "READING.md")
+        s = open(led, encoding="utf-8").read()
+        self.assertIn("of 3", s)
+        with open(led, "w", encoding="utf-8") as f:
+            f.write(s.replace("- [ ] Pass 1", "- [x] Pass 1"))
+        self.assertEqual(project.reading_gaps(self.path), ["notes.md"])  # pass 2 still open
+        with open(led, "w", encoding="utf-8") as f:
+            f.write(s.replace("- [ ] Pass", "- [x] Pass"))
+        self.assertEqual(project.reading_gaps(self.path), [])
 
     def test_advance_follows_workflow_and_allows_custom_jump(self):
         self.assertEqual(project.advance(self.path)["phase"], "interview")

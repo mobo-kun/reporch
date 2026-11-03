@@ -19,7 +19,7 @@ class DemoRenderTest(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = tempfile.mkdtemp()
         subprocess.run([sys.executable, os.path.join(ROOT, "tools", "make_demo.py")], check=True, capture_output=True)
-        src = os.path.join(ROOT, "examples", "demo", "reporch-projects", "basket-checkout")
+        src = os.path.join(ROOT, "examples", "demo", "basket-checkout")
         cls.project = os.path.join(cls.tmp, "basket-checkout")
         shutil.copytree(src, cls.project)
         with open(os.path.join(cls.project, "content.json"), encoding="utf-8") as f:
@@ -107,7 +107,45 @@ class DemoRenderTest(unittest.TestCase):
         face, stack = render.brand_font(self.project)
         self.assertIn("font-weight: 700", face)
         self.assertTrue(stack.startswith('"ReporchBrand"'))
+        page = render.Renderer(self.doc, "fa", self.project).report()
         shutil.rmtree(fonts)
+        self.assertIn('--font: "Vazirmatn"', page)                      # body text stays Vazirmatn (B-026)
+        self.assertIn('--font-display: "ReporchBrand"', page)          # brand font: titles and big numbers only
+
+    def test_deck_is_built_from_content(self):
+        page = self.read("report.en.html")
+        slides = re.findall(r'<section class="slide ([\w -]+)"', page)
+        self.assertEqual(slides[0], "s-cover")
+        self.assertEqual(slides[-1], "s-end")
+        self.assertEqual(sum("s-analysis" in s for s in slides), sum(1 for _ in re.finditer(r'class="analysis"', page)))
+        for cid in re.findall(r'data-deck-chart="([\w-]+)"', page):        # deck charts reuse the report's data
+            self.assertIn(f'id="{cid}"', page)
+
+    def test_evidence_runs_and_heading_levels(self):
+        doc = json.loads(json.dumps(self.doc))
+        sec = doc["sections"][0]
+        para = {"type": "paragraph", "text": {"en": "One", "fa": "یک"}, "evidence": ["E1"]}
+        sec["blocks"] = [para, dict(para), dict(para, evidence=["E2"])]
+        html_ = render.Renderer(doc, "en", self.project).report()
+        part = html_[html_.index(f'id="{sec["id"]}"'):]
+        part = part[: part.index("</section>")]
+        self.assertEqual(part.count('href="#ev-E1"'), 1)               # B-028: once after the run
+        self.assertEqual(part.count('href="#ev-E2"'), 1)
+        page = self.read("report.en.html")
+        for sub in re.finditer(r'<section class="sec[^"]*" id="[^"]+"><h3>.*?</section>', page):
+            self.assertNotIn('class="analysis" id="an-', re.sub(r'<div class="analysis" id="an-[^"]+"><h4>', "", sub.group(0)))
+
+    def test_evidence_shows_original_file_names(self):
+        name = render._source_names(self.project)
+        self.assertEqual(name("notes/x.md"), "notes/x.md")
+        os.makedirs(os.path.join(self.project, "inputs"), exist_ok=True)
+        idx = os.path.join(self.project, "inputs", "index.json")
+        with open(idx, "w") as f:
+            json.dump([{"file": "observation sheet.xlsx"}], f)
+        name = render._source_names(self.project)
+        os.remove(idx)
+        self.assertEqual(name("inputs/clean/observation sheet.tables.json"), "observation sheet.xlsx")
+        self.assertEqual(name("inputs/clean/other.txt"), "other.txt")
 
     def test_escaping(self):
         doc = json.loads(json.dumps(self.doc))

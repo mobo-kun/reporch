@@ -34,7 +34,7 @@ jobs:
       - name: Demo end to end (build, PDF, QA with browser checks)
         run: |
           python tools/make_demo.py
-          P=examples/demo/reporch-projects/basket-checkout
+          P=examples/demo/basket-checkout
           python scripts/reporch.py build "$P" --markdown
           python scripts/reporch.py pdf "$P"
           python scripts/reporch.py qa "$P"

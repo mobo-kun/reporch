@@ -90,7 +90,7 @@ def css(primary=None):
         "  --ink-soft: var(--neutral-700);",
         "  --line: var(--neutral-100);",
         "  --dot: var(--neutral-50);",             # about 1.1:1 on white: a quiet pattern, not a grey screen
-        "  --credit: var(--neutral-300);",
+        "  --credit: var(--neutral-400);",          # about 3.2:1: readable, quiet
         "  --chart: " + ", ".join(f"var(--{n}-500)" for n in CHART_ORDER) + ";",
         "}",
     ]

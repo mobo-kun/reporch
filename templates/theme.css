@@ -115,6 +115,6 @@
   --ink-soft: var(--neutral-700);
   --line: var(--neutral-100);
   --dot: var(--neutral-50);
-  --credit: var(--neutral-300);
+  --credit: var(--neutral-400);
   --chart: var(--primary-500), var(--green-500), var(--amber-500), var(--blue-500), var(--rose-500), var(--teal-500), var(--indigo-500), var(--pink-500), var(--red-500);
 }

@@ -114,6 +114,11 @@ class DemoRenderTest(unittest.TestCase):
 
     def test_deck_is_built_from_content(self):
         page = self.read("report.en.html")
+        end = page[page.index('<section class="slide s-end">'):]
+        end = end[: end.index("</section>")]
+        self.assertIn("Nora Vale", end)                                # B-033: the designer, not Reporch
+        self.assertEqual(end.count("Made with Reporch"), 1)
+        self.assertIn('class="s-credit"', end)                         # B-034: only the small footer line
         slides = re.findall(r'<section class="slide ([\w -]+)"', page)
         self.assertEqual(slides[0], "s-cover")
         self.assertEqual(slides[-1], "s-end")

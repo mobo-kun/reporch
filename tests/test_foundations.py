@@ -71,6 +71,13 @@ class ContentTest(unittest.TestCase):
         self.assertIn("unknown participant P09", msgs)
         self.assertIn("no invented quotes", msgs)
 
+    def test_author_must_be_a_name_not_a_role(self):
+        for name in ("طراح محصول", "Product designer", ""):
+            d = minimal_doc()
+            d["meta"]["authors"] = [{"name": {"en": "Sara Ahmadi", "fa": name}}]
+            self.assertTrue(any("designer's own name" in p.message for p in content.validate(d)), name)
+        self.assertFalse(any("own name" in p.message for p in content.validate(minimal_doc())))
+
     def test_participants_must_be_anonymised(self):
         d = minimal_doc()
         d["participants"][0]["id"] = "Sara"

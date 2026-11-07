@@ -6,7 +6,8 @@ numbered questions; wait for the answers before the next batch.
 
 ## What to ask, in order
 
-1. **Basics (first batch, always):** report languages (default two languages, four documents: HTML and
+1. **Basics (first batch, always):** the designer's name and role, if not asked at the greeting (it is the
+   report's author, on the cover and the slides; never a role in place of a name), report languages (default two languages, four documents: HTML and
    PDF in each; offer one language), brand (`modules/brand.md`), the study goal (find problems or
    measure/compare), and who the report is for.
 2. **Study facts the outline needs:** research questions, method(s), dates, participants and segments,

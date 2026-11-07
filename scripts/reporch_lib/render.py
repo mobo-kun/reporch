@@ -256,7 +256,7 @@ class Renderer:
         nav = "".join(f'<a href="#{sid}" class="{"sub" if lvl > 2 else ""}">{html.escape(t)}</a>' for lvl, sid, t in toc if lvl <= 3)
         print_toc = "<ol>" + "".join(f"<li>{html.escape(t)}</li>" for lvl, sid, t in toc if lvl == 2) + "</ol>"
         logo = self.logo()
-        authors = " · ".join(html.escape(self.t(a.get("name"))) for a in meta.get("authors") or [])
+        authors = self.authors()
         dates = meta.get("dates") or {}
         fa = self.lang == "fa"
         when = (" تا " if fa else " – ").join(
@@ -287,9 +287,10 @@ class Renderer:
 
         def slide(kind, inner, title=None):
             head = f'<h2 class="s-title">{self.inline(title)}</h2>' if title else ""
-            slides.append(f'<section class="slide {kind}">{head}<div class="s-body">{inner}</div></section>')
+            slides.append(f'<section class="slide {kind}">{head}<div class="s-body">{inner}</div>'
+                          f'<p class="s-credit">{CREDIT}</p></section>')
 
-        authors = " · ".join(html.escape(self.t(a.get("name"))) for a in meta.get("authors") or [])
+        authors = self.authors()
         slide("s-cover", f'<div class="s-logo">{self.logo()}</div><h1>{self.inline(self.t(meta["title"]))}</h1>'
               + (f'<p class="s-lead">{self.inline(self.t(meta.get("headline")))}</p>' if meta.get("headline") else "")
               + (f'<p class="s-meta">{authors}</p>' if authors else ""))
@@ -353,7 +354,7 @@ class Renderer:
         if d.get("openQuestions"):
             text_slides(self.L["openQuestions"], [("<ul>" + "".join(f"<li>{self.inline(self.t(q.get('text')))}</li>"
                                                                      for q in d["openQuestions"]) + "</ul>", 300)])
-        slide("s-end", f'<h1>{self.inline(self.t(meta["title"]))}</h1><p class="s-meta">{CREDIT}</p>')
+        slide("s-end", f'<h1>{self.inline(self.t(meta["title"]))}</h1>' + (f'<p class="s-meta">{authors}</p>' if authors else ""))
         L = self.L
         return (f'<div class="deck" aria-hidden="true"><div class="stage">{"".join(slides)}</div>'
                 f'<div class="deck-bar"><div class="deck-progress"><span></span></div>'
@@ -367,7 +368,7 @@ class Renderer:
         self.article = True
         meta = d["meta"]
         title = self.t(b["title"])
-        authors = " · ".join(html.escape(self.t(a.get("name"))) for a in meta.get("authors") or [])
+        authors = self.authors()
         parts = []
         for s in b.get("sections") or []:
             if s.get("title"):
@@ -381,6 +382,14 @@ class Renderer:
         return self.page(title, main, ["base.css", "blog.css"])
 
     # ---------------------------------------------------------------- page shell
+    def authors(self):
+        """The designer's name, with their role when given: "Sara Ahmadi (Product designer)"."""
+        out = []
+        for a in self.doc["meta"].get("authors") or []:
+            name, role = self.t(a.get("name")), self.t(a.get("role"))
+            out.append(html.escape(name) + (f" ({html.escape(role)})" if name and role else ""))
+        return " · ".join(x for x in out if x)
+
     def logo(self, cls=""):
         rel = (self.doc["meta"].get("brand") or {}).get("logo")
         uri = self.data_uri(rel) if rel else None

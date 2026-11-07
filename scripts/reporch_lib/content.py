@@ -49,6 +49,9 @@ class Problem:
         return f"{self.level.upper()} {self.where}: {self.message}"
 
 
+ROLE_ONLY = re.compile(r"(?i)(product |ux |ui |senior |lead )*(designer|researcher|طراح( محصول)?|پژوهشگر|محقق)( \S+)?")
+
+
 def _walk_sections(sections, path="sections"):
     for i, s in enumerate(sections or []):
         here = f"{path}[{i}]"
@@ -86,6 +89,11 @@ def validate(doc, stage="draft"):
     for key in ("title", "slug", "authors"):
         if not meta.get(key):
             err(f"meta.{key}", "required")
+    for i, au in enumerate(meta.get("authors") or []):
+        name = au.get("name") if isinstance(au, dict) else None
+        texts = list(name.values()) if isinstance(name, dict) else [name or ""]
+        if any(not str(t).strip() or ROLE_ONLY.fullmatch(str(t).strip()) for t in texts):
+            out.append(Problem("warning", f"meta.authors[{i}].name", "ask the designer's own name (a role goes in 'role')"))
     if meta.get("slug") and not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", meta["slug"]):
         err("meta.slug", "lowercase words joined by hyphens")
     if meta.get("studyGoal") not in (None, "formative", "summative", "mixed"):

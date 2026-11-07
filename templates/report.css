@@ -87,6 +87,8 @@ body.slides .deck { display: block; position: fixed; inset: 0; z-index: 90; back
 .deck-bar { position: fixed; inset-inline: 0; inset-block-end: 0; display: flex; align-items: center; justify-content: flex-end;
   gap: 8px; padding: 10px 16px; z-index: 95; }
 .deck-bar .count { font-size: 13px; color: var(--ink-soft); padding: 0 6px; font-variant-numeric: tabular-nums; }
+.slide .s-credit { position: absolute; inset-inline: 0; inset-block-end: 22px; text-align: center; font-family: var(--font);
+  font-size: 11px; font-weight: 400; color: var(--credit); }
 .deck-progress { position: fixed; inset-block-start: 0; inset-inline: 0; height: 3px; }
 .deck-progress span { display: block; height: 100%; width: 0; background: var(--primary-500); }
 

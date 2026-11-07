@@ -299,7 +299,7 @@ def content(an, sus):
                  "eyebrow": T("Demo report · fictional data", "گزارش نمونه · داده‌ی خیالی"),
                  "headline": T("Most people could fill a basket. Few could use a discount code, and mobile users missed the Pay button.",
                                "بیشتر افراد سبد را پر کردند. کمتر کسی توانست کد تخفیف را اعمال کند و کاربران موبایل دکمه‌ی پرداخت را ندیدند."),
-                 "slug": "basket-checkout", "authors": [{"name": T("Demo Designer", "طراح نمونه"), "role": T("Product designer", "طراح محصول")}],
+                 "slug": "basket-checkout", "authors": [{"name": T("Nora Vale (fictional)", "نورا ویل (خیالی)"), "role": T("Product designer", "طراح محصول")}],
                  "methods": ["usability-test", "a-b-test", "analytics"], "studyGoal": "mixed",
                  "dates": {"start": "2026-09-01", "end": "2026-09-12"}, "languages": ["en", "fa"],
                  "brand": {"primary": "#754EC6", "logo": None, "font": None}},

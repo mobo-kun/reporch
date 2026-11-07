@@ -16,6 +16,12 @@ When the user starts Reporch for the first time in a conversation, greet them in
 > into an HTML report, a blog post and a PDF. I'll ask you questions where something is missing, I won't
 > invent anything, and I won't change your words without asking.
 
+Then, before anything else, **ask their name** (and their role, e.g. product designer), in their language:
+"What's your name? It goes on the report and the slides as the author." Save it with
+`reporch.py remember <project> "Designer: <name>, <role>" --kind fact` once the project exists, and put it in
+`content.json` → `meta.authors` (`name`, `role`). Never use a role or "Designer" in place of a name; if they
+prefer not to give one, ask how they want to be credited.
+
 Then show `HOW-TO-USE.md` (or `HOW-TO-USE.fa.md` for Persian speakers) and propose the workflow below.
 
 **Updates.** The first time, ask once whether Reporch may check GitHub for a newer version (one request

@@ -102,7 +102,7 @@ details.data summary { cursor: pointer; color: var(--primary-text); font-size: 1
 .timeline li::before { content: ""; position: absolute; inset-inline-start: -7px; top: 9px; width: 12px; height: 12px; border-radius: 50%; background: var(--primary-500); }
 .pending { border: 1px dashed var(--amber-500); background: var(--amber-50); padding: 12px 16px; border-radius: var(--radius-sm); margin: 0 0 1.2em; }
 .action-plan td.priority { font-weight: 700; }
-.credit { font-size: 10px; color: var(--credit); text-align: center; padding: 28px 16px 36px; letter-spacing: .02em; }
+.credit { font-size: 11px; font-weight: 400; color: var(--credit); text-align: center; padding: 28px 16px 36px; }
 .lightbox { position: fixed; inset: 0; background: rgba(20, 18, 28, .86); display: none; align-items: center;
   justify-content: center; z-index: 100; cursor: zoom-out; padding: 24px; }
 .lightbox.open { display: flex; }

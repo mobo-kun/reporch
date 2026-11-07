@@ -3,6 +3,14 @@
 All notable changes to Reporch. The format follows [Keep a Changelog](https://keepachangelog.com) and
 versions follow [semantic versioning](https://semver.org).
 
+## [1.1.2] - 2026-11-07
+
+### Changed
+- Reporch asks the designer's name (and role) first and puts it on the report cover, the slide cover and
+  the end slide; `validate` warns when the author is only a role such as "Product designer".
+- The Reporch credit is a small, quiet line (11 px, about 3.2:1 contrast) at the bottom of the page and of
+  every slide, no longer a line of text on the end slide.
+
 ## [1.1.1] - 2026-11-03
 
 ### Changed

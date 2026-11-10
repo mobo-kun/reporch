@@ -178,10 +178,19 @@
   var slides = deck ? Array.prototype.slice.call(deck.querySelectorAll(".slide")) : [];
   var cur = 0, count = deck && deck.querySelector(".count"), prog = deck && deck.querySelector(".deck-progress span");
   function scale() { if (deck) deck.style.setProperty("--deck-scale", Math.min(innerWidth / 1280, (innerHeight - 52) / 720)); }
+  function overflows(s, body) {          // taller than the frame, or anything outside the body box
+    if (s.scrollHeight > s.clientHeight + 1 || body.scrollHeight > body.clientHeight + 1) return true;
+    var r = body.getBoundingClientRect();
+    return Array.prototype.some.call(body.children, function (c) {
+      var q = c.getBoundingClientRect();     // hidden children have an empty box: skip them
+      return q.height > 0 && (q.top < r.top - 1 || q.bottom > r.bottom + 1);
+    });
+  }
+  window.__reporchOverflows = function (s) { return overflows(s, s.querySelector(".s-body") || s); };
   function fit(s) {                       // shrink text until the slide fits its frame (never scroll)
     var f = 1; s.style.setProperty("--fit", 1);
     var body = s.querySelector(".s-body") || s;
-    while (f > 0.6 && (s.scrollHeight > s.clientHeight + 1 || body.scrollHeight > body.clientHeight + 1)) {
+    while (f > 0.6 && overflows(s, body)) {
       f -= 0.05; s.style.setProperty("--fit", f.toFixed(2));
     }
   }

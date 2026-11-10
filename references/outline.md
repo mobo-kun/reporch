@@ -11,7 +11,7 @@ children, so the outline grows with the study without changing its shape.
 | 3 | `method` | no | Method(s), tasks, dates, tools, what was recorded, help policy. |
 | 4 | `participants` | no | Who, how many, segments, recruitment (G1). Anonymised ids only. |
 | 5 | `problem` | yes | What is wrong or unknown: the findings that describe the problem, with evidence. |
-| 6 | `solution` | yes | What was designed or proposed in response. If no solution exists yet, a `pending` block says so and an open question asks for it. |
+| 6 | `solution` | yes | What was designed or proposed in response. If no solution exists yet, a `pending` block says so and an open question asks for it. For a redesign (`meta.studyType: redesign`) it opens with a `compare` block: old and new design side by side and what changed. A current-state study has no comparison. |
 | 7 | `result` | yes | What the analyses show: the 10–40 analyses grouped by question, each with chart/table, finding and evidence; precision note (G2). A framework map (HEART or AARRR) may lead it when the data fits. |
 | 8 | `actionPlan` | no | Only if the user wants it (suggested, never forced): items with priority, effort and owner from the user. |
 | 9 | `limitations` | no | Sample size vs method, validity threats, what the results don't cover. |

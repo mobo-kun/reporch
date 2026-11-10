@@ -142,10 +142,11 @@ Open `out/report.en.html`, then press **Slides**.
 
 | Version | | Highlights |
 | --- | --- | --- |
-| **1.1** | ✅ now | Study plan, careful reading, project memory, real slides, Persian writing check |
+| **1.2** | ✅ now | Before/after comparison for redesigns; impact-first numbers |
+| 1.1 | ✅ | Study plan, careful reading, project memory, real slides, Persian writing check |
 | 1.0 | ✅ | Report, blog and PDF; 118 analyses; QA; lossless migration of old reports |
-| 1.2 | next | Screenshots, audio and video as inputs; FigJam and Miro exports |
-| 1.3 | planned | Export to CMS, Notion and Confluence |
+| 1.3 | next | Screenshots, audio and video as inputs; FigJam and Miro exports |
+| 1.4 | planned | Export to CMS, Notion and Confluence |
 | 2.0 | planned | Research planning: plans, guides, screeners |
 
 With your permission, Reporch checks GitHub for a new version once a day.

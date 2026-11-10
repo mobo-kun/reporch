@@ -10,10 +10,18 @@ numbered questions; wait for the answers before the next batch.
    report's author, on the cover and the slides; never a role in place of a name), report languages (default two languages, four documents: HTML and
    PDF in each; offer one language), brand (`modules/brand.md`), the study goal (find problems or
    measure/compare), and who the report is for.
-2. **Study facts the outline needs:** research questions, method(s), dates, participants and segments,
+2. **What kind of study, and the designs (first or second batch):** ask whether the study tested a
+   **redesign** (old vs new), a **new** design, or looked at the **current** product without changing it
+   (e.g. a session-recording review, analytics or interviews about today's flow). Save it as
+   `meta.studyType` (`redesign`, `new`, `current-state`, `other`). For a redesign, ask for the **old and new
+   design**: screenshots, a short screen recording or a prototype export of each, and what changed between
+   them. For a new design, ask for its shots. For a current-state study, don't ask for a comparison; ask for
+   shots of the flow only if they help the reader. Files go in `assets/images/` (or `assets/video/`); what
+   isn't given yet becomes a placeholder.
+3. **Study facts the outline needs:** research questions, method(s), dates, participants and segments,
    recruitment, tasks and success criteria, help policy, what was recorded and how (how time was
    measured, what counted as an error).
-3. **Gaps from `reporch.py possible`:** each gap names a missing field and the analyses it would unlock.
+4. **Gaps from `reporch.py possible`:** each gap names a missing field and the analyses it would unlock.
    Ask for the ones next to data they already have first. Name the data exactly ("Do you have, for each
    participant, whether they finished task 2 without help?"). If fewer than 10 analyses are possible,
    say so and ask for the gaps that unlock the most.

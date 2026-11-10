@@ -126,6 +126,16 @@ class DemoRenderTest(unittest.TestCase):
         for cid in re.findall(r'data-deck-chart="([\w-]+)"', page):        # deck charts reuse the report's data
             self.assertIn(f'id="{cid}"', page)
 
+    def test_compare_and_impact_stats(self):
+        page = self.read("report.fa.html")
+        self.assertIn('<div class="compare">', page)
+        self.assertIn('class="tag">قبل<', page)
+        self.assertIn('<section class="slide s-compare">', page)
+        self.assertIn('<div class="detail">۸ نفر از ۸ نفر</div>', page)    # raw numbers under the impact value
+        md = self.read("report.en.md")
+        self.assertIn("**Before:**", md)
+        self.assertIn("(8 of 8 people)", md)
+
     def test_evidence_runs_and_heading_levels(self):
         doc = json.loads(json.dumps(self.doc))
         sec = doc["sections"][0]

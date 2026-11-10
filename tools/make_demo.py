@@ -300,7 +300,7 @@ def content(an, sus):
                  "headline": T("Most people could fill a basket. Few could use a discount code, and mobile users missed the Pay button.",
                                "بیشتر افراد سبد را پر کردند. کمتر کسی توانست کد تخفیف را اعمال کند و کاربران موبایل دکمه‌ی پرداخت را ندیدند."),
                  "slug": "basket-checkout", "authors": [{"name": T("Nora Vale (fictional)", "نورا ویل (خیالی)"), "role": T("Product designer", "طراح محصول")}],
-                 "methods": ["usability-test", "a-b-test", "analytics"], "studyGoal": "mixed",
+                 "methods": ["usability-test", "a-b-test", "analytics"], "studyGoal": "mixed", "studyType": "redesign",
                  "dates": {"start": "2026-09-01", "end": "2026-09-12"}, "languages": ["en", "fa"],
                  "brand": {"primary": "#754EC6", "logo": None, "font": None}},
         "participants": [{"id": p, "segment": DEVICE[p]} for p in P],
@@ -315,10 +315,10 @@ def content(an, sus):
         "sections": [
             {"id": "summary", "role": "summary", "title": T("Summary", "خلاصه"), "blocks": [
                 {"type": "stats", "items": [
-                    {"label": T("found and added a product alone", "محصول را بدون کمک پیدا کردند"), "value": T("8 of 8", "۸ از ۸"), "tone": "green"},
-                    {"label": T("applied a discount code alone", "کد تخفیف را بدون کمک اعمال کردند"), "value": T("1 of 8", "۱ از ۸"), "tone": "red"},
+                    {"label": T("found and added a product alone", "محصول را بدون کمک پیدا کردند"), "value": T("100%", "۱۰۰٪"), "detail": T("8 of 8 people", "۸ نفر از ۸ نفر"), "tone": "green"},
+                    {"label": T("applied a discount code alone", "کد تخفیف را بدون کمک اعمال کردند"), "value": T("12.5%", "۱۲٫۵٪"), "detail": T("1 of 8 people", "۱ نفر از ۸ نفر"), "tone": "red"},
                     {"label": T("SUS score", "امتیاز SUS"), "value": T(f"{sus['mean']:.1f}", fa_num(f"{sus['mean']:.1f}")), "note": T("average is 68", "میانگین رایج ۶۸ است"), "tone": "amber"},
-                    {"label": T("conversion, new vs old", "تبدیل، جدید در برابر قدیم"), "value": T("44.2% vs 38.8%", "۴۴٫۲٪ در برابر ۳۸٫۸٪"), "tone": "green"}]},
+                    {"label": T("conversion, new vs old", "تبدیل، جدید در برابر قدیم"), "value": T("44.2%", "۴۴٫۲٪"), "detail": T("up from 38.8% (A/B test)", "در برابر ۳۸٫۸٪ پیش از آن (تست A/B)"), "tone": "green"}]},
                 {"type": "list", "items": [
                     T("The discount field was hidden: 6 of 8 people couldn't find it, and only 1 applied a code alone.", "فیلد تخفیف پنهان بود: ۶ نفر از ۸ نفر پیدایش نکردند و فقط ۱ نفر بدون کمک کد را اعمال کرد."),
                     T("On mobile the Pay button sat below the fold; 3 people missed it.", "در موبایل دکمه‌ی پرداخت زیر لبه‌ی صفحه بود و ۳ نفر آن را ندیدند."),
@@ -342,10 +342,6 @@ def content(an, sus):
                 para("Before the redesign, fewer than a third of people who opened the basket paid. In the test, two things stopped people: the discount field and the Pay button.",
                      "پیش از طراحی دوباره، کمتر از یک‌سوم کسانی که سبد را باز می‌کردند پرداخت می‌کردند. در تست، دو چیز مانع افراد شد: فیلد تخفیف و دکمه‌ی پرداخت.", ["E4"]),
                 *place("AN9", "AN1", "AN2"), quote("E6"), quote("E7"), quote("E8"), *place("AN6", "AN7"),
-                {"type": "image", "src": "assets/images/checkout-old.svg",
-                 "caption": T("The old checkout on mobile (fictional mockup): the discount field is hidden and the Pay button is below the fold",
-                              "پرداخت قدیمی در موبایل (طرح خیالی): فیلد تخفیف پنهان است و دکمه‌ی پرداخت زیر لبه‌ی صفحه"),
-                 "alt": T("Mockup of the old mobile checkout", "طرح پرداخت قدیمی در موبایل")},
                 {"type": "image", "caption": T("Where people left the funnel", "جایی که افراد از قیف خارج شدند"),
                  "placeholder": {"kind": "analytics", "description": T(
                      "Screenshot of the analytics funnel for the 30 days before the redesign (Basket → Delivery → Payment → Paid), with the drop percentages visible.",
@@ -356,10 +352,12 @@ def content(an, sus):
                      "در طراحی جدید فیلد تخفیف به‌طور پیش‌فرض باز است، زمان‌های تحویلِ آزاد پررنگ و قابل‌انتخاب‌اند و دکمه‌ی پرداخت در موبایل به پایین صفحه چسبیده است."),
                 {"type": "flow", "steps": [{"text": T("Basket", "سبد"), "status": "ok"}, {"text": T("Delivery slot", "زمان تحویل"), "status": "ok"},
                                            {"text": T("Discount (open)", "تخفیف (باز)"), "status": "ok"}, {"text": T("Pay (pinned)", "پرداخت (ثابت)"), "status": "ok"}]},
-                {"type": "image", "src": "assets/images/checkout-new.svg",
-                 "caption": T("The new checkout on mobile (fictional mockup): discount field open, Pay button pinned",
-                              "پرداخت جدید در موبایل (طرح خیالی): فیلد تخفیف باز و دکمه‌ی پرداخت ثابت"),
-                 "alt": T("Mockup of the redesigned mobile checkout", "طرح پرداخت جدید در موبایل")},
+                {"type": "compare", "caption": T("Checkout on mobile, before and after the redesign (fictional mockups)",
+                                                  "پرداخت در موبایل، پیش و پس از طراحی دوباره (طرح‌های خیالی)"),
+                 "before": {"src": "assets/images/checkout-old.svg", "alt": T("Mockup of the old mobile checkout", "طرح پرداخت قدیمی در موبایل")},
+                 "after": {"src": "assets/images/checkout-new.svg", "alt": T("Mockup of the redesigned mobile checkout", "طرح پرداخت جدید در موبایل")},
+                 "changes": [T("Discount field open by default instead of hidden", "فیلد تخفیف به‌جای پنهان بودن، به‌طور پیش‌فرض باز است"),
+                             T("Pay button pinned to the bottom of the screen instead of below the fold", "دکمه‌ی پرداخت به‌جای زیر لبه‌ی صفحه، پایین صفحه ثابت است")]},
             ]},
             {"id": "result", "role": "result", "title": T("Result", "نتیجه"), "blocks": [
                 *place("AN10", "AN3", "AN4", "AN5", "AN8", "AN11", "AN13"), quote("E9"),

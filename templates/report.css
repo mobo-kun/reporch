@@ -60,7 +60,7 @@ body.slides .deck { display: block; position: fixed; inset: 0; z-index: 90; back
   font-size: calc(24px * var(--fit, 1)); line-height: 1.55; }
 .slide.current { display: flex; }
 .slide .s-title { font-size: calc(40px * var(--fit, 1)); line-height: 1.2; margin: 0 0 28px; max-width: 26ch; }
-.slide .s-body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+.slide .s-body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: safe center; }  /* safe: overflow shows, so it is measured */
 .slide p, .slide li { margin: 0 0 .6em; }
 .slide .evidence { display: none; }
 .slide .callout { font-size: .9em; }
@@ -80,6 +80,14 @@ body.slides .deck { display: block; position: fixed; inset: 0; z-index: 90; back
 .slide .stat .label { font-size: 20px; } .slide .stat .note { font-size: 16px; }
 .slide blockquote.quote { box-shadow: none; background: var(--primary-50); border-radius: 0; margin-bottom: 20px; }
 .slide blockquote.quote p { font-family: var(--font-display); font-size: calc(26px * var(--fit, 1)); }
+.slide .compare { gap: 40px; flex: 1; min-height: 0; margin: 0; }
+.slide .compare .side { display: flex; flex-direction: column; min-height: 0; }
+.slide .compare figure { flex: 1; min-height: 0; }
+.slide .compare figure img { max-height: 100%; }
+.slide.s-compare .caption { display: none; }            /* the caption is the slide title */
+.slide .changes { font-size: calc(20px * var(--fit, 1)); margin: 16px 0 0; }
+.slide .changes ul { display: flex; gap: 8px 32px; flex-wrap: wrap; padding-inline-start: 1.1em; }
+.slide .stat .detail { font-size: 16px; }
 .slide .table-wrap { box-shadow: none; overflow: hidden; }
 .slide table { font-size: calc(19px * var(--fit, 1)); }
 .slide figure { margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; }

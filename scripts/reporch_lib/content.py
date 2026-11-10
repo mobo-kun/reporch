@@ -7,6 +7,7 @@ build refuses to run while any problem has level "error".
 Stages: "draft" (while writing; missing translations and too few analyses are warnings) and "final"
 (before building outputs; they become errors).
 """
+import json
 import re
 
 SCHEMA_ID = "reporch/content@1"
@@ -33,7 +34,9 @@ BLOCK_TYPES = {
     "flow": ["steps"],
     "timeline": ["items"],
     "pending": ["text"],
+    "compare": ["before", "after"],
 }
+STUDY_TYPES = {"redesign", "current-state", "new", "other"}
 CALLOUT_TONES = {"info", "warn", "critical", "success"}
 CHART_KINDS = {"bar", "barHorizontal", "stackedBar", "line", "doughnut", "scatter", "funnel", "heatmap",
                "radar", "box", "rangeBar", "sankey"}
@@ -96,6 +99,11 @@ def validate(doc, stage="draft"):
             out.append(Problem("warning", f"meta.authors[{i}].name", "ask the designer's own name (a role goes in 'role')"))
     if meta.get("slug") and not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", meta["slug"]):
         err("meta.slug", "lowercase words joined by hyphens")
+    if meta.get("studyType") not in (None, *STUDY_TYPES):
+        err("meta.studyType", " , ".join(sorted(STUDY_TYPES)))
+    if meta.get("studyType") == "redesign" and '"compare"' not in json.dumps(doc.get("sections") or []):
+        out.append(Problem("warning", "sections", "a redesign study has no before/after comparison: ask the designer "
+                                                  "for the old and new design (shots or videos) and add a compare block"))
     if meta.get("studyGoal") not in (None, "formative", "summative", "mixed"):
         err("meta.studyGoal", "formative, summative or mixed")
 
@@ -246,6 +254,11 @@ def _check_block(b, where, pids, evidence, analyses, err):
         for k, row in enumerate(b.get("rows") or []):
             if len(row) != len(cols):
                 err(f"{where}.rows[{k}]", f"{len(row)} cells for {len(cols)} columns")
+    if t == "compare":
+        for side in ("before", "after"):
+            s = b.get(side) or {}
+            if not s.get("src") and not s.get("placeholder"):
+                err(f"{where}.{side}", "needs src (a file in assets/) or a placeholder describing the shot needed")
     if t in ("image", "video"):
         if not b.get("src") and not b.get("placeholder"):
             err(where, "needs src (a file in assets/) or a placeholder describing the image needed")

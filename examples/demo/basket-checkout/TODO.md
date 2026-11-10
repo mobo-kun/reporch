@@ -19,6 +19,8 @@ section, analysis or chart) before starting each phase.
   - AC: no open blocking question; non-blocking ones have a default in state.json
 - [x] 2.2 Languages, brand, fonts, audience and outputs chosen
   - AC: each choice is in MEMORY.md
+- [x] 2.3 Study type known (redesign, new, current-state); for a redesign, old and new designs received
+  - AC: `meta.studyType` set; a redesign has before and after shots or videos in assets/ (or placeholders)
 
 ## P3 · Analyses
 
@@ -36,6 +38,8 @@ section, analysis or chart) before starting each phase.
 
 - [x] 5.1 One sub-task per section (add them here), written only from the designer's content
   - AC: no claim, number or quote without evidence; wording changes were asked first
+  - AC: headline places (cover, summary cards, first slides) show the impact; raw numbers and n in `detail`
+    and in their result section, as the designer approved
   - AC: Persian text follows `vendor/persian-writing` and passes `reporch.py falint`
 
 ## P6 · Translation

@@ -71,6 +71,21 @@ class ContentTest(unittest.TestCase):
         self.assertIn("unknown participant P09", msgs)
         self.assertIn("no invented quotes", msgs)
 
+    def test_compare_block_and_study_type(self):
+        d = minimal_doc()
+        d["meta"]["studyType"] = "redesign"
+        self.assertTrue(any("before/after" in p.message for p in content.validate(d)))
+        d["sections"][2]["blocks"].insert(0, {"type": "compare", "before": {"src": "assets/old.png"}, "after": {}})
+        self.assertTrue(any(p.where.endswith(".after") for p in content.errors(content.validate(d))))
+        d["sections"][2]["blocks"][0]["after"] = {"placeholder": {"kind": "design", "description": "New checkout"}}
+        msgs = [p.message for p in content.validate(d)]
+        self.assertFalse(any("before/after" in m or "needs src" in m for m in msgs))
+        d["meta"]["studyType"] = "current-state"
+        d["sections"][2]["blocks"].pop(0)
+        self.assertFalse(any("before/after" in p.message for p in content.validate(d)))   # no comparison needed
+        d["meta"]["studyType"] = "remake"
+        self.assertTrue(any(p.where == "meta.studyType" for p in content.errors(content.validate(d))))
+
     def test_author_must_be_a_name_not_a_role(self):
         for name in ("طراح محصول", "Product designer", ""):
             d = minimal_doc()

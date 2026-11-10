@@ -25,7 +25,7 @@ LABELS = {
            "appendix": "Appendix", "evidenceIndex": "Evidence", "glossary": "Glossary",
            "openQuestions": "Open questions", "source": "Source", "participant": "Participant",
            "by": "By", "priority": "Priority", "effort": "Effort", "owner": "Owner", "action": "Action",
-           "method": "Method", "pending": "Still needed",
+           "method": "Method", "pending": "Still needed", "before": "Before", "after": "After", "changed": "What changed",
            "kinds": {"design": "Design", "screenshot": "Screenshot", "analytics": "Analytics view",
                      "illustration": "Illustration", "wireframe": "Wireframe", "photo": "Photo",
                      "diagram": "Diagram", "video": "Video", "logo": "Logo", "other": "Image"}},
@@ -34,7 +34,7 @@ LABELS = {
            "appendix": "پیوست", "evidenceIndex": "شواهد", "glossary": "واژه‌نامه",
            "openQuestions": "سؤال‌های باز", "source": "منبع", "participant": "شرکت‌کننده",
            "by": "نویسنده", "priority": "اولویت", "effort": "زحمت", "owner": "مسئول", "action": "اقدام",
-           "method": "روش", "pending": "هنوز لازم است",
+           "method": "روش", "pending": "هنوز لازم است", "before": "قبل", "after": "بعد", "changed": "چه چیزی تغییر کرد",
            "kinds": {"design": "طراحی", "screenshot": "اسکرین‌شات", "analytics": "نمای ابزار تحلیل",
                      "illustration": "تصویرسازی", "wireframe": "وایرفریم", "photo": "عکس",
                      "diagram": "نمودار", "video": "ویدیو", "logo": "لوگو", "other": "تصویر"}},
@@ -138,6 +138,7 @@ class Renderer:
             cards = "".join(
                 f'<div class="stat {html.escape(i.get("tone", ""))}"><div class="label">{self.inline(self.t(i.get("label")))}</div>'
                 f'<div class="value">{self.inline(self.t(i.get("value")))}</div>'
+                + (f'<div class="detail">{self.inline(self.t(i.get("detail")))}</div>' if i.get("detail") else "")
                 + (f'<div class="note">{self.inline(self.t(i.get("note")))}</div>' if i.get("note") else "") + "</div>"
                 for i in b["items"])
             return f'<div class="stats">{cards}</div>{ev}'
@@ -166,6 +167,16 @@ class Renderer:
         if t == "timeline":
             return '<ul class="timeline">' + "".join(f'<li><strong>{self.num(i.get("date"))}</strong> {self.inline(self.t(i.get("text")))}</li>'
                                                      for i in b["items"]) + f"</ul>{ev}"
+        if t == "compare":
+            def side(key):
+                s = dict(b[key], type="video" if str(b[key].get("src", "")).lower().endswith((".mp4", ".webm", ".mov")) else "image")
+                label = self.t(b[key].get("label")) or self.L[key]
+                return f'<div class="side {key}"><span class="tag">{html.escape(label)}</span>{self.figure(dict(s, caption=s.get("note")))}</div>'
+            changes = b.get("changes") or []
+            ch = (f'<div class="changes"><strong>{self.L["changed"]}</strong><ul>'
+                  + "".join(f"<li>{self.inline(self.t(c))}</li>" for c in changes) + "</ul></div>") if changes else ""
+            cap = f'<p class="caption">{self.inline(self.t(b.get("caption")))}</p>' if b.get("caption") else ""
+            return f'<div class="compare">{side("before")}{side("after")}</div>{cap}{ch}{ev}'
         if t == "pending":
             return f'<div class="pending"><strong>{self.L["pending"]}:</strong> {self.inline(self.t(b["text"]))}</div>'
         return ""
@@ -338,6 +349,8 @@ class Renderer:
                                   self.t(a["title"]))
                         elif t in ("image", "video"):
                             slide("s-figure", self.figure(b), title)
+                        elif t == "compare":
+                            slide("s-compare", self.block(b, show_ev=False), self.t(b.get("caption")) or title)
                         elif t == "chart":
                             slide("s-figure", self.chart(b["chart"], b["table"], b.get("caption"), deck=True), title)
                         elif t in ("table", "actionPlan"):
@@ -493,7 +506,14 @@ def markdown(doc, lang, kind="report"):
             elif ty == "list":
                 out.extend(("1. " if b.get("ordered") else "- ") + t(i) for i in b["items"])
             elif ty == "stats":
-                out.extend(f"- **{t(i.get('value'))}** {t(i.get('label'))}" for i in b["items"])
+                out.extend(f"- **{t(i.get('value'))}** {t(i.get('label'))}" + (f" ({t(i.get('detail'))})" if i.get("detail") else "")
+                           for i in b["items"])
+            elif ty == "compare":
+                for key in ("before", "after"):
+                    s = b[key]
+                    out.append(f"**{t(s.get('label')) or r.L[key]}:** " + (f"![{r.L[key]}]({s['src']})" if s.get("src")
+                               else f"> {r.L['image']}: {t((s.get('placeholder') or {}).get('description'))}"))
+                out.extend(f"- {t(c)}" for c in b.get("changes") or [])
             elif ty in ("table", "chart"):
                 out.append(md_table(b if ty == "table" else b["table"], r))
             elif ty == "analysis":

@@ -190,7 +190,7 @@ def check_layout(project_dir, doc, rep, width=360):
                             document.querySelectorAll('.slide').forEach(function (s, i) {
                               var b = s.querySelector('.s-body') || s, t = s.querySelector('.s-title, h1');
                               var lh = t ? parseFloat(getComputedStyle(t).lineHeight) : 0;
-                              if (s.scrollHeight > s.clientHeight + 1 || b.scrollHeight > b.clientHeight + 1) out.push((i + 1) + ': overflows');
+                              if (window.__reporchOverflows(s)) out.push((i + 1) + ': overflows');
                               else if (t && lh && t.offsetHeight > lh * 2.2) out.push((i + 1) + ': title over two lines');
                               if (s.querySelector('[data-deck-chart]') && !s.querySelector('[data-deck-chart] svg')) out.push((i + 1) + ': chart not drawn');
                               next.click(); });

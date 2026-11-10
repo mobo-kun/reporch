@@ -12,8 +12,17 @@ where, which images are needed. Show it as a short list. Write nothing else unti
 
 - **Summary last.** Write the sections in outline order, then the summary from them: 3–5 key findings,
   the main numbers as stat cards, one line on what's next.
+- **Lead with the impact, keep the raw numbers.** In the headline places (cover headline, summary stat
+  cards, the first slides) show what a result means as one number: a rate ("70% finished without help"),
+  a change ("conversion 44.2%, up from 38.8%") or the result against its target ("70%, target 80%"). Put
+  the raw count and n in the stat's `detail` line ("7 of 10 people"). The full raw numbers, intervals and
+  tables stay in the result section and its slides. Only use numbers that are in the analyses; with small
+  samples always keep the n visible, and never round in a way that flatters. Turning the designer's raw
+  numbers into an impact headline is a rewording: show it and ask first.
 - **The user's words stay theirs.** Use their sentences where they wrote them. If something should be cut,
   merged, moved or reworded (for clarity, length or tone), ask first, showing before and after.
+- **Before and after.** For a redesign, open the solution with a `compare` block (old and new design, what
+  changed) from the shots the designer gave; for a current-state study there is no comparison.
 - **Problem → solution → result.** Problem: the situation and its evidence. Solution: what was designed
   or decided (from the user only; `pending` if none yet). Result: the analyses.
 - **Every claim has evidence** (`evidence` ids). A claim without evidence becomes an open question.

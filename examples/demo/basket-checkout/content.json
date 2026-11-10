@@ -32,6 +32,7 @@
    "analytics"
   ],
   "studyGoal": "mixed",
+  "studyType": "redesign",
   "dates": {
    "start": "2026-09-01",
    "end": "2026-09-12"
@@ -1204,8 +1205,12 @@
         "fa": "محصول را بدون کمک پیدا کردند"
        },
        "value": {
-        "en": "8 of 8",
-        "fa": "۸ از ۸"
+        "en": "100%",
+        "fa": "۱۰۰٪"
+       },
+       "detail": {
+        "en": "8 of 8 people",
+        "fa": "۸ نفر از ۸ نفر"
        },
        "tone": "green"
       },
@@ -1215,8 +1220,12 @@
         "fa": "کد تخفیف را بدون کمک اعمال کردند"
        },
        "value": {
-        "en": "1 of 8",
-        "fa": "۱ از ۸"
+        "en": "12.5%",
+        "fa": "۱۲٫۵٪"
+       },
+       "detail": {
+        "en": "1 of 8 people",
+        "fa": "۱ نفر از ۸ نفر"
        },
        "tone": "red"
       },
@@ -1241,8 +1250,12 @@
         "fa": "تبدیل، جدید در برابر قدیم"
        },
        "value": {
-        "en": "44.2% vs 38.8%",
-        "fa": "۴۴٫۲٪ در برابر ۳۸٫۸٪"
+        "en": "44.2%",
+        "fa": "۴۴٫۲٪"
+       },
+       "detail": {
+        "en": "up from 38.8% (A/B test)",
+        "fa": "در برابر ۳۸٫۸٪ پیش از آن (تست A/B)"
        },
        "tone": "green"
       }
@@ -1435,18 +1448,6 @@
     },
     {
      "type": "image",
-     "src": "assets/images/checkout-old.svg",
-     "caption": {
-      "en": "The old checkout on mobile (fictional mockup): the discount field is hidden and the Pay button is below the fold",
-      "fa": "پرداخت قدیمی در موبایل (طرح خیالی): فیلد تخفیف پنهان است و دکمه‌ی پرداخت زیر لبه‌ی صفحه"
-     },
-     "alt": {
-      "en": "Mockup of the old mobile checkout",
-      "fa": "طرح پرداخت قدیمی در موبایل"
-     }
-    },
-    {
-     "type": "image",
      "caption": {
       "en": "Where people left the funnel",
       "fa": "جایی که افراد از قیف خارج شدند"
@@ -1510,16 +1511,35 @@
      ]
     },
     {
-     "type": "image",
-     "src": "assets/images/checkout-new.svg",
+     "type": "compare",
      "caption": {
-      "en": "The new checkout on mobile (fictional mockup): discount field open, Pay button pinned",
-      "fa": "پرداخت جدید در موبایل (طرح خیالی): فیلد تخفیف باز و دکمه‌ی پرداخت ثابت"
+      "en": "Checkout on mobile, before and after the redesign (fictional mockups)",
+      "fa": "پرداخت در موبایل، پیش و پس از طراحی دوباره (طرح‌های خیالی)"
      },
-     "alt": {
-      "en": "Mockup of the redesigned mobile checkout",
-      "fa": "طرح پرداخت جدید در موبایل"
-     }
+     "before": {
+      "src": "assets/images/checkout-old.svg",
+      "alt": {
+       "en": "Mockup of the old mobile checkout",
+       "fa": "طرح پرداخت قدیمی در موبایل"
+      }
+     },
+     "after": {
+      "src": "assets/images/checkout-new.svg",
+      "alt": {
+       "en": "Mockup of the redesigned mobile checkout",
+       "fa": "طرح پرداخت جدید در موبایل"
+      }
+     },
+     "changes": [
+      {
+       "en": "Discount field open by default instead of hidden",
+       "fa": "فیلد تخفیف به‌جای پنهان بودن، به‌طور پیش‌فرض باز است"
+      },
+      {
+       "en": "Pay button pinned to the bottom of the screen instead of below the fold",
+       "fa": "دکمه‌ی پرداخت به‌جای زیر لبه‌ی صفحه، پایین صفحه ثابت است"
+      }
+     ]
     }
    ]
   },

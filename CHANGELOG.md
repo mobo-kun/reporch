@@ -3,6 +3,21 @@
 All notable changes to Reporch. The format follows [Keep a Changelog](https://keepachangelog.com) and
 versions follow [semantic versioning](https://semver.org).
 
+## [1.2.0] - 2026-11-10
+
+### Added
+- **Before and after.** The interview asks what kind of study it is (`meta.studyType`: redesign, new,
+  current-state, other). For a redesign it asks for the old and new design (shots or videos); a new
+  `compare` block shows them side by side with what changed, in the report and on its own slide.
+  `validate` warns when a redesign has no comparison; current-state studies skip it.
+- **Impact first.** Headline places (cover, summary cards, first slides) lead with what a result means
+  (a rate, a change, the result against its target); stat cards get a `detail` line for the raw numbers,
+  which stay in full in their result section and slides. Proposed to the designer before use.
+- The study plan template has tasks for both.
+
+### Fixed
+- The slide fit check missed content overflowing above a centred slide body (B-037).
+
 ## [1.1.2] - 2026-11-07
 
 ### Changed

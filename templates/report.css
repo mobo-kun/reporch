@@ -84,7 +84,7 @@ body.slides .deck { display: block; position: fixed; inset: 0; z-index: 90; back
 .slide .compare .side { display: flex; flex-direction: column; min-height: 0; }
 .slide .compare figure { flex: 1; min-height: 0; }
 .slide .compare figure img { max-height: 100%; }
-.slide.s-compare .caption { display: none; }            /* the caption is the slide title */
+.slide.s-compare .caption { font-size: 16px; color: var(--ink-soft); margin: 10px 0 0; }
 .slide .changes { font-size: calc(20px * var(--fit, 1)); margin: 16px 0 0; }
 .slide .changes ul { display: flex; gap: 8px 32px; flex-wrap: wrap; padding-inline-start: 1.1em; }
 .slide .stat .detail { font-size: 16px; }

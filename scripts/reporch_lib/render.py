@@ -355,7 +355,7 @@ class Renderer:
                         elif t in ("image", "video"):
                             slide("s-figure", self.figure(b), title)
                         elif t == "compare":
-                            slide("s-compare", self.block(b, show_ev=False), self.t(b.get("caption")) or title)
+                            slide("s-compare", self.block(b, show_ev=False), title)   # captions can be long; titles stay ≤ 2 lines
                         elif t == "chart":
                             slide("s-figure", self.chart(b["chart"], b["table"], b.get("caption"), deck=True), title)
                         elif t in ("table", "actionPlan"):

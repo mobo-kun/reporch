@@ -1,0 +1,17 @@
+/* Standalone deck (slides.<lang>.html): opens as slides; prints one 16:9 slide per page. */
+body.deck-only { background: var(--neutral-50); }
+body.deck-only .deck { display: block; position: fixed; inset: 0; background: var(--neutral-50); }
+body.deck-only .credit { display: none; }
+
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  html, body.deck-only { background: #fff; overflow: visible; }
+  body.deck-only .deck { position: static; display: block !important; background: none; }
+  body.deck-only .deck-bar, body.deck-only .deck-progress { display: none !important; }
+  body.deck-only .stage { position: static; transform: none; width: 1280px; height: auto; }
+  body.deck-only .slide { position: relative; display: flex !important; width: 1280px; height: 720px;
+    break-after: page; page-break-after: always; }
+  body.deck-only .slide:last-child { break-after: auto; page-break-after: auto; }
+}
+body.deck-only.print-all .stage { position: static; transform: none; width: 1280px; height: auto; }
+body.deck-only.print-all .slide { position: relative; display: flex; width: 1280px; height: 720px; }

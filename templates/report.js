@@ -230,7 +230,19 @@
     if (e.key === "End") show(slides.length - 1);
     if (e.key === "Escape") slideMode(false);
   });
-  var m = /^#slide-(\d+)$/.exec(location.hash) || (/[?&]slides\b/.test(location.search) ? [0, "1"] : null);
+  if (document.body.classList.contains("deck-only") && slides.length) {
+    if (printing) {                     // lay every slide out, draw its charts and fit it, then print
+      document.body.classList.add("print-all");
+      slides.forEach(function (s) {
+        s.querySelectorAll("[data-deck-chart]").forEach(function (el) { el.__chart = draw(el, "data-deck-chart"); });
+        fit(s);
+      });
+    } else {
+      var h0 = /^#slide-(\d+)$/.exec(location.hash);
+      cur = h0 ? +h0[1] - 1 : 0; slideMode(true);
+    }
+  }
+  var m = document.body.classList.contains("deck-only") ? null : /^#slide-(\d+)$/.exec(location.hash) || (/[?&]slides\b/.test(location.search) ? [0, "1"] : null);
   if (m && slides.length) { cur = +m[1] - 1; slideMode(true); }
   window.addEventListener("hashchange", function () {
     var h = /^#slide-(\d+)$/.exec(location.hash);

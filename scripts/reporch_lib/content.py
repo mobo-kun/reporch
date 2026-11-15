@@ -13,9 +13,11 @@ import re
 SCHEMA_ID = "reporch/content@1"
 
 # Section roles in their fixed order (references/outline.md). Required roles must appear.
-ROLES = ["summary", "context", "method", "participants", "problem", "solution", "result",
-         "actionPlan", "limitations", "appendix"]
+ROLES = ["summary", "context", "method", "participants", "products", "problem", "solution", "result",
+         "position", "opportunities", "actionPlan", "limitations", "appendix"]
 REQUIRED_ROLES = ["summary", "problem", "solution", "result"]
+BENCHMARK_ROLES = ["summary", "products", "result", "position"]       # a benchmark has no solution (B-038)
+OUTPUTS = {"report", "slides", "blog"}
 
 BLOCK_TYPES = {
     "heading": ["text"],
@@ -34,9 +36,9 @@ BLOCK_TYPES = {
     "flow": ["steps"],
     "timeline": ["items"],
     "pending": ["text"],
-    "compare": ["before", "after"],
+    "compare": [],                   # before + after, or items (2–6)
 }
-STUDY_TYPES = {"redesign", "current-state", "new", "other"}
+STUDY_TYPES = {"redesign", "current-state", "new", "benchmark", "other"}
 CALLOUT_TONES = {"info", "warn", "critical", "success"}
 CHART_KINDS = {"bar", "barHorizontal", "stackedBar", "line", "doughnut", "scatter", "funnel", "heatmap",
                "radar", "box", "rangeBar", "sankey"}
@@ -174,14 +176,17 @@ def validate(doc, stage="draft"):
     order = [ROLES.index(r) for r in seen_roles]
     if order != sorted(order):
         err("sections", "top-level sections must follow the outline order: " + " → ".join(ROLES))
-    for r in REQUIRED_ROLES:
+    for r in (BENCHMARK_ROLES if meta.get("studyType") == "benchmark" else REQUIRED_ROLES):
         if r not in seen_roles:
             err("sections", f"missing required section {r!r}")
 
+    outputs = meta.get("outputs") or ["report", "blog"]
+    if not set(outputs) <= OUTPUTS or not outputs:
+        err("meta.outputs", f"one or more of {sorted(OUTPUTS)}")
     blog = doc.get("blog")
-    if not blog:
+    if not blog and "blog" in outputs:
         soft("blog", "the blog post is missing")
-    else:
+    elif blog:
         if not blog.get("title"):
             err("blog.title", "required")
         for i, s in enumerate(blog.get("sections") or []):
@@ -255,10 +260,20 @@ def _check_block(b, where, pids, evidence, analyses, err):
             if len(row) != len(cols):
                 err(f"{where}.rows[{k}]", f"{len(row)} cells for {len(cols)} columns")
     if t == "compare":
-        for side in ("before", "after"):
-            s = b.get(side) or {}
+        items = b.get("items")
+        if items is not None:
+            if not 2 <= len(items) <= 6:
+                err(f"{where}.items", "2 to 6 products or versions")
+            sides = [(f"items[{k}]", it) for k, it in enumerate(items)]
+            for k, it in enumerate(items):
+                if not it.get("label"):
+                    err(f"{where}.items[{k}].label", "required (the product or version name)")
+        else:
+            sides = [(s, b.get(s)) for s in ("before", "after")]
+        for name, s in sides:
+            s = s or {}
             if not s.get("src") and not s.get("placeholder"):
-                err(f"{where}.{side}", "needs src (a file in assets/) or a placeholder describing the shot needed")
+                err(f"{where}.{name}", "needs src (a file in assets/) or a placeholder describing the shot needed")
     if t in ("image", "video"):
         if not b.get("src") and not b.get("placeholder"):
             err(where, "needs src (a file in assets/) or a placeholder describing the image needed")

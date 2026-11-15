@@ -80,7 +80,7 @@ body.slides .deck { display: block; position: fixed; inset: 0; z-index: 90; back
 .slide .stat .label { font-size: 20px; } .slide .stat .note { font-size: 16px; }
 .slide blockquote.quote { box-shadow: none; background: var(--primary-50); border-radius: 0; margin-bottom: 20px; }
 .slide blockquote.quote p { font-family: var(--font-display); font-size: calc(26px * var(--fit, 1)); }
-.slide .compare { gap: 40px; flex: 1; min-height: 0; margin: 0; }
+.slide .compare { gap: calc(40px / var(--n, 2) * 2); flex: 1; min-height: 0; margin: 0; }
 .slide .compare .side { display: flex; flex-direction: column; min-height: 0; }
 .slide .compare figure { flex: 1; min-height: 0; }
 .slide .compare figure img { max-height: 100%; }

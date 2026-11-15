@@ -300,7 +300,7 @@ def content(an, sus):
                  "headline": T("Most people could fill a basket. Few could use a discount code, and mobile users missed the Pay button.",
                                "بیشتر افراد سبد را پر کردند. کمتر کسی توانست کد تخفیف را اعمال کند و کاربران موبایل دکمه‌ی پرداخت را ندیدند."),
                  "slug": "basket-checkout", "authors": [{"name": T("Nora Vale (fictional)", "نورا ویل (خیالی)"), "role": T("Product designer", "طراح محصول")}],
-                 "methods": ["usability-test", "a-b-test", "analytics"], "studyGoal": "mixed", "studyType": "redesign",
+                 "methods": ["usability-test", "a-b-test", "analytics"], "studyGoal": "mixed", "studyType": "redesign", "outputs": ["report", "slides", "blog"],
                  "dates": {"start": "2026-09-01", "end": "2026-09-12"}, "languages": ["en", "fa"],
                  "brand": {"primary": "#754EC6", "logo": None, "font": None}},
         "participants": [{"id": p, "segment": DEVICE[p]} for p in P],

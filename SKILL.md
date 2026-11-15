@@ -62,7 +62,7 @@ Suggest this path at the start. The user may change it (`reporch.py advance <pro
 | 4. outline | Propose the outline and get it approved | `references/outline.md` |
 | 5. write | Write the report and the blog post from the user's content; image placeholders | `modules/write.md`, `modules/images.md` |
 | 6. translate | Second language, with the glossary | `modules/languages.md` |
-| 7. build | HTML report with slide deck, blog, PDF (and Markdown on request) | `modules/build.md`, `modules/design.md` |
+| 7. build | What `meta.outputs` asks for: HTML report (with its deck), standalone slides, blog; PDFs of the report and slides (Markdown on request) | `modules/build.md`, `modules/design.md` |
 | 8. qa | Check everything before delivery | `modules/qa.md` |
 
 To migrate an existing HTML or PDF report instead, follow `modules/migrate.md`.

@@ -33,6 +33,11 @@
   ],
   "studyGoal": "mixed",
   "studyType": "redesign",
+  "outputs": [
+   "report",
+   "slides",
+   "blog"
+  ],
   "dates": {
    "start": "2026-09-01",
    "end": "2026-09-12"

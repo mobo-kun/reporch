@@ -7,13 +7,17 @@ numbered questions; wait for the answers before the next batch.
 ## What to ask, in order
 
 1. **Basics (first batch, always):** the designer's name and role, if not asked at the greeting (it is the
-   report's author, on the cover and the slides; never a role in place of a name), report languages (default two languages, four documents: HTML and
+   report's author, on the cover and the slides; never a role in place of a name), the **outputs** they want (`meta.outputs`: a full report, a slide deck on its own, a blog post; default
+   report + blog, and a benchmark is often slides only), report languages (default two languages, four documents: HTML and
    PDF in each; offer one language), brand (`modules/brand.md`), the study goal (find problems or
    measure/compare), and who the report is for.
 2. **What kind of study, and the designs (first or second batch):** ask whether the study tested a
    **redesign** (old vs new), a **new** design, or looked at the **current** product without changing it
-   (e.g. a session-recording review, analytics or interviews about today's flow). Save it as
-   `meta.studyType` (`redesign`, `new`, `current-state`, `other`). For a redesign, ask for the **old and new
+   (e.g. a session-recording review, analytics or interviews about today's flow), or **benchmarked**
+   the product against competitors or industry standards. Save it as `meta.studyType` (`redesign`, `new`,
+   `current-state`, `benchmark`, `other`). For a benchmark, ask which products were compared, which tasks
+   and measures were used for all of them, and for a screenshot or recording of each product at the same
+   step. For a redesign, ask for the **old and new
    design**: screenshots, a short screen recording or a prototype export of each, and what changed between
    them. For a new design, ask for its shots. For a current-state study, don't ask for a comparison; ask for
    shots of the flow only if they help the reader. Files go in `assets/images/` (or `assets/video/`); what

@@ -18,7 +18,8 @@ def available():
 INSTALL = "python3 -m pip install playwright && python3 -m playwright install chromium"
 
 
-def render(html_path, pdf_path, timeout_ms=60000):
+def render(html_path, pdf_path, timeout_ms=60000, slides=False):
+    """slides=True prints a standalone deck (slides.<lang>.html): one 1280 × 720 slide per page."""
     from playwright.sync_api import sync_playwright
     url = pathlib.Path(os.path.abspath(html_path)).as_uri() + "?print"
     with sync_playwright() as p:
@@ -26,13 +27,16 @@ def render(html_path, pdf_path, timeout_ms=60000):
         try:
             # Lay out at the printable width: A4 (210 mm) minus the 2 × 14 mm @page margins = 182 mm ≈ 688 px.
             # Any wider and right-to-left pages shift off the paper (B-013).
-            page = browser.new_page(viewport={"width": 688, "height": 1000})
+            page = browser.new_page(viewport={"width": 1280, "height": 720} if slides else {"width": 688, "height": 1000})
             page.emulate_media(media="print")
             page.goto(url, wait_until="load", timeout=timeout_ms)
             page.wait_for_function("window.__REPORCH_CHARTS_READY__ === true", timeout=timeout_ms)
             page.evaluate("document.fonts.ready")
             page.wait_for_timeout(300)
-            page.pdf(path=pdf_path, format="A4", print_background=True, prefer_css_page_size=True)
+            if slides:
+                page.pdf(path=pdf_path, width="1280px", height="720px", print_background=True, prefer_css_page_size=True)
+            else:
+                page.pdf(path=pdf_path, format="A4", print_background=True, prefer_css_page_size=True)
         finally:
             browser.close()
     return pdf_path

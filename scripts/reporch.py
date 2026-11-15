@@ -155,12 +155,16 @@ def main(argv=None):
             print("Playwright is not installed. Ask the user, then run:\n  " + pdf.INSTALL, file=sys.stderr)
             return 2
         doc = _load(a.project)
+        outputs = doc["meta"].get("outputs") or ["report", "blog"]
         for lang in doc["meta"]["languages"]:
-            src = os.path.join(a.project, "out", f"report.{lang}.html")
-            if not os.path.exists(src):
-                print(f"missing {src}: run build first", file=sys.stderr)
-                return 1
-            print(pdf.render(src, os.path.join(a.project, "out", f"report.{lang}.pdf")))
+            for kind in ("report", "slides"):
+                if kind not in outputs:
+                    continue
+                src = os.path.join(a.project, "out", f"{kind}.{lang}.html")
+                if not os.path.exists(src):
+                    print(f"missing {src}: run build first", file=sys.stderr)
+                    return 1
+                print(pdf.render(src, os.path.join(a.project, "out", f"{kind}.{lang}.pdf"), slides=kind == "slides"))
     elif a.cmd == "qa":
         rep = qa.run(a.project, layout=not a.no_layout)
         for i in rep.items:

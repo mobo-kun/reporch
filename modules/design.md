@@ -30,6 +30,8 @@ Body text, tables, navigation and charts: **Vazirmatn**. A brand font (e.g. Lahz
 `build` makes a 16:9 deck inside every report (Slides button, or open `report.<lang>.html?slides`):
 cover, then each section as slides: one analysis per slide (finding beside its chart), up to three quotes
 per slide, text grouped to a slide's worth, tables six rows per slide, action plan, open questions, end.
-Arrow keys, click, Home/End, Esc. Check every slide fits without scrolling and every title is two lines
+Arrow keys, click, Home/End, Esc. With `slides` in `meta.outputs`, `build` also writes
+`slides.<lang>.html`, the deck on its own (it opens as slides), and `pdf` prints it as a 16:9 PDF, one slide
+per page; printing it from Chrome gives the same. Check every slide fits without scrolling and every title is two lines
 or fewer; if a slide is too dense, ask the designer whether to split or shorten that content (never cut
 it yourself).

@@ -17,6 +17,24 @@ children, so the outline grows with the study without changing its shape.
 | 9 | `limitations` | no | Sample size vs method, validity threats, what the results don't cover. |
 | 10 | `appendix` | no | Evidence index, glossary, open questions, data-cleaning note (G6), raw tables. |
 
+## Benchmark studies (`meta.studyType: benchmark`)
+
+A benchmark compares products (or versions) on the same tasks and measures, so it has no "solution".
+Its spine is **summary → products → result → position**:
+
+| Role | Required | What goes in it |
+| --- | --- | --- |
+| `summary` | yes | The headline: where the product stands, in impact numbers |
+| `context`, `method`, `participants` | no | Why the benchmark, which tasks and measures, who took part |
+| `products` | yes | The products compared, opening with a `compare` block (`items`: one shot per product) and the key differences |
+| `result` | yes | The analyses product by product: competitor benchmark (F7), feature comparison (F4), strengths and weaknesses (F5), industry reference values with their source |
+| `position` | yes | Where the product stands overall: ahead, level, behind, and on what |
+| `opportunities` | no | What the others do better that is worth learning from, from the data only |
+| `actionPlan`, `limitations`, `appendix` | no | As above |
+
+`problem` and `solution` may still be used if the designer wants them. A benchmark is often delivered
+as slides only (`meta.outputs: ["slides"]`).
+
 Rules:
 
 - Top-level sections appear in this order; any may be left out except the four required ones.

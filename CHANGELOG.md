@@ -3,6 +3,18 @@
 All notable changes to Reporch. The format follows [Keep a Changelog](https://keepachangelog.com) and
 versions follow [semantic versioning](https://semver.org).
 
+## [1.3.0] - 2026-11-15
+
+### Added
+- **Benchmark studies.** `meta.studyType: benchmark` with its own spine: summary → products → result →
+  position (and optional opportunities); no "solution" needed. The interview asks which products, tasks
+  and measures were compared and for a shot of each product at the same step.
+- **Several products side by side.** `compare.items` shows 2–6 labelled shots or videos with their key
+  differences, in the report and on its slide.
+- **Slides on their own.** `meta.outputs` picks report, slides and blog (default report + blog). `slides`
+  writes `slides.<lang>.html`, a deck that opens as slides; `pdf` prints it as a 16:9 PDF, one slide per
+  page, and Chrome's Print gives the same. The blog is only required when it is an output.
+
 ## [1.2.0] - 2026-11-10
 
 ### Added

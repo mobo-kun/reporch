@@ -64,10 +64,13 @@ n, a difference). QA traces every number in a finding to the table or to `values
 | `flow` | steps (text, status ok/fail/neutral) | |
 | `timeline` | items (date, text) | |
 | `pending` | text | Something the user still has to give |
-| `compare` | before, after (each: src or placeholder, optional label, alt, note); caption; changes (list) | Old vs new design side by side, and what changed. Images or videos. Gets its own slide |
+| `compare` | before + after, or items (2–6, each with a label); each side: src or placeholder, alt, note; caption; changes (list) | Old vs new design, or several products side by side, and what differs. Images or videos. Gets its own slide |
 
 Stat items may also carry `detail`: the raw numbers behind an impact value ("8 of 8 people" under "100%").
-`meta.studyType` is `redesign`, `new`, `current-state` or `other`; a redesign without a `compare` block gets a
+`meta.outputs` lists what to build: `report`, `slides` (a standalone deck, `slides.<lang>.html`, printed as a
+16:9 PDF), `blog`; default report + blog, and the blog is only required when listed.
+`meta.studyType` is `redesign`, `new`, `current-state`, `benchmark` or `other`; a benchmark uses its own
+spine (`references/outline.md`); a redesign without a `compare` block gets a
 warning.
 
 Any block may carry `evidence: ["E…"]`.

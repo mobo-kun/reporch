@@ -19,8 +19,9 @@ section, analysis or chart) before starting each phase.
   - AC: no open blocking question; non-blocking ones have a default in state.json
 - [x] 2.2 Languages, brand, fonts, audience and outputs chosen
   - AC: each choice is in MEMORY.md
-- [x] 2.3 Study type known (redesign, new, current-state); for a redesign, old and new designs received
-  - AC: `meta.studyType` set; a redesign has before and after shots or videos in assets/ (or placeholders)
+- [x] 2.3 Study type and outputs known; the designs or products to show received
+  - AC: `meta.studyType` and `meta.outputs` set; a redesign has before and after shots or videos, a benchmark
+    has one shot per product at the same step (in assets/, or placeholders)
 
 ## P3 · Analyses
 

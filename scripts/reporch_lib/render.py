@@ -25,7 +25,7 @@ LABELS = {
            "appendix": "Appendix", "evidenceIndex": "Evidence", "glossary": "Glossary",
            "openQuestions": "Open questions", "source": "Source", "participant": "Participant",
            "by": "By", "priority": "Priority", "effort": "Effort", "owner": "Owner", "action": "Action",
-           "method": "Method", "pending": "Still needed", "before": "Before", "after": "After", "changed": "What changed",
+           "method": "Method", "pending": "Still needed", "before": "Before", "after": "After", "changed": "What changed", "differences": "Key differences",
            "kinds": {"design": "Design", "screenshot": "Screenshot", "analytics": "Analytics view",
                      "illustration": "Illustration", "wireframe": "Wireframe", "photo": "Photo",
                      "diagram": "Diagram", "video": "Video", "logo": "Logo", "other": "Image"}},
@@ -34,7 +34,7 @@ LABELS = {
            "appendix": "پیوست", "evidenceIndex": "شواهد", "glossary": "واژه‌نامه",
            "openQuestions": "سؤال‌های باز", "source": "منبع", "participant": "شرکت‌کننده",
            "by": "نویسنده", "priority": "اولویت", "effort": "زحمت", "owner": "مسئول", "action": "اقدام",
-           "method": "روش", "pending": "هنوز لازم است", "before": "قبل", "after": "بعد", "changed": "چه چیزی تغییر کرد",
+           "method": "روش", "pending": "هنوز لازم است", "before": "قبل", "after": "بعد", "changed": "چه چیزی تغییر کرد", "differences": "تفاوت‌های اصلی",
            "kinds": {"design": "طراحی", "screenshot": "اسکرین‌شات", "analytics": "نمای ابزار تحلیل",
                      "illustration": "تصویرسازی", "wireframe": "وایرفریم", "photo": "عکس",
                      "diagram": "نمودار", "video": "ویدیو", "logo": "لوگو", "other": "تصویر"}},
@@ -168,15 +168,20 @@ class Renderer:
             return '<ul class="timeline">' + "".join(f'<li><strong>{self.num(i.get("date"))}</strong> {self.inline(self.t(i.get("text")))}</li>'
                                                      for i in b["items"]) + f"</ul>{ev}"
         if t == "compare":
-            def side(key):
-                s = dict(b[key], type="video" if str(b[key].get("src", "")).lower().endswith((".mp4", ".webm", ".mov")) else "image")
-                label = self.t(b[key].get("label")) or self.L[key]
+            def side(item, key, label):
+                s = dict(item, type="video" if str(item.get("src", "")).lower().endswith((".mp4", ".webm", ".mov")) else "image")
                 return f'<div class="side {key}"><span class="tag">{html.escape(label)}</span>{self.figure(dict(s, caption=s.get("note")))}</div>'
+            if b.get("items"):
+                sides = "".join(side(it, "item", self.t(it.get("label"))) for it in b["items"])
+                n = len(b["items"])
+            else:
+                sides = "".join(side(b[k], k, self.t(b[k].get("label")) or self.L[k]) for k in ("before", "after"))
+                n = 2
             changes = b.get("changes") or []
-            ch = (f'<div class="changes"><strong>{self.L["changed"]}</strong><ul>'
+            ch = (f'<div class="changes"><strong>{self.L["differences" if b.get("items") else "changed"]}</strong><ul>'
                   + "".join(f"<li>{self.inline(self.t(c))}</li>" for c in changes) + "</ul></div>") if changes else ""
             cap = f'<p class="caption">{self.inline(self.t(b.get("caption")))}</p>' if b.get("caption") else ""
-            return f'<div class="compare">{side("before")}{side("after")}</div>{cap}{ch}{ev}'
+            return f'<div class="compare" style="--n: {n}">{sides}</div>{cap}{ch}{ev}'
         if t == "pending":
             return f'<div class="pending"><strong>{self.L["pending"]}:</strong> {self.inline(self.t(b["text"]))}</div>'
         return ""
@@ -289,7 +294,7 @@ class Renderer:
         return self.page(title, main, ["base.css", "report.css"])
 
     # ---------------------------------------------------------------- slides
-    def deck(self):
+    def deck(self, standalone=False):
         """A 16:9 deck built from the content: cover, then the sections as slides. Heavy blocks (analysis,
         figure, stats, table, action plan, flow) get a slide each; text is grouped up to a slide's worth; quotes
         come three to a slide. The evidence index and glossary stay in the report."""
@@ -373,7 +378,13 @@ class Renderer:
                 f'<div class="deck-bar"><div class="deck-progress"><span></span></div>'
                 f'<button class="btn" data-prev aria-label="{L["prev"]}">{L["prev"]}</button><span class="count"></span>'
                 f'<button class="btn" data-next aria-label="{L["next"]}">{L["next"]}</button>'
-                f'<button class="btn" data-exit-slides>{L["exit"]}</button></div></div>')
+                + ("" if standalone else f'<button class="btn" data-exit-slides>{L["exit"]}</button>') + '</div></div>')
+
+    def slides_page(self):
+        """The deck on its own (meta.outputs includes "slides"): opens as slides, prints one slide per page."""
+        deck = self.deck(standalone=True)
+        return self.page(self.t(self.doc["meta"]["title"]), deck, ["base.css", "report.css", "slides.css"],
+                         body_attrs=' class="slides deck-only"')
 
     # ---------------------------------------------------------------- blog
     def blog(self):
@@ -408,7 +419,7 @@ class Renderer:
         uri = self.data_uri(rel) if rel else None
         return f'<img class="{cls}" src="{uri}" alt="logo">' if uri else ""
 
-    def page(self, title, body, styles):
+    def page(self, title, body, styles, body_attrs=""):
         brand = self.doc["meta"].get("brand") or {}
         tokens = theme.css(brand.get("primary"))
         font_face, display = brand_font(self.dir)
@@ -425,7 +436,7 @@ class Renderer:
         return (f'<!doctype html><html lang="{self.lang}" dir="{d}"><head><meta charset="utf-8">'
                 f'<meta name="viewport" content="width=device-width, initial-scale=1">'
                 f'<meta name="generator" content="Reporch"><title>{html.escape(title)}</title>'
-                f'<style>{tokens}{css}</style></head><body>{body}{data}{scripts}</body></html>')
+                f'<style>{tokens}{css}</style></head><body{body_attrs}>{body}{data}{scripts}</body></html>')
 
 
 BODY_STACK = '"Vazirmatn", system-ui, -apple-system, "Segoe UI", sans-serif'
@@ -509,9 +520,10 @@ def markdown(doc, lang, kind="report"):
                 out.extend(f"- **{t(i.get('value'))}** {t(i.get('label'))}" + (f" ({t(i.get('detail'))})" if i.get("detail") else "")
                            for i in b["items"])
             elif ty == "compare":
-                for key in ("before", "after"):
-                    s = b[key]
-                    out.append(f"**{t(s.get('label')) or r.L[key]}:** " + (f"![{r.L[key]}]({s['src']})" if s.get("src")
+                sides = [(t(i.get("label")), i) for i in b["items"]] if b.get("items") else \
+                    [(t(b[k].get("label")) or r.L[k], b[k]) for k in ("before", "after")]
+                for label, s in sides:
+                    out.append(f"**{label}:** " + (f"![{label}]({s['src']})" if s.get("src")
                                else f"> {r.L['image']}: {t((s.get('placeholder') or {}).get('description'))}"))
                 out.extend(f"- {t(c)}" for c in b.get("changes") or [])
             elif ty in ("table", "chart"):
@@ -569,15 +581,20 @@ def build(doc, project_dir, markdown_too=False):
     os.makedirs(out_dir, exist_ok=True)
     written = []
     for lang in doc["meta"]["languages"]:
-        pages = {"report": Renderer(doc, lang, project_dir).report()}
-        if doc.get("blog"):
+        outputs = doc["meta"].get("outputs") or ["report", "blog"]
+        pages = {}
+        if "report" in outputs:
+            pages["report"] = Renderer(doc, lang, project_dir).report()
+        if "slides" in outputs:
+            pages["slides"] = Renderer(doc, lang, project_dir).slides_page()
+        if "blog" in outputs and doc.get("blog"):
             pages["blog"] = Renderer(doc, lang, project_dir).blog()
         for name, page in pages.items():
             path = os.path.join(out_dir, f"{name}.{lang}.html")
             with open(path, "w", encoding="utf-8") as f:
                 f.write(page)
             written.append(path)
-            if markdown_too:
+            if markdown_too and name != "slides":
                 md = os.path.join(out_dir, f"{name}.{lang}.md")
                 with open(md, "w", encoding="utf-8") as f:
                     f.write(markdown(doc, lang, name))

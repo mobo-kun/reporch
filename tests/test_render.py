@@ -40,7 +40,8 @@ class DemoRenderTest(unittest.TestCase):
 
     def test_all_outputs_written(self):
         names = sorted(os.path.basename(p) for p in self.paths)
-        self.assertEqual(names, sorted(f"{k}.{l}.{e}" for k in ("report", "blog") for l in ("en", "fa") for e in ("html", "md")))
+        self.assertEqual(names, sorted([f"{k}.{l}.{e}" for k in ("report", "blog") for l in ("en", "fa") for e in ("html", "md")]
+                                       + [f"slides.{l}.html" for l in ("en", "fa")]))
 
     def test_offline_single_file(self):
         for name in ("report.en.html", "report.fa.html", "blog.en.html", "blog.fa.html"):
@@ -128,7 +129,7 @@ class DemoRenderTest(unittest.TestCase):
 
     def test_compare_and_impact_stats(self):
         page = self.read("report.fa.html")
-        self.assertIn('<div class="compare">', page)
+        self.assertIn('<div class="compare" style="--n: 2">', page)
         self.assertIn('class="tag">قبل<', page)
         self.assertIn('<section class="slide s-compare">', page)
         self.assertIn('<div class="detail">۸ نفر از ۸ نفر</div>', page)    # raw numbers under the impact value
@@ -172,3 +173,53 @@ class DemoRenderTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BenchmarkTest(unittest.TestCase):
+    """A competitor benchmark: its own spine, a multi-product comparison, slides only (B-038–B-040)."""
+
+    def doc(self):
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from test_foundations import T, minimal_doc
+        d = minimal_doc()
+        d["meta"].update(studyType="benchmark", outputs=["slides"])
+        d.pop("blog")
+        secs = {s["role"]: s for s in d["sections"]}
+        products = {"id": "products", "role": "products", "title": T("Products compared"), "blocks": [
+            {"type": "compare", "caption": T("Sign-up screens"), "items": [
+                {"label": T(n), "placeholder": {"kind": "screenshot", "description": f"{n} sign-up screen"}}
+                for n in ("Us", "Rival A", "Rival B")]}]}
+        position = {"id": "position", "role": "position", "title": T("Where we stand"), "blocks": [
+            {"type": "paragraph", "text": T("Second of three"), "evidence": ["E1"]}]}
+        d["sections"] = [secs["summary"], products, secs["result"], position]
+        return d
+
+    def test_benchmark_spine_without_solution_is_valid(self):
+        self.assertEqual(content.errors(content.validate(self.doc(), "final")), [])
+        d = self.doc()
+        d["sections"] = [s for s in d["sections"] if s["role"] != "position"]
+        self.assertTrue(any("'position'" in p.message for p in content.errors(content.validate(d, "final"))))
+
+    def test_compare_needs_two_to_six_labelled_items(self):
+        d = self.doc()
+        items = d["sections"][1]["blocks"][0]["items"]
+        del items[1:]
+        self.assertTrue(any("2 to 6" in p.message for p in content.errors(content.validate(d))))
+        items[0].pop("label")
+        self.assertTrue(any(p.where.endswith("items[0].label") for p in content.errors(content.validate(d))))
+
+    def test_slides_only_output(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            paths = render.build(self.doc(), tmp, markdown_too=True)
+            self.assertEqual(sorted(os.path.basename(p) for p in paths), ["slides.en.html", "slides.fa.html"])
+            with open(os.path.join(tmp, "out", "slides.fa.html"), encoding="utf-8") as f:
+                page = f.read()
+            self.assertIn('<body class="slides deck-only">', page)
+            self.assertNotIn('<button class="btn" data-exit-slides', page)
+            self.assertNotIn('<main>', page)
+            self.assertIn('<div class="compare" style="--n: 3">', page)
+            self.assertIn("@page { size: 1280px 720px", page)
+            self.assertIn("Made with Reporch", page)
+        finally:
+            shutil.rmtree(tmp)

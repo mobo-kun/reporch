@@ -113,8 +113,9 @@ def _walk(secs):
 
 def check_outputs(doc, project_dir, rep):
     out = os.path.join(project_dir, "out")
+    outputs = doc["meta"].get("outputs") or ["report", "blog"]
     for lang in doc["meta"]["languages"]:
-        for kind in ("report", "blog"):
+        for kind in [k for k in ("report", "slides", "blog") if k in outputs]:
             path = os.path.join(out, f"{kind}.{lang}.html")
             if not os.path.exists(path):
                 rep.add("error", "outputs", path, "missing: run build")
@@ -168,7 +169,7 @@ def check_layout(project_dir, doc, rep, width=360):
         browser = p.chromium.launch()
         try:
             for lang in doc["meta"]["languages"]:
-                for kind in ("report", "blog"):
+                for kind in ("report", "slides", "blog"):
                     path = os.path.join(project_dir, "out", f"{kind}.{lang}.html")
                     if not os.path.exists(path):
                         continue
@@ -179,13 +180,16 @@ def check_layout(project_dir, doc, rep, width=360):
                     page.wait_for_function("window.__REPORCH_CHARTS_READY__ === true", timeout=30000)
                     m = page.evaluate("""() => ({sw: document.documentElement.scrollWidth, w: innerWidth,
                         charts: document.querySelectorAll('main .chart').length, drawn: document.querySelectorAll('main .chart svg').length})""")
-                    if m["sw"] > m["w"] + 1:
+                    if kind != "slides" and m["sw"] > m["w"] + 1:      # a deck is a fixed 16:9 frame
                         rep.add("error", "layout", path, f"scrolls sideways at {width} px ({m['sw']} px wide)")
                     if m["drawn"] < m["charts"]:
                         rep.add("error", "charts", path, f"{m['charts'] - m['drawn']} chart(s) not drawn")
-                    if "report." in os.path.basename(path):
+                    if kind == "slides":
                         page.set_viewport_size({"width": 1280, "height": 772})
-                        bad = page.evaluate("""() => { document.querySelector('[data-slides]').click(); var out = [];
+                        page.goto(pathlib.Path(os.path.abspath(path)).as_uri())
+                    if kind in ("report", "slides"):
+                        page.set_viewport_size({"width": 1280, "height": 772})
+                        bad = page.evaluate("""() => { var b0 = document.querySelector('[data-slides]'); if (b0) b0.click(); var out = [];
                             var next = document.querySelector('.deck [data-next]');
                             document.querySelectorAll('.slide').forEach(function (s, i) {
                               var b = s.querySelector('.s-body') || s, t = s.querySelector('.s-title, h1');
@@ -214,8 +218,9 @@ def check_layout(project_dir, doc, rep, width=360):
 
 
 def check_pdfs(project_dir, doc, rep):
-    for lang in doc["meta"]["languages"]:
-        path = os.path.join(project_dir, "out", f"report.{lang}.pdf")
+    outputs = doc["meta"].get("outputs") or ["report", "blog"]
+    for lang, kind in [(l, k) for l in doc["meta"]["languages"] for k in ("report", "slides") if k in outputs]:
+        path = os.path.join(project_dir, "out", f"{kind}.{lang}.pdf")
         if not os.path.exists(path):
             rep.add("skipped", "pdf", path, "no PDF yet (run pdf, or print from Chrome)")
             continue

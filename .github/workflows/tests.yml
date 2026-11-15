@@ -38,3 +38,4 @@ jobs:
           python scripts/reporch.py build "$P" --markdown
           python scripts/reporch.py pdf "$P"
           python scripts/reporch.py qa "$P"
+          test -s "$P/out/slides.fa.pdf" && test -s "$P/out/slides.en.pdf"

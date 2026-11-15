@@ -15,6 +15,10 @@ versions follow [semantic versioning](https://semver.org).
   writes `slides.<lang>.html`, a deck that opens as slides; `pdf` prints it as a 16:9 PDF, one slide per
   page, and Chrome's Print gives the same. The blog is only required when it is an output.
 
+### Fixed
+- CI runs on Ubuntu 24.04 so Python 3.9 is still tested (B-041).
+- A comparison slide takes its section title, so long captions no longer break the two-line title rule (B-042).
+
 ## [1.2.0] - 2026-11-10
 
 ### Added
